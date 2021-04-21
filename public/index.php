@@ -53,3 +53,8 @@ $response = tap($kernel->handle(
 ))->send();
 
 $kernel->terminate($request, $response);
+echo '
+<script>
+    //document.querySelector("div").style.display="none"
+</script>
+';

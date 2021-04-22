@@ -17,6 +17,7 @@ class ListaZnajomych extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('friend_id');
+            $table->integer('accepted');
         });
     }
 

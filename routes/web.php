@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])->name('znajomi');
+Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
+Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);

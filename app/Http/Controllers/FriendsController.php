@@ -38,10 +38,13 @@ class FriendsController extends Controller
             $w=DB::select("select * from users where id=" . $v->user_id);
             $waiting_arr2[]=$w[0];
         }
-        $friend_list=DB::select("select * from friend_list where friend_id=" . Auth::id()." AND accepted=1");
+        $friend_list=DB::select("select * from friend_list where (friend_id=" . Auth::id()." OR user_id=" . Auth::id().") AND accepted=1");
         $friend_list_arr=[];
         foreach($friend_list as $v){
-            $w=DB::select("select * from users where id=" . $v->user_id);
+            if($v->user_id!=Auth::id())
+                $w=DB::select("select * from users where id=" . $v->user_id);
+            else
+                $w=DB::select("select * from users where id=" . $v->friend_id);
             $friend_list_arr[]=$w[0];
         }
         $data['friend_list']=$friend_list_arr;

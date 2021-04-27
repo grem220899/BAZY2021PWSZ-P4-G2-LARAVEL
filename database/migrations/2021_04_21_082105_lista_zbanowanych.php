@@ -17,8 +17,8 @@ class ListaZbanowanych extends Migration
             $table->bigIncrements('id');
             $table->timestamp('date_ban');
             $table->timestamp('date_uban')->nullable();
-            $table->integer('user_id');
-            $table->integer('user_ban_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_ban_id');
         });
     }
 

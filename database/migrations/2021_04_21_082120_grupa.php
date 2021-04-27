@@ -15,8 +15,8 @@ class Grupa extends Migration
     {
         Schema::create('group', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('name_group_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('name_group_id');
         });
     }
 

@@ -15,8 +15,8 @@ class ListaZnajomych extends Migration
     {
         Schema::create('friend_list', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('friend_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('friend_id');
             $table->integer('accepted');
         });
     }

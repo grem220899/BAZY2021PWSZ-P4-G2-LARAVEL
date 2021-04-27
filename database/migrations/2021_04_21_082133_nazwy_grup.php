@@ -16,7 +16,7 @@ class NazwyGrup extends Migration
         Schema::create('group_name', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name',45);
-            $table->integer('owner_id');
+            $table->unsignedBigInteger('owner_id');
         });
     }
 

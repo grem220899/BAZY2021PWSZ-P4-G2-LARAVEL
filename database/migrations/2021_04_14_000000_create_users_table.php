@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name',45);
             $table->string('surname',45);
-            $table->string('nick',16);
+            $table->string('nick',16)->unique();
             $table->string('email',45)->unique();
             $table->string('password',255);
             $table->enum('status',['zablokowany','aktywny']);

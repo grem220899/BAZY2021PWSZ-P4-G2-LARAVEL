@@ -31,6 +31,14 @@ class FriendsController extends Controller
         $data['waiting2'] = $this->lista_zaproszen();
         return view('list_friend', $data);
     }
+    public function usun_znajomego(){
+        $data = ['error' => ''];
+        DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
+        $data['friend_list'] = $this->friend_list();
+        $data['waiting'] = $this->wyslane_zaproszenia();
+        $data['waiting2'] = $this->lista_zaproszen();
+        return view('list_friend', $data);
+    }
     public function save()
     {
         $data = ['error' => ''];
@@ -57,7 +65,7 @@ class FriendsController extends Controller
     public function akceptuj()
     {
         $data = ['error' => ''];
-        DB::update("update friend_list set accepted=1 WHERE user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id());
+        DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();
         $data['waiting2'] = $this->lista_zaproszen();

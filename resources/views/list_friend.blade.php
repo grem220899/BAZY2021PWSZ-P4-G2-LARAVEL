@@ -9,7 +9,12 @@
 
                 <div class="card-body">
                     @foreach ($friend_list as $item)
-                        {{$item->email}}<br>
+                        {{$item->email}}
+                        <form action="/usun-znajomego" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$item->id}}">
+                            <button type="submit">Usun</button>
+                        </form><br><br>
                     @endforeach
                 </div>
             </div>

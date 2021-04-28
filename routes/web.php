@@ -23,3 +23,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])->name('znajomi');
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
 Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);
+Route::post('/usun-znajomego', [App\Http\Controllers\FriendsController::class, 'usun_znajomego']);

@@ -11,10 +11,7 @@
 @endif
 
 {{-- Intro Lines --}}
-@foreach ($introLines as $line)
-{{ $line }}
-
-@endforeach
+{{"Kliknij przycisk poniżej, aby zweryfikować swój adres e-mail."}}
 
 {{-- Action Button --}}
 @isset($actionText)
@@ -29,15 +26,12 @@
     }
 ?>
 @component('mail::button', ['url' => $actionUrl, 'color' => $color])
-{{ $actionText }}
+{{ "Weryfikuj konto" }}
 @endcomponent
 @endisset
 
 {{-- Outro Lines --}}
-@foreach ($outroLines as $line)
-{{ $line }}
-
-@endforeach
+{{"Jeśli nie utworzyłeś konta, żadne dalsze działania nie są wymagane."}}
 
 {{-- Salutation --}}
 @if (! empty($salutation))

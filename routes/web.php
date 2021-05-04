@@ -24,5 +24,5 @@ Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
 Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);
 Route::post('/usun-znajomego', [App\Http\Controllers\FriendsController::class, 'usun_znajomego']);
-Route::get('/API/test.php',[App\Http\Controllers\ApiController::class, 'logowanie']);
+Route::get('/API/logowanie.php',[App\Http\Controllers\ApiController::class, 'logowanie']);
 

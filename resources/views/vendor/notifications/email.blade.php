@@ -6,13 +6,14 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Witaj!')
+# @lang('Taki wałek do ciasta!')
 @endif
 @endif
 
 {{-- Intro Lines --}}
-{{"Kliknij przycisk poniżej, aby zweryfikować swój adres e-mail."}}
-
+@foreach ($introLines as $line)
+{{ $line }}
+@endforeach
 {{-- Action Button --}}
 @isset($actionText)
 <?php
@@ -26,12 +27,15 @@
     }
 ?>
 @component('mail::button', ['url' => $actionUrl, 'color' => $color])
-{{ "Weryfikuj konto" }}
+{{ $actionText }}
 @endcomponent
 @endisset
 
 {{-- Outro Lines --}}
-{{"Jeśli nie utworzyłeś konta, żadne dalsze działania nie są wymagane."}}
+@foreach ($outroLines as $line)
+{{ $line }}
+
+@endforeach
 
 {{-- Salutation --}}
 @if (! empty($salutation))
@@ -45,8 +49,8 @@
 @isset($actionText)
 @slot('subcopy')
 @lang(
-    "Jeśli nie możesz kliknąć w \"Weryfikuj konto\", skopiuj i wklej poniższy link\n".
-    'do swojej przeglądarki:',
+    "Jeśli nie możesz kliknąć w przycisk, skopiuj i wklej poniższy link\n".
+    "do swojej przeglądarki:",
     [
         'actionText' => $actionText,
     ]

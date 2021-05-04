@@ -20,12 +20,14 @@ class VerifyEmail extends VerifyEmailBase
             return call_user_func(static::$toMailCallback, $notifiable);
         }
         return (new MailMessage)
-            ->subject(('Email Weryfikacyjny'))
-            ->line(('Kliknij przycisk poniżej, aby zweryfikować swój adres e-mail.'))
+            ->greeting('Witaj!')
+            ->subject('Email Weryfikacyjny')
+            ->line('Kliknij przycisk poniżej, aby zweryfikować swój adres e-mail.')
             ->action(
                 ('Weryfikuj konto'),
                 $this->verificationUrl($notifiable)
             )
-            ->line(('Jeśli nie utworzyłeś konta, żadne dalsze działania nie są wymagane.'));
+            ->line('Jeśli nie utworzyłeś konta, żadne dalsze działania nie są wymagane.');
+
     }
 }

@@ -38,15 +38,15 @@
 {{ $salutation }}
 @else
 @lang('Najlepszego'),<br>
-{{ config('Komunikator') }}
+@lang('Komunikator :D') 
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
 @lang(
-    "Jeśli nie możesz kliknąć w \":actionText\", skopiuj i wklej poniższy link\n".
-    'to swojej przeglądarki:',
+    "Jeśli nie możesz kliknąć w \"Weryfikuj konto\", skopiuj i wklej poniższy link\n".
+    'do swojej przeglądarki:',
     [
         'actionText' => $actionText,
     ]

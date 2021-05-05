@@ -45,13 +45,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    //Testowa weryfikacja email
+//Testowa weryfikacja email
     public function sendEmailVerificationNotification()
 {
-    $this->notify(new VerifyEmail); // my notification
+    $this->notify(new VerifyEmail);
 }
+//Resetowanie hasła
  public function sendPasswordResetNotification($token)
  {
-    $this->notify(new ResetPassword($token)); // my notification
+    $this->notify(new ResetPassword($token));
  }
 }

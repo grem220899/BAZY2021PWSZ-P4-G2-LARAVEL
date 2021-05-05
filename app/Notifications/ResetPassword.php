@@ -46,7 +46,7 @@ class ResetPassword extends Notification
             ->greeting('Witaj!')
             ->subject('Reset Hasła')
             ->line('Kliknij przycisk poniżej, aby zresetować swoje hasło.')
-            ->action('Reset Password', url('password/reset', $this->token))
+            ->action('Reset hasła', url('password/reset', $this->token))
             ->line('Jeśli nie chcesz resetować hasła, żadne dalsze działania nie są wymagane.');
 
     }

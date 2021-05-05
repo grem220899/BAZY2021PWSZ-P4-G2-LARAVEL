@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Komunikator'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://projektkt.cba.pl'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -79,7 +79,8 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
+    //Domyślnie jest 'en'
+    
     'locale' => 'pl',
 
     /*

@@ -35,6 +35,18 @@ return [
 
     'connections' => [
 
+        'mongodb'=>[
+            'driver'=>'mongodb',
+            'dsn'=>"mongodb+srv://admin:admin@cluster0.x4r4v.mongodb.net/KOMUNIKATOR",
+            'host'=>env("DB_HOST2","admin:admin@cluster0.x4r4v.mongodb.net/KOMUNIKATOR"),
+            'port'=>env("DB_PORT2",27017),
+            'database'=>env("DB_DATABASE2","KOMUNIKATOR"),
+            'username'=>env("DB_USERNAME2","admin"),
+            'password'=>env("DB_PASSWORD2","admin"),
+            'options'=>[
+                'database'=>''
+            ]
+        ],
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
@@ -120,27 +132,12 @@ return [
     'redis' => [
 
         'client' => env('REDIS_CLIENT', 'phpredis'),
-
-        'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
-        ],
-
-        'default' => [
-            'url' => env('REDIS_URL'),
+        'cluster'=>false,
+        'default'=>[
             'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'database' => 0,
             'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
-        ],
-
-        'cache' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
-        ],
+        ]
 
     ],
 

@@ -80,7 +80,7 @@ return [
     |
     */
     //Domyślnie jest 'en'
-    
+
     'locale' => 'pl',
 
     /*
@@ -175,6 +175,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
 
     ],
 

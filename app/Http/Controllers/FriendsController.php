@@ -46,6 +46,7 @@ class FriendsController extends Controller
         if (!empty($u)) {
             $spr = DB::select("select * from friend_list where (friend_id=" . $u[0]->id . " AND `user_id`=" . Auth::id().") OR (friend_id=" . Auth::id()." AND `user_id`=" . $u[0]->id . ")");
             if (empty($spr)) {
+                $data ['user']=$u[0];
                 FriendList::insert([
                     'user_id' => Auth::id(),
                     'friend_id' => $u[0]->id,
@@ -57,10 +58,8 @@ class FriendsController extends Controller
         } else {
             $data['error'] = "Nie ma takiego adresu email w bazie.";
         }
-        $data['friend_list'] = $this->friend_list();
-        $data['waiting'] = $this->wyslane_zaproszenia();
-        $data['waiting2'] = $this->lista_zaproszen();
-        return view('list_friend', $data);
+        echo json_encode($data);
+        
     }
     public function akceptuj()
     {

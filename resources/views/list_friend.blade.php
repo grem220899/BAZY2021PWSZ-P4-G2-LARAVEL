@@ -27,10 +27,10 @@
                         <form action="/usun-znajomego" method="POST" style="display: none;">
                             @csrf
                             <input type="hidden" name="id" value="{{$item->id}}"><button type="submit">Usun</button>
-                            
+
                         </form>
-                    
-				<li class="contact friendelement">
+
+				<li class="contact friendelement" data-id="{{$item->id}}">
 					<div class="wrap">
 						<span class="contact-status online"></span>
 						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
@@ -46,7 +46,7 @@
                             <input type="hidden" name="id" value="{{$item->id}}">
                             <button type="submit">Usun</button>
                         </form>
-                    
+
 				<li class="contact sendelement">
 					<div class="wrap">
 						<span class="contact-status online"></span>
@@ -63,7 +63,7 @@
                     <input type="hidden" name="id" value="{{$item->id}}">
                     <button type="submit">Akceptuj</button>
                 </form>
-                    
+
 				<li class="contact waitingelement">
 					<div class="wrap">
 						<span class="contact-status online"></span>
@@ -82,59 +82,28 @@
 			<button id="sendlistBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Lista wysłanych</span></button>
 
             <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Lista oczekujących</span></button>
-            
+
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>
     </div>
-    <div class="content">
+    <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
 			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-			<p>Harvey Specter</p>
+			<p id="nazwaOdbiorcy">Harvey Specter</p>
 		</div>
 		<div class="messages">
-			<ul>
-				<li class="sent">
-					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-					<p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!</p>
-				</li>
-				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-					<p>When you're backed against the wall, break the god damn thing down.</p>
-				</li>
-				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-					<p>Excuses don't win championships.</p>
-				</li>
-				<li class="sent">
-					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-					<p>Oh yeah, did Michael Jordan tell you that?</p>
-				</li>
-				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-					<p>No, I told him that.</p>
-				</li>
-				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-					<p>What are your choices when someone puts a gun to your head?</p>
-				</li>
-				<li class="sent">
-					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-					<p>What are you talking about? You do what they say or they shoot you.</p>
-				</li>
-				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-					<p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-				</li>
+			<ul id="messages">
+
 			</ul>
 		</div>
 		<div class="message-input">
 			<div class="wrap">
-			<input type="text" placeholder="Napisz wiadomość..." />
+			<input type="text" placeholder="Napisz wiadomość..." id="trescWiadomosci"/>
 			<i class="fa fa-paperclip attachment" aria-hidden="true">P</i>
-			<button class="submit">Wyślij<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			<button class="submit" id="wyslijWiadomosc">Wyślij<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>
 	</div>
@@ -163,5 +132,115 @@
 </div>
 
 @endsection
+@push('scripts')
+    <script>
+        $(function(){
+            let user_id = "{{ auth()->user()->id }}";
+            let friendId=null
+            $(".friendelement").click(function(){
+                let url = "{{ route('message.reciveMessage') }}"
+                friendId=parseInt($(this).attr("data-id"))
+                let fd = new FormData();
+                let token = "{{ csrf_token() }}"
+                fd.append("_token", token)
+                fd.append("receiver_id", friendId)
 
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        console.log(response)
+                        $("#messageContent").css("display","block")
+                        $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
+                        let wiadomosci=``
+                        for(i=0;i<response.messages.length;i++){
+                            if(response.messages[i].odbiorca_id=friendId)
+                            wiadomosci+=`
+
+				<li class="sent">
+					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+					<p>`+response.messages[i].wiadomosc+`</p>
+				</li>`;
+                else
+                wiadomosci+=`
+				<li class="replies">
+					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<p>`+response.messages[i].wiadomosc+`</p>
+				</li>
+                `
+                $("#messages").html(wiadomosci)
+                        }
+
+                    },
+                    error:function(response){
+
+                        console.log(response)
+                    }
+                })
+            })
+            const socket = io('127.0.0.1:3000', {
+                transports: ['websocket', 'polling', 'flashsocket'],
+            });
+            socket.on('connect', function () {
+                socket.emit('user_connected', user_id);
+            });
+            $("#wyslijWiadomosc").click(function () {
+                sendMessage($("#trescWiadomosci").val())
+                $("#trescWiadomosci").val("")
+            })
+            $("#trescWiadomosci").keypress(function (e) {
+                let message = $(this).val();
+                if (e.which === 13 && !e.shiftKey) {
+                    $("#trescWiadomosci").val("")
+                    sendMessage(message)
+                    return false;
+                }
+            })
+
+            function sendMessage(message) {
+                let url = "{{ route('message.sendMessage') }}"
+                let form = $(this)
+                let fd = new FormData();
+                let token = "{{ csrf_token() }}"
+                fd.append("message", message)
+                fd.append("_token", token)
+                fd.append("receiver_id", friendId)
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                            console.log(response)
+                        if (response.success) {
+                            console.log(response)
+                            appendMessageToSender(response)
+                            socket.emit('message', response);
+                        }
+                    },
+                    error:function(response){
+
+                        console.log(response)
+                    }
+                })
+            }
+            function appendMessageToSender(message){
+                var wiadomosci=`
+
+                <li class="sent">
+                    <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+                    <p>`+message.data.wiadomosc+`</p>
+                </li>`;
+                $("#messages").append(wiadomosci)
+            }
+        })
+    </script>
+@endpush
 

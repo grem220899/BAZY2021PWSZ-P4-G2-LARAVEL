@@ -44,7 +44,7 @@ body {
   }
 }
 #frame #sidepanel #profile {
-  width: 80%;
+  width: 90%;
   margin: 25px auto;
 }
 @media screen and (max-width: 735px) {

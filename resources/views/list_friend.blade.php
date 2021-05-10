@@ -158,7 +158,7 @@
                         $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
                         let wiadomosci=``
                         for(i=0;i<response.messages.length;i++){
-                            if(response.messages[i].odbiorca_id=friendId)
+                            if(response.messages[i].odbiorca_id==friendId)
                             wiadomosci+=`
 
 				<li class="sent">

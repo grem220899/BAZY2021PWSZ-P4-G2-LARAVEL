@@ -182,8 +182,13 @@
                     }
                 })
             })
-            const socket = io('127.0.0.1:3000', {
-                transports: ['websocket', 'polling', 'flashsocket'],
+
+            let ip_address = 'http://grzesiekkomp.asuscomm.com';
+            let socket_port = '3000';
+            // let ip_address = '127.0.0.1';
+            // let socket_port = '3000';
+            const socket=io(ip_address+ ':' + socket_port,{
+                transports:['websocket','polling','flashsocket'],
             });
             socket.on('connect', function () {
                 socket.emit('user_connected', user_id);
@@ -240,6 +245,24 @@
                 </li>`;
                 $("#messages").append(wiadomosci)
             }
+            function appendMessageToReceiver(message){
+                var wiadomosci=`
+
+                <li class="replies">
+					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+                    <p>`+message.data.wiadomosc+`</p>
+                </li>`;
+                console.log(message)
+                $("#messages").append(wiadomosci)
+            }
+            socket.on("newMessage",function(message){
+                if(message.data.nadawca_id!=user_id)
+                    appendMessageToReceiver(message);
+            })
+            socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)
+            {
+               appendMessageToReceiver(message);
+            });
         })
     </script>
 @endpush

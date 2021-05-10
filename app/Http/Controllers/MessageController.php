@@ -20,7 +20,7 @@ class MessageController extends Controller
         $this->data['friendInfo'] = $friendInfo;
         $this->data['myInfo'] = $myInfo;
         $this->data['messages']=Message::whereIn('nadawca_id',[(int)$userId,Auth::id()])->whereIn('odbiorca_id',[(int)$userId,Auth::id()])->get();
-
+        // exec("node ./server.js");
         echo json_encode($this->data);
     }
 

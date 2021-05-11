@@ -256,7 +256,7 @@
                 $("#messages").append(wiadomosci)
             }
             socket.on("newMessage",function(message){
-                if(message.data.nadawca_id!=user_id)
+                if(message.data.nadawca_id==friendId && message.data.odbiorca_id==user_id)
                     appendMessageToReceiver(message);
             })
             socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)

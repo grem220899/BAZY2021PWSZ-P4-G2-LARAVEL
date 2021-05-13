@@ -51,6 +51,7 @@ class FriendsController extends Controller
                     'user_id' => Auth::id(),
                     'friend_id' => $u[0]->id,
                     'accepted' => 0,
+                    'date_add'=>date("Y-m-d H:i:s")
                 ]);
             } else {
                 $data['error'] = "Już wysłałeś zaproszenie";
@@ -59,7 +60,7 @@ class FriendsController extends Controller
             $data['error'] = "Nie ma takiego adresu email w bazie.";
         }
         echo json_encode($data);
-        
+
     }
     public function akceptuj()
     {

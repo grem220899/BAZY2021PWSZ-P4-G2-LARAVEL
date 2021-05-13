@@ -5,7 +5,9 @@
 	<div id="sidepanel">
 		<div id="profile">
             <div class="wrap">
-				<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
+                <input type="file" name="avatar_file" id="avatar_file" style="display: none" accept="image/*">
+				<img id="profile-img" src="/uploads/avatars/{{auth()->user()->avatar}}" class="online" alt="" />
+
             <p style="margin-bottom: 0px"> {{auth()->user()->email}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->name}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->surname}} </p>
@@ -24,53 +26,53 @@
         <div id="contacts">
 			<ul id="listaUzytkownikow" style="padding-left: 0px; list-style: none;">
                 @foreach ($friend_list as $item)
-                        <form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}"><button type="submit">Usun</button>
 
-                        </form>
 
 				<li class="contact friendelement" data-id="{{$item->id}}">
 					<div class="wrap">
 						<span class="contact-status online"></span>
-						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div>
+						</div><form action="/usun-znajomego" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$item->id}}"><button type="submit">Usun</button>
+
+                        </form>
 					</div>
 				</li>
                 @endforeach
                 @foreach ($waiting as $item)
-                        <form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}">
-                            <button type="submit">Usun</button>
-                        </form>
+
 
 				<li class="contact sendelement">
 					<div class="wrap">
 						<span class="contact-status online"></span>
-						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div>
+						</div><form action="/usun-znajomego" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$item->id}}">
+                            <button type="submit">Usun</button>
+                        </form>
 					</div>
 				</li>
                 @endforeach
                 @foreach ($waiting2 as $item)
-                <form style="display: none;" action="/akceptuj-zaproszenie" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{$item->id}}">
-                    <button type="submit">Akceptuj</button>
-                </form>
+
 
 				<li class="contact waitingelement">
 					<div class="wrap">
 						<span class="contact-status online"></span>
-						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div>
+						</div><form style="display: none;" action="/akceptuj-zaproszenie" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{$item->id}}">
+                    <button type="submit">Akceptuj</button>
+                </form>
 					</div>
 				</li>
                 @endforeach
@@ -91,7 +93,7 @@
     </div>
     <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
-			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+			<img id="avatarOdbiorcy" src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
 			<p id="nazwaOdbiorcy">Harvey Specter</p>
 		</div>
 		<div class="messages">
@@ -100,35 +102,15 @@
 			</ul>
 		</div>
 		<div class="message-input">
+            <div id="podglad"></div>
 			<div class="wrap">
 			<input type="text" placeholder="Napisz wiadomość..." id="trescWiadomosci"/>
-			<i class="fa fa-paperclip attachment" aria-hidden="true">P</i>
+            <input type="file" name="file" id="plikWiadomosci" style="display: none">
+			<i class="fa fa-paperclip attachment" aria-hidden="true" id="dodajPlik">P</i>
 			<button class="submit" id="wyslijWiadomosc">Wyślij<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>
 	</div>
-<div class="container" style="display: none;">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dodaj znajomego') }}</div>
-
-                <div class="card-body">
-                    <form action="/dodaj-znajomych" method="POST">
-                        @csrf
-                        <input type="text" placeholder="Adres Email" name="email">
-                        <button type="submit">Dodaj</button>
-                        @if ($error)
-                            <div class="alert-danger">
-                                {{$error}}
-                            </div>
-                        @endif
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 
 @endsection
@@ -156,19 +138,19 @@
                         console.log(response)
                         $("#messageContent").css("display","block")
                         $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
+                        $("#avatarOdbiorcy").attr('src','/uploads/avatars/'+response.friendInfo[0].avatar)
                         let wiadomosci=``
                         for(i=0;i<response.messages.length;i++){
                             if(response.messages[i].odbiorca_id==friendId)
                             wiadomosci+=`
-
 				<li class="sent">
-					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+					<img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
 					<p>`+response.messages[i].wiadomosc+`</p>
 				</li>`;
                 else
                 wiadomosci+=`
 				<li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
 					<p>`+response.messages[i].wiadomosc+`</p>
 				</li>
                 `
@@ -214,7 +196,11 @@
                 fd.append("message", message)
                 fd.append("_token", token)
                 fd.append("receiver_id", friendId)
-
+                let pliki=[];
+                for(i=0;i<$("#podglad").children().length;i++){
+                    pliki[i]=$("#podglad").children().eq(i).attr("data-nazwa")
+                }
+                fd.append("pliki",pliki)
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -227,6 +213,8 @@
                         if (response.success) {
                             console.log(response)
                             appendMessageToSender(response)
+                            for(i=0;i<response.pliki.length;i++)
+                                appendFileToSender(response.pliki[i])
                             socket.emit('message', response);
                         }
                     },
@@ -240,16 +228,38 @@
                 var wiadomosci=`
 
                 <li class="sent">
-                    <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
                     <p>`+message.data.wiadomosc+`</p>
                 </li>`;
+                $("#messages").append(wiadomosci)
+            }
+            function appendFileToSender(message){
+                let plik=message.split('.')
+                let img=['jpg','jpeg','png','gif']
+                var wiadomosci=``
+                if(img.includes(plik[plik.length-1])){
+                wiadomosci=`
+
+                <li class="sent">
+                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                    <p><img src="/uploads/pliki/`+message+`"></p>
+                </li>`;
+            }
+                else{
+                    wiadomosci=`
+
+                    <li class="sent">
+                        <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                        <p><a href="/uploads/pliki/`+message+`">`+message+`</a></p>
+                    </li>`;
+                }
                 $("#messages").append(wiadomosci)
             }
             function appendMessageToReceiver(message){
                 var wiadomosci=`
 
                 <li class="replies">
-					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<img src="/uploads/avatars/`+message.avatar+`" alt="" />
                     <p>`+message.data.wiadomosc+`</p>
                 </li>`;
                 console.log(message)

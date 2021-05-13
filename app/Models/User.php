@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPassword;
+use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\VerifyEmail;
-use App\Notifications\ResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -23,8 +23,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'surname',
         'nick',
+        'avatar',
         'password',
-        'status'
+        'status',
     ];
 
     /**
@@ -47,12 +48,12 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 //Testowa weryfikacja email
     public function sendEmailVerificationNotification()
-{
-    $this->notify(new VerifyEmail);
-}
+    {
+        $this->notify(new VerifyEmail);
+    }
 //Resetowanie hasła
- public function sendPasswordResetNotification($token)
- {
-    $this->notify(new ResetPassword($token));
- }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 }

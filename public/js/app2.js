@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function () {
     $("#friendlistBtn").click(function () {
         $(".friendelement").css("display", "block")
         $(".waitingelement").css("display", "none")
@@ -20,10 +20,12 @@ $(function () {
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
+
     $("#dodajZnajomegoBtn").click(function () {
         var fd = new FormData();
         fd.append("email", $("#dodajZnajomegoInput").val())
         fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
         $.ajax({
             url: '/dodaj-znajomych',
             type: 'post',
@@ -33,23 +35,78 @@ $(function () {
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
-                var html = `<li class="contact sendelement">
+                var html = `<li class="contact sendelement" style="display:block">
              <div class="wrap">
                <span class="contact-status online"></span>
                <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
                <div class="meta">
-                 <p class="name">` + json.user.name + `</p>
+                 <p class="name">` + json.user.name + ` ` + json.user.surname + `</p>
                </div>
              </div>
-           </li>`
+           </li>`;
                 var html2 = $("#listaUzytkownikow").html();
                 $("#listaUzytkownikow").html(html2 + html);
+                $("#dodajZnajomegoInput").val("")
             },
             error: function (json) {
-                // console.log(json)
+                console.log("error")
+                console.log(json)
 
             }
         });
     });
+    $("#profile-img").click(function(){
+        $("#avatar_file").click();
+    })
+    $("#avatar_file").change(function(){
+        console.log($(this)[0].files[0])
+        var fd = new FormData();
+        fd.append("file", $(this)[0].files[0])
+        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
 
+        $.ajax({
+            url: '/zmien-avatar',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function (json) {
+                console.log(json)
+                $("#profile-img").attr("src","/uploads/avatars/"+json)
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+
+            }
+        });
+    });
+    $("#dodajPlik").click(function(){
+        $("#plikWiadomosci").click();
+    })
+    $("#plikWiadomosci").change(function(){
+        console.log($(this)[0].files[0])
+        var fd = new FormData();
+        fd.append("file", $(this)[0].files[0])
+        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+        $.ajax({
+            url: '/dodaj-plik',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function (json) {
+                console.log(json)
+                $("#podglad").append(json.plik)
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+
+            }
+        });
+    });
 });

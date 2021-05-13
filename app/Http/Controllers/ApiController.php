@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\FriendList;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Message;
+use App\Models\Files;
 
 class ApiController extends Controller
 {
@@ -48,4 +50,25 @@ class ApiController extends Controller
         }
         echo json_encode($data);
     }
+    public function changeAvatar(){
+            $check = getimagesize($_FILES["file"]["tmp_name"]);
+            if (false !== $check) {
+                $roz=explode('/',$_FILES['file']['type']);
+                $nazwa=uniqid();
+                Files::create([
+                    'nazwa' => $nazwa,
+                    'rozszerzenie' => $roz[1],
+                    'przeznaczenie' => 'avatar',
+                    'uzytkownik_id'=>Auth::id()
+                ]);
+                move_uploaded_file($_FILES['file']['tmp_name'], __DIR__.'/../../../public/uploads/avatars/' . $nazwa.'.'.$roz[1]);
+                DB::update('UPDATE users SET avatar="'.$nazwa.'.'.$roz[1].'" WHERE id='.Auth::id());
+
+                echo json_encode($nazwa.'.'.$roz[1]);
+
+            }else{
+                echo json_encode(0);
+            }
+    }
+
 }

@@ -8,6 +8,6 @@ class Message extends Model
 {
     protected $connection = 'mongodb';
     protected $collection='WIADOMOSCI';
-    protected $fillable = ['wiadomosc','odbiorca_id','nadawca_id','typ_odbiorcy'];
+    protected $fillable = ['wiadomosc','odbiorca_id','nadawca_id','typ_odbiorcy','plik_id'];
 
 }

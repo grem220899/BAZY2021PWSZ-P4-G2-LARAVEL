@@ -27,3 +27,6 @@ Route::post('/usun-znajomego', [App\Http\Controllers\FriendsController::class, '
 Route::get('/API/logowanie.php',[App\Http\Controllers\ApiController::class, 'logowanie']);
 Route::post('/send-message',[App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.sendMessage');
 Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'reciveMessage'])->name('message.reciveMessage');
+Route::post('/dodaj-plik',[App\Http\Controllers\MessageController::class, 'dodajPlik'])->name('dodajPlik');
+Route::post('/zmien-avatar',[App\Http\Controllers\ApiController::class, 'changeAvatar'])->name('changeAvatar');
+

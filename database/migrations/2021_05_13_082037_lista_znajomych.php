@@ -17,6 +17,8 @@ class ListaZnajomych extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('friend_id');
+            $table->timestamp('date_add');
+            $table->timestamp('date_update')->nullable();
             $table->integer('accepted');
         });
     }

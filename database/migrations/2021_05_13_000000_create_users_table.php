@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('nick',16)->unique();
             $table->string('email',45)->unique();
             $table->string('password',255);
+            $table->string('avatar',128)->default('templateavatar.jpg');
             $table->enum('status',['zablokowany','aktywny']);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

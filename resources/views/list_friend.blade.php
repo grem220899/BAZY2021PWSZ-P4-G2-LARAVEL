@@ -139,22 +139,39 @@
                         $("#messageContent").css("display","block")
                         $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
                         $("#avatarOdbiorcy").attr('src','/uploads/avatars/'+response.friendInfo[0].avatar)
-                        let wiadomosci=``
+
                         for(i=0;i<response.messages.length;i++){
-                            if(response.messages[i].odbiorca_id==friendId)
-                            wiadomosci+=`
-				<li class="sent">
-					<img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-					<p>`+response.messages[i].wiadomosc+`</p>
-				</li>`;
-                else
-                wiadomosci+=`
-				<li class="replies">
-					<img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
-					<p>`+response.messages[i].wiadomosc+`</p>
-				</li>
-                `
-                $("#messages").html(wiadomosci)
+                            let wiadomosci=``
+                                if(response.messages[i].odbiorca_id==friendId){
+
+                            if(response.messages[i].wiadomosc!=null)
+                                    wiadomosci+=`
+                                <li class="sent">
+                                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                </li>`;
+                                if(response.messages[i].plik_id!=undefined)
+                            for(j=0;j<response.messages[i].plik_id.length;j++)
+                                if(response.pliki[response.messages[i].plik_id[j]]!=""){
+                                    appendFileToSender(response.pliki[response.messages[i].plik_id[j]].nazwa)
+                                }
+
+                            }else{
+
+                            if(response.messages[i].wiadomosc!=null)
+                                    wiadomosci+=`
+                                <li class="replies">
+                                    <img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
+                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                </li>
+                                `
+
+                                if(response.messages[i].plik_id!=undefined)
+                                    for(j=0;j<response.messages[i].plik_id.length;j++)
+                                        if(response.pliki[response.messages[i].plik_id[j]]!="")
+                                            appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa)
+                }
+                    $("#messages").append(wiadomosci)
                         }
 
                     },
@@ -212,10 +229,13 @@
                             console.log(response)
                         if (response.success) {
                             console.log(response)
-                            appendMessageToSender(response)
+                            if(response.wiadomosc!=null)
+                                appendMessageToSender(response)
                             for(i=0;i<response.pliki.length;i++)
-                                appendFileToSender(response.pliki[i])
+                                if(response.pliki[i]!="")
+                                    appendFileToSender(response.pliki[i])
                             socket.emit('message', response);
+                            $("#podglad").html("")
                         }
                     },
                     error:function(response){
@@ -255,6 +275,29 @@
                 }
                 $("#messages").append(wiadomosci)
             }
+
+            function appendFileToReceiver(message){
+                let plik=message.split('.')
+                let img=['jpg','jpeg','png','gif']
+                var wiadomosci=``
+                if(img.includes(plik[plik.length-1])){
+                wiadomosci=`
+
+                <li class="replies">
+                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                    <p><img src="/uploads/pliki/`+message+`"></p>
+                </li>`;
+            }
+                else{
+                    wiadomosci=`
+
+                    <li class="replies">
+                        <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                        <p><a href="/uploads/pliki/`+message+`">`+message+`</a></p>
+                    </li>`;
+                }
+                $("#messages").append(wiadomosci)
+            }
             function appendMessageToReceiver(message){
                 var wiadomosci=`
 
@@ -266,12 +309,18 @@
                 $("#messages").append(wiadomosci)
             }
             socket.on("newMessage",function(message){
-                if(message.data.nadawca_id==friendId && message.data.odbiorca_id==user_id)
-                    appendMessageToReceiver(message);
+                if(message.data.nadawca_id==friendId && message.data.odbiorca_id==user_id){
+                    if(message.wiadomosc!=null)
+                        appendMessageToReceiver(message);
+                    for(i=0;i<message.pliki.length;i++)
+                        if(message.pliki[i]!="")
+                            appendFileToReceiver(message.pliki[i])
+                }
             })
             socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)
             {
-               appendMessageToReceiver(message);
+                if(message.wiadomosc!=null)
+                    appendMessageToReceiver(message);
             });
         })
     </script>

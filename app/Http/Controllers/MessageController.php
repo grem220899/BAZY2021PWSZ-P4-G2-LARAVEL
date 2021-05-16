@@ -33,7 +33,7 @@ class MessageController extends Controller
             }
 
         }
-        $files=Files::whereIn('_id', $filesId)->get();
+        $this->data['pliki']=$files=Files::whereIn('_id', $filesId)->get();
         $files2=[];
         foreach($files as $f)
             $files2[$f['_id']]=$f;
@@ -46,13 +46,12 @@ class MessageController extends Controller
         // echo json_encode($_POST);
         // die();
         $request->validate([
-            'message' => 'required',
             'receiver_id' => 'required',
         ]);
         $sender_id = Auth::id();
         $receiver_id = $request->receiver_id;
         $_POST['pliki'] = explode(",", $_POST['pliki']);
-        if (!empty($_POST['pliki'])) {
+        if (!empty($_POST['pliki'][0])) {
             $plikiIdArr = [];
             $pliki = Files::whereIn("nazwa", $_POST['pliki'])->get();
             foreach ($pliki as $p) {

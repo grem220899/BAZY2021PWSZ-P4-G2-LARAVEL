@@ -93,8 +93,8 @@
     </div>
     <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
-			<img id="avatarOdbiorcy" src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-			<p id="nazwaOdbiorcy">Harvey Specter</p>
+			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+			<p id="nazwaOdbiorcy"></p>
 		</div>
 		<div class="messages">
 			<ul id="messages">
@@ -261,8 +261,9 @@
                 wiadomosci=`
 
                 <li class="sent">
-                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                    <p><img src="/uploads/pliki/`+message+`"></p>
+                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt=""  />
+                    <p><img src="/uploads/pliki/`+message+`" style="width: 100%;height: auto;
+    border-radius: 0;"></p>
                 </li>`;
             }
                 else{
@@ -285,7 +286,8 @@
 
                 <li class="replies">
                     <img src="/uploads/avatars/`+avatar+`" alt="" />
-                    <p><img src="/uploads/pliki/`+message+`"></p>
+                    <p><img src="/uploads/pliki/`+message+`" style="width: 100%;height: auto;
+    border-radius: 0;"></p>
                 </li>`;
             }
                 else{

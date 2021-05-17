@@ -229,7 +229,7 @@
                             console.log(response)
                         if (response.success) {
                             console.log(response)
-                            if(response.wiadomosc!=null)
+                            if(response.data.wiadomosc!=null)
                                 appendMessageToSender(response)
                             for(i=0;i<response.pliki.length;i++)
                                 if(response.pliki[i]!="")
@@ -310,7 +310,7 @@
             }
             socket.on("newMessage",function(message){
                 if(message.data.nadawca_id==friendId && message.data.odbiorca_id==user_id){
-                    if(message.wiadomosc!=null)
+                    if(message.data.wiadomosc!=null)
                         appendMessageToReceiver(message);
                     for(i=0;i<message.pliki.length;i++)
                         if(message.pliki[i]!="")
@@ -319,7 +319,7 @@
             })
             socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)
             {
-                if(message.wiadomosc!=null)
+                if(message.data.wiadomosc!=null)
                     appendMessageToReceiver(message);
             });
         })

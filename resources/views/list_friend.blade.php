@@ -169,7 +169,7 @@
                                 if(response.messages[i].plik_id!=undefined)
                                     for(j=0;j<response.messages[i].plik_id.length;j++)
                                         if(response.pliki[response.messages[i].plik_id[j]]!="")
-                                            appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa)
+                                            appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa,response.friendInfo[0].avatar)
                 }
                     $("#messages").append(wiadomosci)
                         }
@@ -182,10 +182,10 @@
                 })
             })
 
-            let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            let socket_port = '3000';
-            // let ip_address = '127.0.0.1';
+            // let ip_address = 'http://grzesiekkomp.asuscomm.com';
             // let socket_port = '3000';
+            let ip_address = '127.0.0.1';
+            let socket_port = '3000';
             const socket=io(ip_address+ ':' + socket_port,{
                 transports:['websocket','polling','flashsocket'],
             });
@@ -276,7 +276,7 @@
                 $("#messages").append(wiadomosci)
             }
 
-            function appendFileToReceiver(message){
+            function appendFileToReceiver(message,avatar){
                 let plik=message.split('.')
                 let img=['jpg','jpeg','png','gif']
                 var wiadomosci=``
@@ -284,7 +284,7 @@
                 wiadomosci=`
 
                 <li class="replies">
-                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                    <img src="/uploads/avatars/`+avatar+`" alt="" />
                     <p><img src="/uploads/pliki/`+message+`"></p>
                 </li>`;
             }
@@ -314,7 +314,7 @@
                         appendMessageToReceiver(message);
                     for(i=0;i<message.pliki.length;i++)
                         if(message.pliki[i]!="")
-                            appendFileToReceiver(message.pliki[i])
+                            appendFileToReceiver(message.pliki[i],message.avatar)
                 }
             })
             socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)

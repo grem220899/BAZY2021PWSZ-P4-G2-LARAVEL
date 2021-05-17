@@ -120,6 +120,7 @@
             let user_id = "{{ auth()->user()->id }}";
             let friendId=null
             $(".friendelement").click(function(){
+                $("#messages").html("")
                 let url = "{{ route('message.reciveMessage') }}"
                 friendId=parseInt($(this).attr("data-id"))
                 let fd = new FormData();

@@ -29,4 +29,5 @@ Route::post('/send-message',[App\Http\Controllers\MessageController::class, 'sen
 Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'reciveMessage'])->name('message.reciveMessage');
 Route::post('/dodaj-plik',[App\Http\Controllers\MessageController::class, 'dodajPlik'])->name('dodajPlik');
 Route::post('/zmien-avatar',[App\Http\Controllers\ApiController::class, 'changeAvatar'])->name('changeAvatar');
+Route::get('/API/friends.php',[App\Http\Controllers\ApiController::class, 'friend_list']);
 

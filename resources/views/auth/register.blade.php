@@ -5,14 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    <div >
-                        {{ __('Rejestracja') }}
-                    </div>
-                    <div class="col-md-6 offset-md-4">
-                    <a href="/" class="btn btn-primary">Strona Główna</a>
-                    </div>
-                    </div>
+                <div class="card-header">{{ __('Rejestracja') }}</div>
+                <div class="col-md-8 offset-md-x">
+                                <a href="/" class="btn btn-primary">Strona Główna</a>
+                            </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">

@@ -12,6 +12,9 @@ app.use(function(req, res, next) {
 
 http.listen(3000, function () {
     console.log('Listening to port 3000');
+    // console.log(app)
+    // console.log(http)
+    // console.log(io)
 });
 
 io.on('connection', function (socket) {

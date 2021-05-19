@@ -184,13 +184,14 @@
             })
 
             // let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            let ip_address = '127.0.0.1';
-            // let ip_address = 'http://projektkt.pl';
+            // let ip_address = 'ws://localhost';
+            let ip_address = 'ws://ws1.projektkt.pl';
             let socket_port = '3000';
 
             const socket=io(ip_address+ ':' + socket_port,{
                 transports:['websocket','polling','flashsocket'],
             });
+            console.log(socket)
             socket.on('connect', function () {
                 socket.emit('user_connected', user_id);
             });

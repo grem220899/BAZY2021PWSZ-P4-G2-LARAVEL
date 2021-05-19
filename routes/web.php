@@ -30,6 +30,11 @@ Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'r
 Route::post('/dodaj-plik',[App\Http\Controllers\MessageController::class, 'dodajPlik'])->name('dodajPlik');
 Route::post('/zmien-avatar',[App\Http\Controllers\ApiController::class, 'changeAvatar'])->name('changeAvatar');
 Route::get('/API/friends.php',[App\Http\Controllers\ApiController::class, 'friend_list']);
+Route::get('/API/wysylanie-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'wysylanie_zaproszenia']);
+Route::get('/API/akceptowanie-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'akceptowanie_zaproszenia']);
+Route::get('/API/usuwanie-znajomych.php',[App\Http\Controllers\ApiController::class, 'usuwanie_znajomych']);
+Route::get('/API/banowanie-znajomych.php',[App\Http\Controllers\ApiController::class, 'banowanie_znajomych']);
+Route::get('/API/wyslane-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'wyslane_zaproszenia']);
 
 
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');

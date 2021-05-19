@@ -84,7 +84,7 @@ class ApiController extends Controller
            } else {
                $w = DB::select("select name,surname,nick,email,avatar from users where id=" . $v->friend_id);
            }
-            $w[0]->avatar="http://projektkt.cba.pl/uploads/avatars/".$w[0]->avatar;
+            $w[0]->avatar="http://projektkt.pl/uploads/avatars/".$w[0]->avatar;
 
            $friend_list_arr[] = $w[0];
        }
@@ -217,7 +217,7 @@ class ApiController extends Controller
             $waiting_arr = [];
             foreach ($waiting as $v) {
                 $w = DB::select("select * from users where id=" . $v->friend_id);
-                $w[0]->avatar = "http://projektkt.cba.pl/uploads/avatars/" . $w[0]->avatar;
+                $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
                 $waiting_arr[] = $w[0];
             }
             

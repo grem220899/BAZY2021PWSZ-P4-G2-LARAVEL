@@ -5,7 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">
+                    <div>
+                        {{ __('Login') }}
+                    </div>
+                    <div class="col-md-6 offset-md-4">
+                    <a href="/" class="btn btn-primary">Strona Główna</a>
+                    </div>
+                    </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -61,6 +68,7 @@
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Zapomniałeś hasła?') }}
                                     </a>
+                                    
                                 @endif
                             </div>
                         </div>

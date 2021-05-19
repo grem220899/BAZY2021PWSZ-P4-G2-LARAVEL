@@ -32,6 +32,7 @@ class FriendsController extends Controller
         return view('list_friend', $data);
     }
     //Usuwanie ze znajomych
+    //Do zmiany
     public function usun_znajomego(){
         $data = ['error' => ''];
         DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
@@ -65,6 +66,7 @@ class FriendsController extends Controller
 
     }
     //Akceptacja znajomych
+    //Do zmiany
     public function akceptuj()
     {
         $data = ['error' => ''];

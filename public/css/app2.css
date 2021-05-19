@@ -98,8 +98,8 @@ body {
 }
 @media screen and (max-width: 735px) {
   #frame #sidepanel #profile .wrap img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-left: 4px;
   }
 }
@@ -408,6 +408,7 @@ body {
 }
 #frame #sidepanel #contacts ul li.contact .wrap img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: left;
   margin-right: 10px;
@@ -551,8 +552,8 @@ body {
 #frame .content .messages {
   height: auto;
   width: 100%;
-  min-height: calc(100% - 110px);
-  max-height: calc(100% - 110px);
+  min-height: calc(100% - 130px);
+  max-height: calc(100% - 130px);
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -586,7 +587,7 @@ body {
   background: #435f7a;
   color: #f5f5f5;
 }
-#frame .content .messages ul li.replies img {
+#frame .content .messages ul li.replies img { 
   float: right;
   margin: 6px 0 0 8px;
 }

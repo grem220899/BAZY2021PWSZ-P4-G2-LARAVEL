@@ -184,14 +184,18 @@
             })
 
             // let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            // let socket_port = '3000';
             let ip_address = '127.0.0.1';
+            // let ip_address = 'http://projektkt.pl';
             let socket_port = '3000';
+
             const socket=io(ip_address+ ':' + socket_port,{
                 transports:['websocket','polling','flashsocket'],
             });
             socket.on('connect', function () {
                 socket.emit('user_connected', user_id);
+            });
+            socket.on("connect_error", (err) => {
+            console.log(`connect_error due to ${err.message}`);
             });
             $("#wyslijWiadomosc").click(function () {
                 sendMessage($("#trescWiadomosci").val())

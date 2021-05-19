@@ -30,3 +30,5 @@ Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'r
 Route::post('/dodaj-plik',[App\Http\Controllers\MessageController::class, 'dodajPlik'])->name('dodajPlik');
 Route::post('/zmien-avatar',[App\Http\Controllers\ApiController::class, 'changeAvatar'])->name('changeAvatar');
 
+
+Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');

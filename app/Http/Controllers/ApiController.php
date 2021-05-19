@@ -70,5 +70,39 @@ class ApiController extends Controller
                 echo json_encode(0);
             }
     }
+    
+     public function friend_list()
+   {
+       header('Content-Type: application/json');
+       $data = array();
+       if(isset($_GET['id'])){
+       $friend_list = DB::select("select * from friend_list where (user_id=" . $_GET['id'] . " OR friend_id=" . $_GET['id'] . ") AND accepted=1");
+       $friend_list_arr = [];
+       foreach ($friend_list as $v) {
+           if ($_GET['id'] == $v->friend_id) {
+               $w = DB::select("select name,surname,nick,email,avatar from users where id=" . $v->user_id);
+           } else {
+               $w = DB::select("select name,surname,nick,email,avatar from users where id=" . $v->friend_id);
+           }
+            $w[0]->avatar="http://projektkt.cba.pl/uploads/avatars/".$w[0]->avatar;
+
+           $friend_list_arr[] = $w[0];
+       }
+
+       $data["status"]="success";
+       $data["message"]="";
+       $data["data"]=$friend_list_arr;
+
+    }
+    else{
+
+        $data["status"]="failed";
+        $data["message"]="brak id";
+        $data["data"]=[];
+
+    }
+       echo json_encode($data);
+       
+    }
 
 }

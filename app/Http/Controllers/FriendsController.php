@@ -59,6 +59,32 @@ class FriendsController extends Controller
         echo json_encode($data);
     
     }
+    // //Banowanie znajomych
+    // public function banowanie_znajomych()
+    // {
+    //     $data = ['error' => ''];
+    //             $u = DB::select("select * from users where id='" . $_POST['user_id'] . "'");
+    //             if (!empty($u)) {
+    //                 $spr = DB::select("select * from ban_list where (user_ban_id=" . $_POST['user_ban_id'] . " AND
+    //                 `user_id`=" . $_POST['user_id'] . ") OR (user_ban_id=" . $_POST['user_id'] . " AND `user_id`=" . $_POST['user_ban_id'] . ")");
+    //                 if (empty($spr)) {
+    //                     $data['data'] = $u[0];
+    //                     DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . $_POST['user_ban_id'] .
+    //                         ") OR (user_id=" . $_POST['user_ban_id'] . " AND friend_id=" . $_POST['user_id'] . ")");
+    //                     BanList::insert([
+    //                         'date_ban' => date("Y-m-d H:i:s"),
+    //                         'date_uban' => null,
+    //                         'user_id' => (int) $_POST['user_id'],
+    //                         'user_ban_id' => (int) $_POST['user_ban_id'],
+    //                     ]);
+    //                 } else {
+    //                     $data["error"] = "User został wcześniej zbanowany";
+    //                 }
+    //             } else {
+    //                 $data["error"] = "Nie ma takiego użytkownika w bazie";
+    //             }
+    //     echo json_encode($data);
+    // }
 
     //Wysyłanie zaproszenia do znajomych
     public function save()

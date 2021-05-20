@@ -184,8 +184,8 @@
             })
 
             // let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            // let ip_address = 'ws://localhost';
-            let ip_address = 'ws://ws1.projektkt.pl';
+            // let ip_address = 'http://localhost';
+            let ip_address = 'http://projektkt.pl';
             let socket_port = '3000';
 
             const socket=io(ip_address+ ':' + socket_port,{

@@ -30,50 +30,48 @@
 
 				<li class="contact friendelement" data-id="{{$item->id}}">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}"><button type="submit">Usun</button>
-
-                        </form>
+						</div>
+                        <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
 					</div>
 				</li>
                 @endforeach
+                {{-- Lista wysłanych --}}
                 @foreach ($waiting as $item)
 
 
 				<li class="contact sendelement">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}">
-                            <button type="submit">Usun</button>
-                        </form>
+						</div>
+                        <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
 					</div>
 				</li>
                 @endforeach
+                {{-- Lista oczekujących --}}
                 @foreach ($waiting2 as $item)
 
 
 				<li class="contact waitingelement">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form style="display: none;" action="/akceptuj-zaproszenie" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{$item->id}}">
-                    <button type="submit">Akceptuj</button>
-                </form>
+                        <button  data-id="{{$item->id}}" class="dodawanie akceptuj" >Akceptuj</button>
+ 
 					</div>
+                    <div class="meta">
+                        <p><br></p>
+                    <button  data-id="{{$item->id}}" class="dodawanie usun" >Odrzuć</button>
+
+                </div>
 				</li>
                 @endforeach
             </ul>

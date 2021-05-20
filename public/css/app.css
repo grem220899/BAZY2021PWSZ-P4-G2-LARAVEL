@@ -1195,6 +1195,9 @@ pre code {
   .offset-md-4 {
     margin-left: 33.3333333333%;
   }
+  .offset-md-x {
+    margin-left: 82%;
+  }
   .offset-md-5 {
     margin-left: 41.6666666667%;
   }

@@ -33,9 +33,9 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}}</p>
+							<p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button></p>
 						</div>
-                        <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
+
 					</div>
 				</li>
                 @endforeach
@@ -63,15 +63,14 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}}</p>
-                        <button  data-id="{{$item->id}}" class="dodawanie akceptuj" >Akceptuj</button>
- 
-					</div>
-                    <div class="meta">
-                        <p><br></p>
-                    <button  data-id="{{$item->id}}" class="dodawanie usun" >Odrzuć</button>
+							<p class="name">
+                                {{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie akceptuj" style="position: static;padding:5px;background:green;">✓</button>
+                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;background:red;">X</button>
+                            </p>
 
-                </div>
+
+					</div>
 				</li>
                 @endforeach
             </ul>

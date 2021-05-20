@@ -69,7 +69,7 @@ $(document).ready(function () {
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
-
+                location.reload()
             },
             error: function (json) {
                 console.log("error")
@@ -92,6 +92,7 @@ $(document).ready(function () {
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
+                location.reload()
 
             },
             error: function (json) {

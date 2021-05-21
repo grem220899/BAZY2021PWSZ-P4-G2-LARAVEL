@@ -217,7 +217,7 @@
                 let token = "{{ csrf_token() }}"
                 for(i=0;i<wulgaryzmy.length;i++){
                     if(message.indexOf(wulgaryzmy[i])!=-1){
-                        message=message.replaceAll(wulgaryzmy[i],zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ])
+                        message=message.replaceAll(wulgaryzmy[i]," {"+zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ]+"} ")
                     }
                 }
                 fd.append("message", message)

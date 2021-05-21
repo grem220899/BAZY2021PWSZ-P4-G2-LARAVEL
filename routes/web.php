@@ -39,3 +39,4 @@ Route::get('/API/odebrane-zaproszenia.php',[App\Http\Controllers\ApiController::
 Route::get('/API/lista-zbanowanych.php',[App\Http\Controllers\ApiController::class, 'lista_zbanowanych']);
 Route::get('/API/odbanowanie-znajomego.php',[App\Http\Controllers\ApiController::class, 'odbanowanie_znajomego']);
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');
+Route::get('/dodaj-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'index'])->name('dodaj-zamienniki');

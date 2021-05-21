@@ -114,6 +114,12 @@
 @push('scripts')
     <script>
         $(function(){
+            let wulgaryzmy="{{ $wulgaryzmy }}";
+            wulgaryzmy=wulgaryzmy.replaceAll("&quot;",'"')
+            wulgaryzmy=JSON.parse(wulgaryzmy);
+            let zamienniki="{{ $zamienniki }}";
+            zamienniki=zamienniki.replaceAll("&quot;",'"')
+            zamienniki=JSON.parse(zamienniki);
             let user_id = "{{ auth()->user()->id }}";
             let friendId=null
             $(".friendelement").click(function(){
@@ -180,20 +186,16 @@
                 })
             })
 
-            // let ip_address = 'http://grzesiekkomp.asuscomm.com';
+            let ip_address = 'http://grzesiekkomp.asuscomm.com';
             // let ip_address = 'http://localhost';
-            let ip_address = 'http://projektkt.pl';
+            // let ip_address = 'http://projektkt.pl';
             let socket_port = '3000';
 
             const socket=io(ip_address+ ':' + socket_port,{
                 transports:['websocket','polling','flashsocket'],
             });
-            console.log(socket)
             socket.on('connect', function () {
                 socket.emit('user_connected', user_id);
-            });
-            socket.on("connect_error", (err) => {
-            console.log(`connect_error due to ${err.message}`);
             });
             $("#wyslijWiadomosc").click(function () {
                 sendMessage($("#trescWiadomosci").val())
@@ -213,6 +215,11 @@
                 let form = $(this)
                 let fd = new FormData();
                 let token = "{{ csrf_token() }}"
+                for(i=0;i<wulgaryzmy.length;i++){
+                    if(message.indexOf(wulgaryzmy[i])!=-1){
+                        message=message.replaceAll(wulgaryzmy[i],zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ])
+                    }
+                }
                 fd.append("message", message)
                 fd.append("_token", token)
                 fd.append("receiver_id", friendId)

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\PrivateMessageEvent;
 use App\Models\Files;
 use App\Models\Message;
+use App\Models\Wulgaryzmy;
+use App\Models\Zamienniki;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -6,6 +6,8 @@ use App\Models\FriendList;
 use App\Models\BanList;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Wulgaryzmy;
+use App\Models\Zamienniki;
 
 class FriendsController extends Controller
 {
@@ -30,6 +32,8 @@ class FriendsController extends Controller
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();
         $data['waiting2'] = $this->lista_zaproszen();
+        $data['wulgaryzmy']=json_encode($this->wulgaryzmy());
+        $data['zamienniki']=json_encode($this->zamienniki());
         return view('list_friend', $data);
     }
     // //Usuwanie
@@ -37,7 +41,7 @@ class FriendsController extends Controller
     {
         $data = ['error' => ''];
         DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
-        
+
         echo json_encode($data);
 
     }
@@ -45,10 +49,10 @@ class FriendsController extends Controller
     public function akceptuj()
     {
         $data = ['error' => ''];
-        DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")"); 
-            
+        DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
+
         echo json_encode($data);
-    
+
     }
     //Banowanie znajomych
     public function banowanie()
@@ -128,5 +132,21 @@ class FriendsController extends Controller
             $friend_list_arr[] = $w[0];
         }
         return $friend_list_arr;
+    }
+    public function wulgaryzmy(){
+        $wul=Wulgaryzmy::whereIn('aktywny',[1])->get();
+        $wul_arr=[];
+        foreach($wul as $w){
+            $wul_arr[]=$w['nazwa'];
+        }
+        return $wul_arr;
+    }
+    public function zamienniki(){
+        $wul=Zamienniki::whereIn('aktywny',[1])->get();
+        $wul_arr=[];
+        foreach($wul as $w){
+            $wul_arr[]=$w['nazwa'];
+        }
+        return $wul_arr;
     }
 }

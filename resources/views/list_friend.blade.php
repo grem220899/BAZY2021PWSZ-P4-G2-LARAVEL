@@ -33,8 +33,7 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<button  data-id="{{$item->id}}" class="dodawanie zbanuj" style="position: static;padding:5px;background:yellow;">X</button>
-                            <p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button></p>
+                            <p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button><button  data-id="{{$item->id}}" class="dodawanie zbanuj">Zbanuj</button></p>
 						</div>
 
 					</div>

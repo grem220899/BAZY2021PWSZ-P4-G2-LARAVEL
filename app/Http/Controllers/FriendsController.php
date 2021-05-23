@@ -60,7 +60,7 @@ class FriendsController extends Controller
         $data = ['error' => ''];
                 $u = DB::select("select * from users where id='" . $_POST['user_id'] . "'");
                 if (!empty($u)) {
-                    DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['user_id'] . ")");
+                DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['user_id'] . ")");
                         $data['data'] = $u[0];
                         BanList::insert([
                             'date_ban' => date("Y-m-d H:i:s"),

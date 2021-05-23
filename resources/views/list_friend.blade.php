@@ -33,7 +33,11 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-                            <p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button><button  data-id="{{$item->id}}" class="dodawanie zbanuj">Zbanuj</button></p>
+                            <p class="name">
+                                {{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie zbanuj" style="position: static;padding:5px;">Zbanuj</button>
+                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;">Usuń</button>
+                                </p>
 						</div>
 
 					</div>

@@ -19,6 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 Auth::routes(['verify' => true]);
 
+
 Route::get('/home', [App\Http\Controllers\FriendsController::class, 'index'])->name('home');
 Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])->name('znajomi');
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);

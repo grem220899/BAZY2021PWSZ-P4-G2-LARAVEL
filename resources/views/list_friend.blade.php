@@ -33,7 +33,8 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button></p>
+							<button  data-id="{{$item->id}}" class="dodawanie zbanuj" style="position: static;padding:5px;background:yellow;">X</button>
+                            <p class="name">{{$item->name}} {{$item->surname}} <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button></p>
 						</div>
 
 					</div>
@@ -51,6 +52,7 @@
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
 						</div>
                         <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
+                        
 					</div>
 				</li>
                 @endforeach
@@ -67,6 +69,7 @@
                                 {{$item->name}} {{$item->surname}}
                                 <button  data-id="{{$item->id}}" class="dodawanie akceptuj" style="position: static;padding:5px;background:green;">✓</button>
                                 <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;background:red;">X</button>
+                                
                             </p>
 
 

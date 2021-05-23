@@ -102,6 +102,30 @@ $(document).ready(function () {
             }
         });
     });
+    $(".zbanuj").click(function () {
+        var fd = new FormData();
+        fd.append("user_id", $(this).attr("data-id"))
+        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+        $.ajax({
+            url: '/banowanie-znajomych',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function (json) {
+                console.log(json)
+                location.reload()
+
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+
+            }
+        });
+    });
     $("#profile-img").click(function(){
         $("#avatar_file").click();
     })

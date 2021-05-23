@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendList;
+use App\Models\BanList;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,16 +32,6 @@ class FriendsController extends Controller
         $data['waiting2'] = $this->lista_zaproszen();
         return view('list_friend', $data);
     }
-    //Usuwanie ze znajomych
-    //Do zmiany
-    // public function usun_znajomego(){
-    //     $data = ['error' => ''];
-    //     DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
-    //     $data['friend_list'] = $this->friend_list();
-    //     $data['waiting'] = $this->wyslane_zaproszenia();
-    //     $data['waiting2'] = $this->lista_zaproszen();
-    //     return view('list_friend', $data);
-    // }
     // //Usuwanie
     public function usun_znajomego()
     {
@@ -59,33 +50,25 @@ class FriendsController extends Controller
         echo json_encode($data);
     
     }
-    // //Banowanie znajomych
-    // public function banowanie_znajomych()
-    // {
-    //     $data = ['error' => ''];
-    //             $u = DB::select("select * from users where id='" . $_POST['user_id'] . "'");
-    //             if (!empty($u)) {
-    //                 $spr = DB::select("select * from ban_list where (user_ban_id=" . $_POST['user_ban_id'] . " AND
-    //                 `user_id`=" . $_POST['user_id'] . ") OR (user_ban_id=" . $_POST['user_id'] . " AND `user_id`=" . $_POST['user_ban_id'] . ")");
-    //                 if (empty($spr)) {
-    //                     $data['data'] = $u[0];
-    //                     DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . $_POST['user_ban_id'] .
-    //                         ") OR (user_id=" . $_POST['user_ban_id'] . " AND friend_id=" . $_POST['user_id'] . ")");
-    //                     BanList::insert([
-    //                         'date_ban' => date("Y-m-d H:i:s"),
-    //                         'date_uban' => null,
-    //                         'user_id' => (int) $_POST['user_id'],
-    //                         'user_ban_id' => (int) $_POST['user_ban_id'],
-    //                     ]);
-    //                 } else {
-    //                     $data["error"] = "User został wcześniej zbanowany";
-    //                 }
-    //             } else {
-    //                 $data["error"] = "Nie ma takiego użytkownika w bazie";
-    //             }
-    //     echo json_encode($data);
-    // }
-
+    //Banowanie znajomych
+    public function banowanie()
+    {
+        $data = ['error' => ''];
+                $u = DB::select("select * from users where id='" . $_POST['user_id'] . "'");
+                if (!empty($u)) {
+                    DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['user_id'] . ")");
+                        $data['data'] = $u[0];
+                        BanList::insert([
+                            'date_ban' => date("Y-m-d H:i:s"),
+                            'date_uban' => null,
+                            'user_id' => Auth::id(),
+                            'user_ban_id' => $u[0]->id,
+                        ]);
+                } else {
+                    $data["error"] = "Nie ma takiego użytkownika w bazie";
+                }
+        echo json_encode($data);
+    }
     //Wysyłanie zaproszenia do znajomych
     public function save()
     {
@@ -110,17 +93,6 @@ class FriendsController extends Controller
         echo json_encode($data);
 
     }
-    // //Akceptacja znajomych
-    // //Do zmiany
-    // public function akceptuj()
-    // {
-    //     $data = ['error' => ''];
-    //     DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
-    //     $data['friend_list'] = $this->friend_list();
-    //     $data['waiting'] = $this->wyslane_zaproszenia();
-    //     $data['waiting2'] = $this->lista_zaproszen();
-    //     return view('list_friend', $data);
-    // }
 
     public function lista_zaproszen()
     {

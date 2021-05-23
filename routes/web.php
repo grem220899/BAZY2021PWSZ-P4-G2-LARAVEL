@@ -24,6 +24,7 @@ Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
 Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);
 Route::post('/usun-znajomego', [App\Http\Controllers\FriendsController::class, 'usun_znajomego']);
+Route::post('/banowanie-znajomych', [App\Http\Controllers\FriendsController::class, 'banowanie']);
 Route::get('/API/logowanie.php',[App\Http\Controllers\ApiController::class, 'logowanie']);
 Route::post('/send-message',[App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.sendMessage');
 Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'reciveMessage'])->name('message.reciveMessage');

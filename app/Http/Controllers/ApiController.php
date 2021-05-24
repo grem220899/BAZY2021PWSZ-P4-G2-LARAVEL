@@ -71,7 +71,7 @@ class ApiController extends Controller
                 echo json_encode(0);
             }
     }
-    
+
      public function friend_list()
    {
        header('Content-Type: application/json');
@@ -103,7 +103,7 @@ class ApiController extends Controller
 
     }
        echo json_encode($data);
-       
+
     }
 
     public function wysylanie_zaproszenia()
@@ -242,7 +242,7 @@ class ApiController extends Controller
                 $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
                 $waiting_arr[] = $w[0];
             }
-            
+
             $data["status"] = "success";
             $data["data"] = $waiting_arr;
         } else {

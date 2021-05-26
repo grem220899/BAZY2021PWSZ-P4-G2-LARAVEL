@@ -35,6 +35,9 @@ Route::get('/API/akceptowanie-zaproszenia.php',[App\Http\Controllers\ApiControll
 Route::get('/API/usuwanie-znajomych.php',[App\Http\Controllers\ApiController::class, 'usuwanie_znajomych']);
 Route::get('/API/banowanie-znajomych.php',[App\Http\Controllers\ApiController::class, 'banowanie_znajomych']);
 Route::get('/API/wyslane-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'wyslane_zaproszenia']);
+Route::get('/API/odebrane-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'odebrane_zaproszenia']);
+Route::get('/API/lista-zbanowanych.php',[App\Http\Controllers\ApiController::class, 'lista_zbanowanych']);
+Route::get('/API/odbanowanie-znajomego.php',[App\Http\Controllers\ApiController::class, 'odbanowanie_znajomego']);
 
 
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');

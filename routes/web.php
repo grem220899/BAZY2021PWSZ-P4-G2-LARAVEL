@@ -40,7 +40,8 @@ Route::get('/API/wyslane-zaproszenia.php',[App\Http\Controllers\ApiController::c
 Route::get('/API/odebrane-zaproszenia.php',[App\Http\Controllers\ApiController::class, 'odebrane_zaproszenia']);
 Route::get('/API/lista-zbanowanych.php',[App\Http\Controllers\ApiController::class, 'lista_zbanowanych']);
 Route::get('/API/odbanowanie-znajomego.php',[App\Http\Controllers\ApiController::class, 'odbanowanie_znajomego']);
-
+Route::get('/API/odbieranie-wiadomosci.php',[App\Http\Controllers\ApiController::class, 'odbieranie_wiadomosci']);
+Route::get('/API/wysylanie-wiadomosci.php',[App\Http\Controllers\ApiController::class, 'wysylanie_wiadomosci']);
 
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');
 Route::get('/dodaj-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'index'])->name('dodaj-zamienniki');

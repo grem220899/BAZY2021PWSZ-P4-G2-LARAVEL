@@ -19,11 +19,13 @@ Route::get('/', function () {
 Auth::routes();
 Auth::routes(['verify' => true]);
 
+
 Route::get('/home', [App\Http\Controllers\FriendsController::class, 'index'])->name('home');
 Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])->name('znajomi');
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
 Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);
 Route::post('/usun-znajomego', [App\Http\Controllers\FriendsController::class, 'usun_znajomego']);
+Route::post('/banowanie-znajomych', [App\Http\Controllers\FriendsController::class, 'banowanie']);
 Route::get('/API/logowanie.php',[App\Http\Controllers\ApiController::class, 'logowanie']);
 Route::post('/send-message',[App\Http\Controllers\MessageController::class, 'sendMessage'])->name('message.sendMessage');
 Route::post('/recive-message',[App\Http\Controllers\MessageController::class, 'reciveMessage'])->name('message.reciveMessage');
@@ -41,3 +43,4 @@ Route::get('/API/odbanowanie-znajomego.php',[App\Http\Controllers\ApiController:
 
 
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');
+Route::get('/dodaj-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'index'])->name('dodaj-zamienniki');

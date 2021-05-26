@@ -1195,7 +1195,9 @@ pre code {
   .offset-md-4 {
     margin-left: 33.3333333333%;
   }
-
+  .offset-md-x {
+    margin-left: 82%;
+  }
   .offset-md-5 {
     margin-left: 41.6666666667%;
   }
@@ -6172,6 +6174,9 @@ button.bg-light:focus {
 
 .bg-dark {
   background-color: #343a40 !important;
+}
+.bg-blue {
+  background-color: #2c3e50 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,

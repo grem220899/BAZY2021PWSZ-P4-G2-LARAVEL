@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Rejestracja') }}</div>
+                <div class="card-header">{{ __('Rejestracja') }} <a href="/" class="btn btn-primary " style="
+                    position: absolute;
+                    right: 10px;
+                    top: 5px;">Strona Główna</a></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -97,6 +100,7 @@
                                     {{ __('Zarejestruj') }}
                                 </button>
                             </div>
+
                         </div>
                     </form>
                 </div>

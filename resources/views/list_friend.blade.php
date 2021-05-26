@@ -30,49 +30,52 @@
 
 				<li class="contact friendelement" data-id="{{$item->id}}">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}"><button type="submit">Usun</button>
+                            <p class="name">
+                                {{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie zbanuj" style="position: static;padding:5px;">Zbanuj</button>
+                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;">Usuń</button>
+                                </p>
+						</div>
 
-                        </form>
 					</div>
 				</li>
                 @endforeach
+                {{-- Lista wysłanych --}}
                 @foreach ($waiting as $item)
 
 
 				<li class="contact sendelement">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form action="/usun-znajomego" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$item->id}}">
-                            <button type="submit">Usun</button>
-                        </form>
+						</div>
+                        <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
+
 					</div>
 				</li>
                 @endforeach
+                {{-- Lista oczekujących --}}
                 @foreach ($waiting2 as $item)
 
 
 				<li class="contact waitingelement">
 					<div class="wrap">
-						<span class="contact-status online"></span>
+
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}}</p>
-						</div><form style="display: none;" action="/akceptuj-zaproszenie" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{$item->id}}">
-                    <button type="submit">Akceptuj</button>
-                </form>
+							<p class="name">
+                                {{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie akceptuj" style="position: static;padding:5px;background:green;">✓</button>
+                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;background:red;">X</button>
+
+                            </p>
+
+
 					</div>
 				</li>
                 @endforeach
@@ -117,6 +120,16 @@
 @push('scripts')
     <script>
         $(function(){
+            // var a=CryptoJS.AES.encrypt("123","cos").toString()
+            // var b=CryptoJS.AES.decrypt(a, 'cos');
+            // console.log(b.toString(CryptoJS.enc.Utf8))
+            let klucz=null;
+            let wulgaryzmy="{{ $wulgaryzmy }}";
+            wulgaryzmy=wulgaryzmy.replaceAll("&quot;",'"')
+            wulgaryzmy=JSON.parse(wulgaryzmy);
+            let zamienniki="{{ $zamienniki }}";
+            zamienniki=zamienniki.replaceAll("&quot;",'"')
+            zamienniki=JSON.parse(zamienniki);
             let user_id = "{{ auth()->user()->id }}";
             let friendId=null
             $(".friendelement").click(function(){
@@ -140,7 +153,8 @@
                         $("#messageContent").css("display","block")
                         $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
                         $("#avatarOdbiorcy").attr('src','/uploads/avatars/'+response.friendInfo[0].avatar)
-
+                        klucz=response.klucz;
+                        console.log(klucz)
                         for(i=0;i<response.messages.length;i++){
                             let wiadomosci=``
                                 if(response.messages[i].odbiorca_id==friendId){
@@ -149,7 +163,7 @@
                                     wiadomosci+=`
                                 <li class="sent">
                                     <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
                                 </li>`;
                                 if(response.messages[i].plik_id!=undefined)
                             for(j=0;j<response.messages[i].plik_id.length;j++)
@@ -163,7 +177,7 @@
                                     wiadomosci+=`
                                 <li class="replies">
                                     <img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
-                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
                                 </li>
                                 `
 
@@ -183,8 +197,8 @@
                 })
             })
 
-            // let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            let ip_address = '127.0.0.1';
+            let ip_address = 'http://grzesiekkomp.asuscomm.com';
+            // let ip_address = 'http://localhost';
             // let ip_address = 'http://projektkt.pl';
             let socket_port = '3000';
 
@@ -193,9 +207,6 @@
             });
             socket.on('connect', function () {
                 socket.emit('user_connected', user_id);
-            });
-            socket.on("connect_error", (err) => {
-            console.log(`connect_error due to ${err.message}`);
             });
             $("#wyslijWiadomosc").click(function () {
                 sendMessage($("#trescWiadomosci").val())
@@ -215,7 +226,13 @@
                 let form = $(this)
                 let fd = new FormData();
                 let token = "{{ csrf_token() }}"
-                fd.append("message", message)
+                for(i=0;i<wulgaryzmy.length;i++){
+                    if(message.indexOf(wulgaryzmy[i])!=-1){
+                        message=message.replaceAll(wulgaryzmy[i]," {"+zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ]+"} ")
+                    }
+                }
+                let zaszyfrowanaWiadomosc=CryptoJS.AES.encrypt(message,klucz).toString()
+                fd.append("message", zaszyfrowanaWiadomosc)
                 fd.append("_token", token)
                 fd.append("receiver_id", friendId)
                 let pliki=[];
@@ -254,7 +271,7 @@
 
                 <li class="sent">
                     <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                    <p>`+message.data.wiadomosc+`</p>
+                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
                 </li>`;
                 $("#messages").append(wiadomosci)
             }
@@ -310,7 +327,7 @@
 
                 <li class="replies">
 					<img src="/uploads/avatars/`+message.avatar+`" alt="" />
-                    <p>`+message.data.wiadomosc+`</p>
+                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
                 </li>`;
                 console.log(message)
                 $("#messages").append(wiadomosci)
@@ -329,6 +346,16 @@
                 if(message.data.wiadomosc!=null)
                     appendMessageToReceiver(message);
             });
+            $(document).on('click',".wiadomoscTresc",function(){
+                console.log($(this).attr("data-szyfr"))
+                console.log($(this).attr("data-szyfr")=="1")
+                if($(this).attr("data-szyfr")=="1"){
+                    var odszyfrowana=CryptoJS.AES.decrypt($(this).html(), klucz);
+                    $(this).html(odszyfrowana.toString(CryptoJS.enc.Utf8))
+                    $(this).attr("data-szyfr","0")
+                }
+
+            })
         })
     </script>
 @endpush

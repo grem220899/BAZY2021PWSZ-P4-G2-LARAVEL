@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendList;
+use App\Models\BanList;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Wulgaryzmy;
+use App\Models\Zamienniki;
 
 class FriendsController extends Controller
 {
@@ -29,16 +32,46 @@ class FriendsController extends Controller
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();
         $data['waiting2'] = $this->lista_zaproszen();
+        $data['wulgaryzmy']=json_encode($this->wulgaryzmy());
+        $data['zamienniki']=json_encode($this->zamienniki());
         return view('list_friend', $data);
     }
-    //Usuwanie ze znajomych
-    public function usun_znajomego(){
+    // //Usuwanie
+    public function usun_znajomego()
+    {
         $data = ['error' => ''];
         DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
-        $data['friend_list'] = $this->friend_list();
-        $data['waiting'] = $this->wyslane_zaproszenia();
-        $data['waiting2'] = $this->lista_zaproszen();
-        return view('list_friend', $data);
+
+        echo json_encode($data);
+
+    }
+        // //Akceptowanie
+    public function akceptuj()
+    {
+        $data = ['error' => ''];
+        DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
+
+        echo json_encode($data);
+
+    }
+    //Banowanie znajomych
+    public function banowanie()
+    {
+        $data = ['error' => ''];
+                $u = DB::select("select * from users where id='" . $_POST['user_id'] . "'");
+                if (!empty($u)) {
+                DB::delete("DELETE FROM friend_list WHERE (user_id=" . $_POST['user_id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['user_id'] . ")");
+                        $data['data'] = $u[0];
+                        BanList::insert([
+                            'date_ban' => date("Y-m-d H:i:s"),
+                            'date_uban' => null,
+                            'user_id' => Auth::id(),
+                            'user_ban_id' => $u[0]->id,
+                        ]);
+                } else {
+                    $data["error"] = "Nie ma takiego użytkownika w bazie";
+                }
+        echo json_encode($data);
     }
     //Wysyłanie zaproszenia do znajomych
     public function save()
@@ -64,16 +97,7 @@ class FriendsController extends Controller
         echo json_encode($data);
 
     }
-    //Akceptacja znajomych
-    public function akceptuj()
-    {
-        $data = ['error' => ''];
-        DB::update("update friend_list set accepted=1 WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id().") OR (user_id=" . Auth::id()." AND friend_id=" . $_POST['id'] . ")");
-        $data['friend_list'] = $this->friend_list();
-        $data['waiting'] = $this->wyslane_zaproszenia();
-        $data['waiting2'] = $this->lista_zaproszen();
-        return view('list_friend', $data);
-    }
+
     public function lista_zaproszen()
     {
         $waiting2 = DB::select("select * from friend_list where friend_id=" . Auth::id() . " AND accepted=0");
@@ -108,5 +132,21 @@ class FriendsController extends Controller
             $friend_list_arr[] = $w[0];
         }
         return $friend_list_arr;
+    }
+    public function wulgaryzmy(){
+        $wul=Wulgaryzmy::whereIn('aktywny',[1])->get();
+        $wul_arr=[];
+        foreach($wul as $w){
+            $wul_arr[]=$w['nazwa'];
+        }
+        return $wul_arr;
+    }
+    public function zamienniki(){
+        $wul=Zamienniki::whereIn('aktywny',[1])->get();
+        $wul_arr=[];
+        foreach($wul as $w){
+            $wul_arr[]=$w['nazwa'];
+        }
+        return $wul_arr;
     }
 }

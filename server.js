@@ -20,7 +20,7 @@ http.listen(3000, function () {
 io.on('connection', function (socket) {
     console.log("connect")
     socket.on("user_connected", function (user_id) {
-        users[user_id] = socket.id;
+        users[user_id] = user_id;
         io.emit('updateUserStatus', users);
         console.log("user connected "+ user_id);
     });

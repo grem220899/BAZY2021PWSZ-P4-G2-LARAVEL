@@ -30,7 +30,7 @@
 
 				<li class="contact friendelement" data-id="{{$item->id}}">
 					<div class="wrap">
-
+                        <span class="contact-status offline" id="contact-status{{$item->id}}"></span>
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
                             <p class="name">
@@ -98,6 +98,7 @@
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
 			<p id="nazwaOdbiorcy"></p>
+            <button id="pokazWiecej" data-strona="1">Pokaż więcej</button>
 		</div>
 		<div class="messages">
 			<ul id="messages">
@@ -119,244 +120,293 @@
 @endsection
 @push('scripts')
     <script>
-        $(function(){
-            // var a=CryptoJS.AES.encrypt("123","cos").toString()
-            // var b=CryptoJS.AES.decrypt(a, 'cos');
-            // console.log(b.toString(CryptoJS.enc.Utf8))
-            let klucz=null;
-            let wulgaryzmy="{{ $wulgaryzmy }}";
-            wulgaryzmy=wulgaryzmy.replaceAll("&quot;",'"')
-            wulgaryzmy=JSON.parse(wulgaryzmy);
-            let zamienniki="{{ $zamienniki }}";
-            zamienniki=zamienniki.replaceAll("&quot;",'"')
-            zamienniki=JSON.parse(zamienniki);
-            let user_id = "{{ auth()->user()->id }}";
-            let friendId=null
-            $(".friendelement").click(function(){
-                $("#messages").html("")
-                let url = "{{ route('message.reciveMessage') }}"
-                friendId=parseInt($(this).attr("data-id"))
-                let fd = new FormData();
-                let token = "{{ csrf_token() }}"
-                fd.append("_token", token)
-                fd.append("receiver_id", friendId)
+        $(function () {
+    // var a=CryptoJS.AES.encrypt("123","cos").toString()
+    // var b=CryptoJS.AES.decrypt(a, 'cos');
+    // console.log(b.toString(CryptoJS.enc.Utf8))
+    let klucz = null;
+    let wulgaryzmy = "{{ $wulgaryzmy }}";
+    wulgaryzmy = wulgaryzmy.replaceAll("&quot;", '"')
+    wulgaryzmy = JSON.parse(wulgaryzmy);
+    let zamienniki = "{{ $zamienniki }}";
+    zamienniki = zamienniki.replaceAll("&quot;", '"')
+    zamienniki = JSON.parse(zamienniki);
+    let user_id = "{{ auth()->user()->id }}";
+    let friendId = null
+    $(".friendelement").click(function () {
+        $("#messages").html("")
+        let url = "{{ route('message.reciveMessage') }}"
+        friendId = parseInt($(this).attr("data-id"))
+        let fd = new FormData();
+        let token = "{{ csrf_token() }}"
+        fd.append("_token", token)
+        fd.append("receiver_id", friendId)
+        fd.append("strona", 0)
+        $("#pokazWiecej").attr("data-strona",1)
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response)
+                $("#messageContent").css("display", "block")
+                $("#nazwaOdbiorcy").html(response.friendInfo[0].name + " " + response.friendInfo[0].surname)
+                $("#avatarOdbiorcy").attr('src', '/uploads/avatars/' + response.friendInfo[0].avatar)
+                klucz = response.klucz;
+                wyswietlWiadomosci(response)
+                $(".messages").scrollTop($(".messages").height());
+            },
+            error: function (response) {
 
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'JSON',
-                    success: function (response) {
-                        console.log(response)
-                        $("#messageContent").css("display","block")
-                        $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
-                        $("#avatarOdbiorcy").attr('src','/uploads/avatars/'+response.friendInfo[0].avatar)
-                        klucz=response.klucz;
-                        console.log(klucz)
-                        for(i=0;i<response.messages.length;i++){
-                            let wiadomosci=``
-                                if(response.messages[i].odbiorca_id==friendId){
-
-                            if(response.messages[i].wiadomosc!=null)
-                                    wiadomosci+=`
-                                <li class="sent">
-                                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
-                                </li>`;
-                                if(response.messages[i].plik_id!=undefined)
-                            for(j=0;j<response.messages[i].plik_id.length;j++)
-                                if(response.pliki[response.messages[i].plik_id[j]]!=""){
-                                    appendFileToSender(response.pliki[response.messages[i].plik_id[j]].nazwa)
-                                }
-
-                            }else{
-
-                            if(response.messages[i].wiadomosc!=null)
-                                    wiadomosci+=`
-                                <li class="replies">
-                                    <img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
-                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
-                                </li>
-                                `
-
-                                if(response.messages[i].plik_id!=undefined)
-                                    for(j=0;j<response.messages[i].plik_id.length;j++)
-                                        if(response.pliki[response.messages[i].plik_id[j]]!="")
-                                            appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa,response.friendInfo[0].avatar)
-                }
-                    $("#messages").append(wiadomosci)
-                        }
-
-                    },
-                    error:function(response){
-
-                        console.log(response)
-                    }
-                })
-            })
-
-            let ip_address = 'http://grzesiekkomp.asuscomm.com';
-            // let ip_address = 'http://localhost';
-            // let ip_address = 'http://projektkt.pl';
-            let socket_port = '3000';
-
-            const socket=io(ip_address+ ':' + socket_port,{
-                transports:['websocket','polling','flashsocket'],
-            });
-            socket.on('connect', function () {
-                socket.emit('user_connected', user_id);
-            });
-            $("#wyslijWiadomosc").click(function () {
-                sendMessage($("#trescWiadomosci").val())
-                $("#trescWiadomosci").val("")
-            })
-            $("#trescWiadomosci").keypress(function (e) {
-                let message = $(this).val();
-                if (e.which === 13 && !e.shiftKey) {
-                    $("#trescWiadomosci").val("")
-                    sendMessage(message)
-                    return false;
-                }
-            })
-
-            function sendMessage(message) {
-                let url = "{{ route('message.sendMessage') }}"
-                let form = $(this)
-                let fd = new FormData();
-                let token = "{{ csrf_token() }}"
-                for(i=0;i<wulgaryzmy.length;i++){
-                    if(message.indexOf(wulgaryzmy[i])!=-1){
-                        message=message.replaceAll(wulgaryzmy[i]," {"+zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ]+"} ")
-                    }
-                }
-                let zaszyfrowanaWiadomosc=CryptoJS.AES.encrypt(message,klucz).toString()
-                fd.append("message", zaszyfrowanaWiadomosc)
-                fd.append("_token", token)
-                fd.append("receiver_id", friendId)
-                let pliki=[];
-                for(i=0;i<$("#podglad").children().length;i++){
-                    pliki[i]=$("#podglad").children().eq(i).attr("data-nazwa")
-                }
-                fd.append("pliki",pliki)
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'JSON',
-                    success: function (response) {
-                            console.log(response)
-                        if (response.success) {
-                            console.log(response)
-                            if(response.data.wiadomosc!=null)
-                                appendMessageToSender(response)
-                            for(i=0;i<response.pliki.length;i++)
-                                if(response.pliki[i]!="")
-                                    appendFileToSender(response.pliki[i])
-                            socket.emit('message', response);
-                            $("#podglad").html("")
-                        }
-                    },
-                    error:function(response){
-
-                        console.log(response)
-                    }
-                })
+                console.log(response)
             }
-            function appendMessageToSender(message){
-                var wiadomosci=`
+        })
+    })
+    $("#pokazWiecej").click(function () {
+        let url = "{{ route('message.reciveMessage') }}"
+        let fd = new FormData();
+        let token = "{{ csrf_token() }}"
+        fd.append("_token", token)
+        fd.append("receiver_id", friendId)
+        fd.append("strona", $(this).attr("data-strona"))
+        $(this).attr("data-strona",parseInt($(this).attr("data-strona"))+1)
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response)
+                $("#messageContent").css("display", "block")
+                $("#nazwaOdbiorcy").html(response.friendInfo[0].name + " " + response.friendInfo[0].surname)
+                $("#avatarOdbiorcy").attr('src', '/uploads/avatars/' + response.friendInfo[0].avatar)
+                klucz = response.klucz;
+                wyswietlWiadomosci(response)
 
+            },
+            error: function (response) {
+
+                console.log(response)
+            }
+        })
+    })
+    function wyswietlWiadomosci(response){
+
+        for (i = 0; i < response.messages.length; i++) {
+            let wiadomosci = ``
+            if (response.messages[i].odbiorca_id == friendId) {
+
+                if (response.messages[i].wiadomosc != null)
+                    wiadomosci += `
                 <li class="sent">
                     <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
+                    <p class="wiadomoscTresc" data-szyfr="1">` + response.messages[i].wiadomosc + `</p>
                 </li>`;
-                $("#messages").append(wiadomosci)
-            }
-            function appendFileToSender(message){
-                let plik=message.split('.')
-                let img=['jpg','jpeg','png','gif']
-                var wiadomosci=``
-                if(img.includes(plik[plik.length-1])){
-                wiadomosci=`
+                if (response.messages[i].plik_id != undefined)
+                    for (j = 0; j < response.messages[i].plik_id.length; j++)
+                        if (response.pliki[response.messages[i].plik_id[j]] != "") {
+                            wiadomosci+=appendFileToSender(response.pliki[response.messages[i].plik_id[j]].nazwa,0)
+                        }
 
-                <li class="sent">
-                    <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt=""  />
-                    <p><img src="/uploads/pliki/`+message+`" style="width: 100%;height: auto;
-    border-radius: 0;"></p>
-                </li>`;
-            }
-                else{
-                    wiadomosci=`
+            } else {
 
-                    <li class="sent">
-                        <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                        <p><a href="/uploads/pliki/`+message+`">`+message+`</a></p>
-                    </li>`;
-                }
-                $("#messages").append(wiadomosci)
-            }
-
-            function appendFileToReceiver(message,avatar){
-                let plik=message.split('.')
-                let img=['jpg','jpeg','png','gif']
-                var wiadomosci=``
-                if(img.includes(plik[plik.length-1])){
-                wiadomosci=`
-
+                if (response.messages[i].wiadomosc != null)
+                    wiadomosci += `
                 <li class="replies">
-                    <img src="/uploads/avatars/`+avatar+`" alt="" />
-                    <p><img src="/uploads/pliki/`+message+`" style="width: 100%;height: auto;
-    border-radius: 0;"></p>
-                </li>`;
-            }
-                else{
-                    wiadomosci=`
+                    <img src="/uploads/avatars/` + response.friendInfo[0].avatar + `" alt="" />
+                    <p class="wiadomoscTresc" data-szyfr="1">` + response.messages[i].wiadomosc + `</p>
+                </li>
+                `
 
-                    <li class="replies">
-                        <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                        <p><a href="/uploads/pliki/`+message+`">`+message+`</a></p>
-                    </li>`;
-                }
-                $("#messages").append(wiadomosci)
+                if (response.messages[i].plik_id != undefined)
+                    for (j = 0; j < response.messages[i].plik_id.length; j++)
+                        if (response.pliki[response.messages[i].plik_id[j]] != "")
+                            wiadomosci+=appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa, response.friendInfo[0].avatar,0)
             }
-            function appendMessageToReceiver(message){
-                var wiadomosci=`
+            $("#messages").prepend(wiadomosci)
+        }
+    }
+    let ip_address = 'http://grzesiekkomp.asuscomm.com';
+    // let ip_address = 'http://localhost';
+    // let ip_address = 'http://projektkt.pl';
+    let socket_port = '3000';
 
-                <li class="replies">
-					<img src="/uploads/avatars/`+message.avatar+`" alt="" />
-                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
-                </li>`;
-                console.log(message)
-                $("#messages").append(wiadomosci)
+    const socket = io(ip_address + ':' + socket_port, {
+        transports: ['websocket', 'polling', 'flashsocket'],
+    });
+    socket.on('connect', function () {
+        socket.emit('user_connected', user_id);
+    });
+    $("#wyslijWiadomosc").click(function () {
+        sendMessage($("#trescWiadomosci").val())
+        $("#trescWiadomosci").val("")
+    })
+    $("#trescWiadomosci").keypress(function (e) {
+        let message = $(this).val();
+        if (e.which === 13 && !e.shiftKey) {
+            $("#trescWiadomosci").val("")
+            sendMessage(message)
+            return false;
+        }
+    })
+
+    function sendMessage(message) {
+        let url = "{{ route('message.sendMessage') }}"
+        let form = $(this)
+        let fd = new FormData();
+        let token = "{{ csrf_token() }}"
+        for (i = 0; i < wulgaryzmy.length; i++) {
+            if (message.indexOf(wulgaryzmy[i]) != -1) {
+                message = message.replaceAll(wulgaryzmy[i], " {" + zamienniki[Math.floor(Math.random() * (zamienniki.length - 1))] + "} ")
             }
-            socket.on("newMessage",function(message){
-                if(message.data.nadawca_id==friendId && message.data.odbiorca_id==user_id){
-                    if(message.data.wiadomosc!=null)
-                        appendMessageToReceiver(message);
-                    for(i=0;i<message.pliki.length;i++)
-                        if(message.pliki[i]!="")
-                            appendFileToReceiver(message.pliki[i],message.avatar)
+        }
+        let zaszyfrowanaWiadomosc = CryptoJS.AES.encrypt(message, klucz).toString()
+        fd.append("message", zaszyfrowanaWiadomosc)
+        fd.append("_token", token)
+        fd.append("receiver_id", friendId)
+        let pliki = [];
+        for (i = 0; i < $("#podglad").children().length; i++) {
+            pliki[i] = $("#podglad").children().eq(i).attr("data-nazwa")
+        }
+        fd.append("pliki", pliki)
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response)
+                if (response.success) {
+                    console.log(response)
+                    if (response.data.wiadomosc != null)
+                        appendMessageToSender(response)
+                    for (i = 0; i < response.pliki.length; i++)
+                        if (response.pliki[i] != "")
+                            appendFileToSender(response.pliki[i])
+                    socket.emit('message', response);
+                    $("#podglad").html("")
                 }
-            })
-            socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message)
-            {
-                if(message.data.wiadomosc!=null)
-                    appendMessageToReceiver(message);
-            });
-            $(document).on('click',".wiadomoscTresc",function(){
-                console.log($(this).attr("data-szyfr"))
-                console.log($(this).attr("data-szyfr")=="1")
-                if($(this).attr("data-szyfr")=="1"){
-                    var odszyfrowana=CryptoJS.AES.decrypt($(this).html(), klucz);
-                    $(this).html(odszyfrowana.toString(CryptoJS.enc.Utf8))
-                    $(this).attr("data-szyfr","0")
-                }
+            },
+            error: function (response) {
 
-            })
+                console.log(response)
+            }
         })
+    }
+
+    function appendMessageToSender(message) {
+        var wiadomosci = `
+
+        <li class="sent">
+            <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + message.data.wiadomosc + `</p>
+        </li>`;
+        $("#messages").append(wiadomosci)
+    }
+
+    function appendFileToSender(message,opcja=1) {
+        let plik = message.split('.')
+        let img = ['jpg', 'jpeg', 'png', 'gif']
+        var wiadomosci = ``
+        if (img.includes(plik[plik.length - 1])) {
+            wiadomosci = `
+
+        <li class="sent">
+            <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt=""  />
+            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+border-radius: 0;"></p>
+        </li>`;
+        } else {
+            wiadomosci = `
+
+            <li class="sent">
+                <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                <p><a href="/uploads/pliki/` + message + `">` + message + `</a></p>
+            </li>`;
+        }
+        if(opcja)
+            $("#messages").append(wiadomosci)
+        else
+            return wiadomosci
+    }
+
+    function appendFileToReceiver(message, avatar,opcja=1) {
+        let plik = message.split('.')
+        let img = ['jpg', 'jpeg', 'png', 'gif']
+        var wiadomosci = ``
+        if (img.includes(plik[plik.length - 1])) {
+            wiadomosci = `
+
+        <li class="replies">
+            <img src="/uploads/avatars/` + avatar + `" alt="" />
+            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+border-radius: 0;"></p>
+        </li>`;
+        } else {
+            wiadomosci = `
+
+            <li class="replies">
+                <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                <p><a href="/uploads/pliki/` + message + `">` + message + `</a></p>
+            </li>`;
+        }
+        if(opcja)
+            $("#messages").append(wiadomosci)
+        else
+            return wiadomosci
+    }
+
+    function appendMessageToReceiver(message) {
+        var wiadomosci = `
+
+        <li class="replies">
+            <img src="/uploads/avatars/` + message.avatar + `" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + message.data.wiadomosc + `</p>
+        </li>`;
+        console.log(message)
+        $("#messages").append(wiadomosci)
+    }
+    socket.on("newMessage", function (message) {
+        if (message.data.nadawca_id == friendId && message.data.odbiorca_id == user_id) {
+            if (message.data.wiadomosc != null)
+                appendMessageToReceiver(message);
+            for (i = 0; i < message.pliki.length; i++)
+                if (message.pliki[i] != "")
+                    appendFileToReceiver(message.pliki[i], message.avatar)
+        }
+    })
+    socket.on("updateUserStatus",function(users){
+        $(".contact-status").removeClass("online")
+        $(".contact-status").addClass("offline")
+        for(i=0;i<users.length;i++){
+            $("#contact-status"+users[i]).removeClass("offline")
+            $("#contact-status"+users[i]).addClass("online")
+        }
+        console.log(users)
+    })
+    socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message) {
+        if (message.data.wiadomosc != null)
+            appendMessageToReceiver(message);
+    });
+    $(document).on('click', ".wiadomoscTresc", function () {
+        console.log($(this).attr("data-szyfr"))
+        console.log($(this).attr("data-szyfr") == "1")
+        if ($(this).attr("data-szyfr") == "1") {
+            var odszyfrowana = CryptoJS.AES.decrypt($(this).html(), klucz);
+            $(this).html(odszyfrowana.toString(CryptoJS.enc.Utf8))
+            $(this).attr("data-szyfr", "0")
+        }
+
+    })
+})
+
     </script>
 @endpush
 

@@ -21,7 +21,7 @@ class MessageController extends Controller
         $this->data['userId'] = $userId;
         $this->data['friendInfo'] = $friendInfo;
         $this->data['myInfo'] = $myInfo;
-        $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, Auth::id()])->whereIn('odbiorca_id', [(int) $userId, Auth::id()])->get();
+        $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, Auth::id()])->whereIn('odbiorca_id', [(int) $userId, Auth::id()])->orderBy('created_at','desc')->skip((int)$_POST['strona']*20)->take(20)->get();
         $filesId = [];
         foreach ($this->data['messages'] as $mess) {
             if (!empty($mess['plik_id'])) {

@@ -40,6 +40,7 @@ class MessageController extends Controller
         foreach($files as $f)
             $files2[$f['_id']]=$f;
         $this->data['pliki'] = $files2;
+        $this->data['klucz']=md5($friendInfo[0]->email.$myInfo[0]->email);
         echo json_encode($this->data);
     }
 

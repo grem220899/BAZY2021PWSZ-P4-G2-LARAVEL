@@ -55,7 +55,7 @@
 							<p class="name">{{$item->name}} {{$item->surname}}</p>
 						</div>
                         <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
-                        
+
 					</div>
 				</li>
                 @endforeach
@@ -72,7 +72,7 @@
                                 {{$item->name}} {{$item->surname}}
                                 <button  data-id="{{$item->id}}" class="dodawanie akceptuj" style="position: static;padding:5px;background:green;">✓</button>
                                 <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;background:red;">X</button>
-                                
+
                             </p>
 
 
@@ -120,6 +120,10 @@
 @push('scripts')
     <script>
         $(function(){
+            // var a=CryptoJS.AES.encrypt("123","cos").toString()
+            // var b=CryptoJS.AES.decrypt(a, 'cos');
+            // console.log(b.toString(CryptoJS.enc.Utf8))
+            let klucz=null;
             let wulgaryzmy="{{ $wulgaryzmy }}";
             wulgaryzmy=wulgaryzmy.replaceAll("&quot;",'"')
             wulgaryzmy=JSON.parse(wulgaryzmy);
@@ -149,7 +153,8 @@
                         $("#messageContent").css("display","block")
                         $("#nazwaOdbiorcy").html(response.friendInfo[0].name+" "+response.friendInfo[0].surname)
                         $("#avatarOdbiorcy").attr('src','/uploads/avatars/'+response.friendInfo[0].avatar)
-
+                        klucz=response.klucz;
+                        console.log(klucz)
                         for(i=0;i<response.messages.length;i++){
                             let wiadomosci=``
                                 if(response.messages[i].odbiorca_id==friendId){
@@ -158,7 +163,7 @@
                                     wiadomosci+=`
                                 <li class="sent">
                                     <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
                                 </li>`;
                                 if(response.messages[i].plik_id!=undefined)
                             for(j=0;j<response.messages[i].plik_id.length;j++)
@@ -172,7 +177,7 @@
                                     wiadomosci+=`
                                 <li class="replies">
                                     <img src="/uploads/avatars/`+response.friendInfo[0].avatar+`" alt="" />
-                                    <p>`+response.messages[i].wiadomosc+`</p>
+                                    <p class="wiadomoscTresc" data-szyfr="1">`+response.messages[i].wiadomosc+`</p>
                                 </li>
                                 `
 
@@ -226,7 +231,8 @@
                         message=message.replaceAll(wulgaryzmy[i]," {"+zamienniki[Math.floor(Math.random() * (zamienniki.length-1)) ]+"} ")
                     }
                 }
-                fd.append("message", message)
+                let zaszyfrowanaWiadomosc=CryptoJS.AES.encrypt(message,klucz).toString()
+                fd.append("message", zaszyfrowanaWiadomosc)
                 fd.append("_token", token)
                 fd.append("receiver_id", friendId)
                 let pliki=[];
@@ -265,7 +271,7 @@
 
                 <li class="sent">
                     <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                    <p>`+message.data.wiadomosc+`</p>
+                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
                 </li>`;
                 $("#messages").append(wiadomosci)
             }
@@ -321,7 +327,7 @@
 
                 <li class="replies">
 					<img src="/uploads/avatars/`+message.avatar+`" alt="" />
-                    <p>`+message.data.wiadomosc+`</p>
+                    <p class="wiadomoscTresc" data-szyfr="1">`+message.data.wiadomosc+`</p>
                 </li>`;
                 console.log(message)
                 $("#messages").append(wiadomosci)
@@ -340,6 +346,16 @@
                 if(message.data.wiadomosc!=null)
                     appendMessageToReceiver(message);
             });
+            $(document).on('click',".wiadomoscTresc",function(){
+                console.log($(this).attr("data-szyfr"))
+                console.log($(this).attr("data-szyfr")=="1")
+                if($(this).attr("data-szyfr")=="1"){
+                    var odszyfrowana=CryptoJS.AES.decrypt($(this).html(), klucz);
+                    $(this).html(odszyfrowana.toString(CryptoJS.enc.Utf8))
+                    $(this).attr("data-szyfr","0")
+                }
+
+            })
         })
     </script>
 @endpush

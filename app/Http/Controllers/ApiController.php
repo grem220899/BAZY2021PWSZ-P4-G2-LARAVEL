@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BanList;
 use App\Models\Files;
 use App\Models\FriendList;
+use App\Models\Message;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -325,7 +326,7 @@ class ApiController extends Controller
             if (isset($_GET['user_id'])) {
                 DB::delete("DELETE FROM ban_list WHERE ( `user_id`=" . $_GET['user_id'] . " AND `user_ban_id`=" . $_GET['user_ban_id'] .
                     ") OR (`user_id`=" . $_GET['user_ban_id'] . " AND `user_ban_id`=" . $_GET['user_id'] . ")");
-                     $data["status"] = "success";
+                $data["status"] = "success";
             } else {
                 $data["status"] = "failed";
                 $data["message"] = "Nie podano user_id";
@@ -334,6 +335,130 @@ class ApiController extends Controller
             $data["status"] = "failed";
             $data["message"] = "Nie podano user_ban_id";
         }
+        echo json_encode($data);
+    }
+
+    public function odbieranie_wiadomosci()
+    {
+        header('Content-Type: application/json');
+        $data = ['message' => ''];
+        if (isset($_GET['id'])) {
+            if (isset($_GET['odbiorca_id'])) {
+                if (isset($_GET['strona'])) {
+                    $userId = (int) $_GET['odbiorca_id'];
+                    $friendInfo = DB::select("select * from users where id=" . $userId);
+                    $myInfo = DB::select("select * from users where id=" . $_GET['id']);
+                    $this->data['userId'] = $userId;
+                    $this->data['friendInfo'] = $friendInfo;
+                    $this->data['myInfo'] = $myInfo;
+                    $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->limit(20)->skip(20 * (int) $_GET['strona'])->get();
+                    $filesId = [];
+                    foreach ($this->data['messages'] as $mess) {
+                        if (!empty($mess['plik_id'])) {
+                            if (!is_array($mess['plik_id'])) {
+                                $filesId[] = $mess['plik_id'];
+                            } else {
+                                foreach ($mess['plik_id'] as $p) {
+                                    $filesId[] = $p;
+                                }
+                            }
+                        }
+
+                    }
+                    $this->data['pliki'] = $files = Files::whereIn('_id', $filesId)->get();
+                    $files2 = [];
+                    foreach ($files as $f) {
+                        $files2[$f['_id']] = $f;
+                    }
+
+                    $this->data['pliki'] = $files2;
+                    $this->data['klucz'] = md5($friendInfo[0]->email . $myInfo[0]->email);
+                    $data["status"] = "success";
+                    $data["data"] = $this->data;
+                } else {
+                    $data["status"] = "failed";
+                    $data["message"] = "Nie podano strony";
+                }
+
+            } else {
+                $data["status"] = "failed";
+                $data["message"] = "Nie podano odbiorcy";
+            }
+        } else {
+            $data["status"] = "failed";
+            $data["message"] = "Nie podano id";
+        }
+
+        echo json_encode($data);
+    }
+
+    public function wysylanie_wiadomosci()
+    {
+
+        header('Content-Type: application/json');
+        $data = ['message' => ''];
+        if (isset($_GET['nadawca_id'])) {
+            if (isset($_GET['odbiorca_id'])) {
+                if (isset($_GET['message'])) {
+        $sender_id = $_GET['nadawca_id'];
+        $receiver_id = $_GET['odbiorca_id'];
+        // $_GET['pliki'] = explode(",", $_GET['pliki']);
+        // if (!empty($_GET['pliki'][0])) {
+        //     $plikiIdArr = [];
+        //     $pliki = Files::whereIn("nazwa", $_GET['pliki'])->get();
+        //     foreach ($pliki as $p) {
+        //         $plikiIdArr[] = $p['_id'];
+        //     }
+            // Message::create([
+            //     'wiadomosc' => $_GET['message'],
+            //     'odbiorca_id' => (int) $receiver_id,
+            //     'nadawca_id' => (int) $sender_id,
+            //     'typ_odbiorcy' => 'user',
+            //     'plik_id' => $plikiIdArr,
+            // ]);
+        // } else {
+            Message::create([
+                'wiadomosc' => $_GET['message'],
+                'odbiorca_id' => (int) $receiver_id,
+                'nadawca_id' => (int) $sender_id,
+                'typ_odbiorcy' => 'user',
+            ]);
+        // }
+
+        $friendInfo = DB::select("select * from users where id=" . $sender_id);
+        $data2 = array(
+            'nadawca_id' => $sender_id,
+            'odbiorca_id' => $receiver_id,
+            'wiadomosc' => $_GET['message'],
+            'avatar' => $friendInfo[0]->avatar,
+            'data' => date("Y-m-d H:i:s"),
+        );
+        // broadcast(new PrivateMessageEvent($data))->toOthers();
+        // return response()->json([
+        //     'data' => $data,
+        //     'success' => true,
+        //     'avatar' => $friendInfo[0]->avatar,
+            // 'pliki' => $_GET['pliki'],
+        // ]);
+        $data["status"] = "success";
+        $data["data"] = $data2;
+        }
+        else{
+            $data["status"] = "failed";
+            $data["message"] = "Nie podano wiadomosci";
+        }
+    }
+        else{
+            $data["status"] = "failed";
+            $data["message"] = "Nie podano odbiorcy";
+        }
+    }
+    else{
+        $data["status"] = "failed";
+        $data["message"] = "Nie podano nadawcy";
+    }
+    
+        
         echo json_encode($data);
     }
 

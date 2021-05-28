@@ -1,0 +1,198 @@
+{
+    "message": "",
+    "status": "success",
+    "data": {
+        "userId": 2,
+        "friendInfo": [{
+            "id": 2,
+            "name": "Kamil",
+            "surname": "Uryga",
+            "nick": "witcher",
+            "email": "a@a.pl",
+            "password": "$2y$10$DasQTUKK4YQqMDrRJO80Q.8tBvEvcpnBvveRXRvRgAPE\/TPHajLXW",
+            "avatar": "templateavatar.jpg",
+            "status": "aktywny",
+            "email_verified_at": "2021-05-13 10:13:56",
+            "remember_token": "AzhrD6CH7Jt4NI1jonA9skA5iWM8MZfmMZiyhEtZmuJKBffXz2OuDv5rEDSz",
+            "created_at": "2021-05-13 10:12:30",
+            "updated_at": "2021-05-13 10:13:56"
+        }],
+        "myInfo": [{
+            "id": 1,
+            "name": "Grzegorz",
+            "surname": "Wilczy\u0144ski",
+            "nick": "grem",
+            "email": "Grzesiek22081999w@gmail.com",
+            "password": "$2y$10$o8b5lYcqdO0z5TTJbKVOX.4ErmrFcMyQL23mmMguZaTAKim\/lzPN2",
+            "avatar": "60a51ac938e56.jpeg",
+            "status": "aktywny",
+            "email_verified_at": "2021-05-13 10:13:36",
+            "remember_token": null,
+            "created_at": "2021-05-13 10:08:35",
+            "updated_at": "2021-05-13 10:13:36"
+        }],
+        "messages": [{
+            "_id": "60af522702c28f03fc57fb82",
+            "wiadomosc": "test dla kamila",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-27T08:02:47.392000Z",
+            "created_at": "2021-05-27T08:02:47.392000Z"
+        }, {
+            "_id": "60aeb9a75f764c158c43be62",
+            "wiadomosc": "Witam witam ciebie dzis",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T21:12:07.462000Z",
+            "created_at": "2021-05-26T21:12:07.462000Z"
+        }, {
+            "_id": "60aea2d2acf44045784b7a63",
+            "wiadomosc": "test dla kamila",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T19:34:42.252000Z",
+            "created_at": "2021-05-26T19:34:42.252000Z"
+        }, {
+            "_id": "60ae61bcacf44045784b7a62",
+            "wiadomosc": "test",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:56:59.863000Z",
+            "created_at": "2021-05-26T14:56:59.863000Z"
+        }, {
+            "_id": "60ae5f0f09624a0ed82d3773",
+            "wiadomosc": "U2FsdGVkX1 BZLWBT8BvlQM\/DF59mi1ydhr b7ZHo8M=",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:45:35.092000Z",
+            "created_at": "2021-05-26T14:45:35.092000Z"
+        }, {
+            "_id": "60ae5f03b0420000570007ef",
+            "wiadomosc": "U2FsdGVkX1+BZLWBT8BvlQM\/DF59mi1ydhr+b7ZHo8M=",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:45:23.522000Z",
+            "created_at": "2021-05-26T14:45:23.522000Z"
+        }, {
+            "_id": "60ae5ecd40f26a39725c88c3",
+            "wiadomosc": "U2FsdGVkX18XkvYjixbzUPjLxwaw\/eGyUMfKlenEbtE=",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:44:29.308000Z",
+            "created_at": "2021-05-26T14:44:29.308000Z"
+        }, {
+            "_id": "60ae5e9c09624a0ed82d3772",
+            "wiadomosc": "test 123\u017a\u0107\u015b",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:43:40.671000Z",
+            "created_at": "2021-05-26T14:43:40.671000Z"
+        }, {
+            "_id": "60ae5e8c40f26a39725c88c2",
+            "wiadomosc": "test 123",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:43:24.729000Z",
+            "created_at": "2021-05-26T14:43:24.729000Z"
+        }, {
+            "_id": "60ae5e6b0e112d57ae4ab263",
+            "wiadomosc": "test",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:42:51.971000Z",
+            "created_at": "2021-05-26T14:42:51.971000Z"
+        }, {
+            "_id": "60ae589f67f2f102d13c7d73",
+            "wiadomosc": "test",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:18:07.925000Z",
+            "created_at": "2021-05-26T14:18:07.925000Z"
+        }, {
+            "_id": "60ae589a0e112d57ae4ab262",
+            "wiadomosc": "naura",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:18:02.626000Z",
+            "created_at": "2021-05-26T14:18:02.626000Z"
+        }, {
+            "_id": "60ae588a67f2f102d13c7d72",
+            "wiadomosc": "Dzien",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:17:46.273000Z",
+            "created_at": "2021-05-26T14:17:46.273000Z"
+        }, {
+            "_id": "60ae583fc7406c56e24c34f2",
+            "wiadomosc": "Dzien",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:16:30.954000Z",
+            "created_at": "2021-05-26T14:16:30.954000Z"
+        }, {
+            "_id": "60ae5803e941955e5764f762",
+            "wiadomosc": "Dzien",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-26T14:15:31.301000Z",
+            "created_at": "2021-05-26T14:15:31.301000Z"
+        }, {
+            "_id": "60ab969793cf066a382fdc72",
+            "wiadomosc": "{Kurza stopa}",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-24T12:05:43.050000Z",
+            "created_at": "2021-05-24T12:05:43.050000Z"
+        }, {
+            "_id": "60a7607695717c527a5e70f2",
+            "wiadomosc": "na co vps jak grzesiekkomp.asuscomm.com dzia\u0142a XD",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-21T07:25:42.859000Z",
+            "created_at": "2021-05-21T07:25:42.859000Z"
+        }, {
+            "_id": "60a7605fcdbca80aa4213753",
+            "wiadomosc": "Witam.",
+            "odbiorca_id": 1,
+            "nadawca_id": 2,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-21T07:25:19.019000Z",
+            "created_at": "2021-05-21T07:25:19.019000Z"
+        }, {
+            "_id": "60a76044cdbca80aa4213752",
+            "wiadomosc": "witam",
+            "odbiorca_id": 2,
+            "nadawca_id": 1,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-21T07:24:51.914000Z",
+            "created_at": "2021-05-21T07:24:51.914000Z"
+        }, {
+            "_id": "60a4cef085706f337f3a7512",
+            "wiadomosc": "dsf",
+            "odbiorca_id": 1,
+            "nadawca_id": 2,
+            "typ_odbiorcy": "user",
+            "updated_at": "2021-05-19T08:40:16.499000Z",
+            "created_at": "2021-05-19T08:40:16.499000Z"
+        }],
+        "pliki": [],
+        "klucz": "28ce0ce677bdedd1b3874242cfb0ee33"
+    }
+}

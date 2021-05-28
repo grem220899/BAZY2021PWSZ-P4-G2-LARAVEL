@@ -157,7 +157,7 @@
                 $("#avatarOdbiorcy").attr('src', '/uploads/avatars/' + response.friendInfo[0].avatar)
                 klucz = response.klucz;
                 wyswietlWiadomosci(response)
-                $(".messages").scrollTop($(".messages").height());
+                $(".messages").scrollTop(10000);
             },
             error: function (response) {
 
@@ -261,9 +261,8 @@
         let fd = new FormData();
         let token = "{{ csrf_token() }}"
         for (i = 0; i < wulgaryzmy.length; i++) {
-            if (message.indexOf(wulgaryzmy[i]) != -1) {
-                message = message.replaceAll(wulgaryzmy[i], " {" + zamienniki[Math.floor(Math.random() * (zamienniki.length - 1))] + "} ")
-            }
+            var r=new RegExp(wulgaryzmy[i],"i")
+            message=message.replace(r, " {" + zamienniki[Math.floor(Math.random() * (zamienniki.length - 1))] + "} ")
         }
         let zaszyfrowanaWiadomosc = CryptoJS.AES.encrypt(message, klucz).toString()
         fd.append("message", zaszyfrowanaWiadomosc)
@@ -292,6 +291,7 @@
                             appendFileToSender(response.pliki[i])
                     socket.emit('message', response);
                     $("#podglad").html("")
+                    $(".messages").scrollTop(10000);
                 }
             },
             error: function (response) {
@@ -380,6 +380,7 @@ border-radius: 0;"></p>
             for (i = 0; i < message.pliki.length; i++)
                 if (message.pliki[i] != "")
                     appendFileToReceiver(message.pliki[i], message.avatar)
+            $(".messages").scrollTop(10000);
         }
     })
     socket.on("updateUserStatus",function(users){
@@ -392,8 +393,10 @@ border-radius: 0;"></p>
         console.log(users)
     })
     socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message) {
-        if (message.data.wiadomosc != null)
+        if (message.data.wiadomosc != null){
             appendMessageToReceiver(message);
+            $(".messages").scrollTop(10000);
+        }
     });
     $(document).on('click', ".wiadomoscTresc", function () {
         console.log($(this).attr("data-szyfr"))

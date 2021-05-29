@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\PrivateMessageEvent;
 use App\Models\Files;
 use App\Models\Message;
-use App\Models\Wulgaryzmy;
-use App\Models\Zamienniki;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +14,29 @@ class MessageController extends Controller
     public function reciveMessage()
     {
         $userId = (int) $_POST['receiver_id'];
-        $friendInfo = DB::select("select * from users where id=" . $userId);
-        $myInfo = DB::select("select * from users where id=" . Auth::id());
+        if ('user' == $_POST['typCzat']) {
+            $friendInfo = DB::select("select * from users where id=" . $userId);
+            $myInfo = DB::select("select * from users where id=" . Auth::id());
+            $this->data['friendInfo'] = $friendInfo;
+            $this->data['myInfo'] = $myInfo;
+        }
         $this->data['userId'] = $userId;
-        $this->data['friendInfo'] = $friendInfo;
-        $this->data['myInfo'] = $myInfo;
-        $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, Auth::id()])->whereIn('odbiorca_id', [(int) $userId, Auth::id()])->orderBy('created_at','desc')->skip((int)$_POST['strona']*20)->take(20)->get();
+        if ('user' == $_POST['typCzat']) {
+            $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, Auth::id()])->whereIn('odbiorca_id', [(int) $userId, Auth::id()])->where("typ_odbiorcy", $_POST['typCzat'])->orderBy('created_at', 'desc')->skip((int) $_POST['strona'] * 20)->take(20)->get();
+        } else {
+            $_POST['czlonkowie']=explode(",",$_POST['czlonkowie']);
+            $czlonkowie=[];
+            foreach($_POST['czlonkowie'] as $c){
+                $czlonkowie[]=(int)$c;
+            }
+            $this->data['messages'] = Message::whereIn('nadawca_id', $czlonkowie)->whereIn('odbiorca_id', [(int) $userId])->where("typ_odbiorcy", $_POST['typCzat'])->orderBy('created_at', 'desc')->skip((int) $_POST['strona'] * 20)->take(20)->get();
+            $avatars=DB::select("SELECT id,avatar FROM users WHERE id IN(".implode(',',$czlonkowie).")");
+            $avatars_arr=[];
+            foreach($avatars as $a){
+                $avatars_arr[$a->id]=$a->avatar;
+            }
+            $this->data['avatars']=$avatars_arr;
+        }
         $filesId = [];
         foreach ($this->data['messages'] as $mess) {
             if (!empty($mess['plik_id'])) {
@@ -35,12 +50,24 @@ class MessageController extends Controller
             }
 
         }
-        $this->data['pliki']=$files=Files::whereIn('_id', $filesId)->get();
-        $files2=[];
-        foreach($files as $f)
-            $files2[$f['_id']]=$f;
+        $this->data['pliki'] = $files = Files::whereIn('_id', $filesId)->get();
+        $files2 = [];
+        foreach ($files as $f) {
+            $files2[$f['_id']] = $f;
+        }
+
         $this->data['pliki'] = $files2;
-        $this->data['klucz']=md5($friendInfo[0]->email.$myInfo[0]->email);
+        if ('user' == $_POST['typCzat']) {
+            if ($friendInfo[0]->id < $myInfo[0]->id) {
+                $this->data['klucz'] = md5($myInfo[0]->email . $friendInfo[0]->email);
+            } else {
+                $this->data['klucz'] = md5($friendInfo[0]->email . $myInfo[0]->email);
+            }
+        } else {
+            $owner = DB::select("select * from users u inner join group_name gn on u.id=gn.owner_id where gn.name='" . $_POST['nazwa_grupy'] . "'");
+            $this->data['klucz'] = md5($owner[0]->email);
+        }
+
         echo json_encode($this->data);
     }
 
@@ -68,7 +95,7 @@ class MessageController extends Controller
                 'wiadomosc' => $request->message,
                 'odbiorca_id' => (int) $receiver_id,
                 'nadawca_id' => $sender_id,
-                'typ_odbiorcy' => 'user',
+                'typ_odbiorcy' => $_POST['typCzat'],
                 'plik_id' => $plikiIdArr,
             ]);
         } else {
@@ -76,7 +103,7 @@ class MessageController extends Controller
                 'wiadomosc' => $request->message,
                 'odbiorca_id' => (int) $receiver_id,
                 'nadawca_id' => $sender_id,
-                'typ_odbiorcy' => 'user',
+                'typ_odbiorcy' => $_POST['typCzat'],
             ]);
         }
 
@@ -87,6 +114,8 @@ class MessageController extends Controller
             'wiadomosc' => $request->message,
             'avatar' => $friendInfo[0]->avatar,
             'data' => date("Y-m-d H:i:s"),
+            'typCzat' => $_POST['typCzat'],
+            'hashCzatu' => $_POST['hashCzatu'],
         );
         // event(new PrivateMessageEvent($data));
         broadcast(new PrivateMessageEvent($data))->toOthers();

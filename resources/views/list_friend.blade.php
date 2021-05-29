@@ -79,14 +79,77 @@
 					</div>
 				</li>
                 @endforeach
+                @foreach ($grupy['nazwy'] as $item)
+                <li class="contact grupyelement" data-nazwa="{{$item['nazwa']}}" data-id="{{$item['id']}}" data-czlonkowie="@foreach ($grupy['czlonkowie'][$item['nazwa']] as $item2){{$item2->id}},@endforeach">
+					<div class="wrap">
+
+						<img src="/uploads/avatars/grupyavatar.png" alt="" />
+						<div class="meta">
+							<p class="name">
+                                {{$item['nazwa']}}
+
+
+                            </p>
+
+
+					</div>
+				</li>
+                @endforeach
             </ul>
         </div>
         <div id="bottom-bar">
-			<button id="friendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Lista znajomych</span></button>
+			<button id="friendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
 
-			<button id="sendlistBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Lista wysłanych</span></button>
+			<button id="sendlistBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
 
-            <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Lista oczekujących</span></button>
+            <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
+
+            <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
+
+            <div class="modal fade" id="utworzGrupeBtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header" style="
+            background: #2c3e50;">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Utwórz grupę</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4x">
+                                    <input placeholder="Nazwa grupy" type="text" class="podajDane" name="nazwa_grupy" id="nazwa_nowej_grupy" required  autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4x">
+                                    <ul style="padding-left:0px;">
+                                    @foreach ($friend_list as $item)
+                                        <li
+                                        style="background: #2c3e50;margin-bottom:2px;">
+                                            <input type="checkbox" class="czlonkowie" name="czlonkowie[]" value="{{$item->id}}"> {{$item->name}} {{$item->surname}} ({{$item->nick}})
+                                        </li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary" id="utworz_grupe">
+                                        {{ __('Utwórz grupę') }}
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -121,9 +184,35 @@
 @push('scripts')
     <script>
         $(function () {
-    // var a=CryptoJS.AES.encrypt("123","cos").toString()
-    // var b=CryptoJS.AES.decrypt(a, 'cos');
-    // console.log(b.toString(CryptoJS.enc.Utf8))
+            $("#utworz_grupe").click(function () {
+                let url = "{{ route('utworz-grupe') }}"
+                let fd = new FormData();
+                let token = "{{ csrf_token() }}"
+                fd.append("_token", token)
+                fd.append("nazwa_grupy", $("#nazwa_nowej_grupy").val())
+                var czlonkowie=[]
+                for(i=0;i<$(".czlonkowie:checked").length;i++){
+                    czlonkowie.push($(".czlonkowie:checked").eq(i).val())
+                }
+                console.log(czlonkowie)
+                fd.append("czlonkowie", czlonkowie)
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        console.log(response)
+                        location.reload()
+                    },
+                    error: function (response) {
+
+                        console.log(response)
+                    }
+                })
+            })
     let klucz = null;
     let wulgaryzmy = "{{ $wulgaryzmy }}";
     wulgaryzmy = wulgaryzmy.replaceAll("&quot;", '"')
@@ -133,15 +222,25 @@
     zamienniki = JSON.parse(zamienniki);
     let user_id = "{{ auth()->user()->id }}";
     let friendId = null
+    let typCzat=null
+    let hashCzatu=null
+    const hashCode = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
     $(".friendelement").click(function () {
         $("#messages").html("")
         let url = "{{ route('message.reciveMessage') }}"
         friendId = parseInt($(this).attr("data-id"))
+        typCzat="user"
+        // if(friendId<user_id)
+        //     hashCzatu=hashCode($("#nazwaOdbiorcy").html()+"{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}")
+        // else
+        //     hashCzatu=hashCode("{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}"+$("#nazwaOdbiorcy").html())
         let fd = new FormData();
         let token = "{{ csrf_token() }}"
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
         fd.append("strona", 0)
+        fd.append("typCzat", typCzat)
+        // fd.append("hashCzatu", hashCzatu)
         $("#pokazWiecej").attr("data-strona",1)
         $.ajax({
             url: url,
@@ -158,6 +257,65 @@
                 klucz = response.klucz;
                 wyswietlWiadomosci(response)
                 $(".messages").scrollTop(10000);
+
+                if(typCzat=='user'){
+                    if(friendId<user_id){
+                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }}")
+                    }else{
+                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+$("#nazwaOdbiorcy").html())
+                    }
+                }else{
+                    hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+                }
+            },
+            error: function (response) {
+
+                console.log(response)
+            }
+        })
+    })
+    $(".grupyelement").click(function () {
+        $("#messages").html("")
+        let url = "{{ route('message.reciveMessage') }}"
+        friendId = parseInt($(this).attr("data-id"))
+        typCzat="grupa"
+        let fd = new FormData();
+        let grupa=$(this).attr("data-nazwa")
+        let token = "{{ csrf_token() }}"
+        // hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+        fd.append("_token", token)
+        fd.append("receiver_id", friendId)
+        fd.append("strona", 0)
+        fd.append("nazwa_grupy", grupa)
+        fd.append("typCzat", typCzat)
+        // fd.append("hashCzatu", hashCzatu)
+        fd.append("czlonkowie",$(this).attr("data-czlonkowie"))
+        $("#pokazWiecej").attr("data-strona",1)
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response)
+                $("#messageContent").css("display", "block")
+                $("#nazwaOdbiorcy").html(grupa)
+                $("#avatarOdbiorcy").attr('src', '/uploads/avatars/grupyavatar.png')
+                klucz = response.klucz;
+                wyswietlWiadomosci2(response)
+                $(".messages").scrollTop(10000);
+
+                if(typCzat=='user'){
+                    if(friendId<user_id){
+                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }}")
+                    }else{
+                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+$("#nazwaOdbiorcy").html())
+                    }
+                }else{
+                    hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+                }
             },
             error: function (response) {
 
@@ -231,6 +389,42 @@
             $("#messages").prepend(wiadomosci)
         }
     }
+    function wyswietlWiadomosci2(response){
+
+for (i = 0; i < response.messages.length; i++) {
+    let wiadomosci = ``
+    if (response.messages[i].nadawca_id == user_id) {
+
+        if (response.messages[i].wiadomosc != null)
+            wiadomosci += `
+        <li class="sent">
+            <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + response.messages[i].wiadomosc + `</p>
+        </li>`;
+        if (response.messages[i].plik_id != undefined)
+            for (j = 0; j < response.messages[i].plik_id.length; j++)
+                if (response.pliki[response.messages[i].plik_id[j]] != "") {
+                    wiadomosci+=appendFileToSender(response.pliki[response.messages[i].plik_id[j]].nazwa,0)
+                }
+
+    } else {
+
+        if (response.messages[i].wiadomosc != null)
+            wiadomosci += `
+        <li class="replies">
+            <img src="/uploads/avatars/`+response.avatars[response.messages[i].nadawca_id]+`" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + response.messages[i].wiadomosc + `</p>
+        </li>
+        `
+
+        if (response.messages[i].plik_id != undefined)
+            for (j = 0; j < response.messages[i].plik_id.length; j++)
+                if (response.pliki[response.messages[i].plik_id[j]] != "")
+                    wiadomosci+=appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa, response.friendInfo[0].avatar,0)
+    }
+    $("#messages").prepend(wiadomosci)
+}
+}
     let ip_address = 'http://grzesiekkomp.asuscomm.com';
     // let ip_address = 'http://localhost';
     // let ip_address = 'http://projektkt.pl';
@@ -264,10 +458,21 @@
             var r=new RegExp(wulgaryzmy[i],"i")
             message=message.replace(r, " {" + zamienniki[Math.floor(Math.random() * (zamienniki.length - 1))] + "} ")
         }
+        if(typCzat=='user'){
+            if(friendId<user_id){
+                hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }}")
+            }else{
+                hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+$("#nazwaOdbiorcy").html())
+            }
+        }else{
+            hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+        }
+        fd.append("hashCzatu", hashCzatu)
         let zaszyfrowanaWiadomosc = CryptoJS.AES.encrypt(message, klucz).toString()
         fd.append("message", zaszyfrowanaWiadomosc)
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
+        fd.append("typCzat",typCzat)
         let pliki = [];
         for (i = 0; i < $("#podglad").children().length; i++) {
             pliki[i] = $("#podglad").children().eq(i).attr("data-nazwa")
@@ -284,11 +489,11 @@
                 console.log(response)
                 if (response.success) {
                     console.log(response)
-                    if (response.data.wiadomosc != null)
-                        appendMessageToSender(response)
-                    for (i = 0; i < response.pliki.length; i++)
-                        if (response.pliki[i] != "")
-                            appendFileToSender(response.pliki[i])
+                    // if (response.data.wiadomosc != null)
+                    //     appendMessageToSender(response)
+                    // for (i = 0; i < response.pliki.length; i++)
+                    //     if (response.pliki[i] != "")
+                    //         appendFileToSender(response.pliki[i])
                     socket.emit('message', response);
                     $("#podglad").html("")
                     $(".messages").scrollTop(10000);
@@ -373,14 +578,33 @@ border-radius: 0;"></p>
         console.log(message)
         $("#messages").append(wiadomosci)
     }
+    function appendMessageNew(message) {
+        if(message.data.nadawca_id==user_id){
+        var wiadomosci = `
+
+        <li class="sent">
+            <img src="/uploads/avatars/` + message.avatar + `" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + message.data.wiadomosc + `</p>
+        </li>`;
+        }else{
+            var wiadomosci = `
+
+        <li class="replies">
+            <img src="/uploads/avatars/` + message.avatar + `" alt="" />
+            <p class="wiadomoscTresc" data-szyfr="1">` + message.data.wiadomosc + `</p>
+        </li>`;
+        }
+        console.log(message)
+        $("#messages").append(wiadomosci)
+    }
     socket.on("newMessage", function (message) {
-        if (message.data.nadawca_id == friendId && message.data.odbiorca_id == user_id) {
-            if (message.data.wiadomosc != null)
-                appendMessageToReceiver(message);
-            for (i = 0; i < message.pliki.length; i++)
-                if (message.pliki[i] != "")
-                    appendFileToReceiver(message.pliki[i], message.avatar)
-            $(".messages").scrollTop(10000);
+        if(message.data.hashCzatu==hashCzatu){
+                if (message.data.wiadomosc != null)
+                    appendMessageNew(message);
+                for (i = 0; i < message.pliki.length; i++)
+                    if (message.pliki[i] != "")
+                        appendFileToReceiver(message.pliki[i], message.avatar)
+                $(".messages").scrollTop(10000);
         }
     })
     socket.on("updateUserStatus",function(users){
@@ -394,8 +618,12 @@ border-radius: 0;"></p>
     })
     socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message) {
         if (message.data.wiadomosc != null){
+            if(message.data.typCzat=='user'){
             appendMessageToReceiver(message);
             $(".messages").scrollTop(10000);
+            }else{
+
+            }
         }
     });
     $(document).on('click', ".wiadomoscTresc", function () {

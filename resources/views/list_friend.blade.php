@@ -35,8 +35,6 @@
 						<div class="meta">
                             <p class="name">
                                 {{$item->name}} {{$item->surname}}
-                                <button  data-id="{{$item->id}}" class="dodawanie zbanuj" style="position: static;padding:5px;">Zbanuj</button>
-                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;">Usuń</button>
                                 </p>
 						</div>
 
@@ -160,9 +158,14 @@
     <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-			<p id="nazwaOdbiorcy"></p>
-            <button id="pokazWiecej" data-strona="1">Pokaż więcej</button>
-		</div>
+			<p id="nazwaOdbiorcy" style="padding: 5px"></p>
+
+            <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
+
+                                <button id="zbanujBtn" data-id="0" class="dodawanie zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
+                                <button id="usunBtn" data-id="0" class="dodawanie usun btn btn-primary" style="position: static;padding:10px;">Usuń</button>
+
+                            </div>
 		<div class="messages">
 			<ul id="messages">
 
@@ -234,6 +237,8 @@
         //     hashCzatu=hashCode($("#nazwaOdbiorcy").html()+"{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}")
         // else
         //     hashCzatu=hashCode("{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}"+$("#nazwaOdbiorcy").html())
+        $("#zbanujBtn").attr("data-id",friendId)
+        $("#usunBtn").attr("data-id",friendId)
         let fd = new FormData();
         let token = "{{ csrf_token() }}"
         fd.append("_token", token)

@@ -162,8 +162,8 @@
 
             <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
 
-                                <button id="zbanujBtn" data-id="0" class="dodawanie zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
-                                <button id="usunBtn" data-id="0" class="dodawanie usun btn btn-primary" style="position: static;padding:10px;">Usuń</button>
+                                <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
+                                <button id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń</button>
 
                             </div>
 		<div class="messages">

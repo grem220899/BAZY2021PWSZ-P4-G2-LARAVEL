@@ -176,7 +176,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      Jesteś pewny że chcesz zbanować użytkownika tego użytkownika?
+                      Jesteś pewny że chcesz zbanować tego użytkownika?
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" data-dismiss="modal" style="position: static;padding:10px;">Anuluj</button>
@@ -185,10 +185,34 @@
                   </div>
                 </div>
               </div>
+
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: static;padding:10px;">
+                Usuń
+              </button>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Usuwanie</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Jesteś pewny że chcesz usunąć tego użytkownika?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" style="position: static;padding:10px;">Nie</button>
+                      <button type="buttpn" id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Tak</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             
             
             {{-- <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button> --}}
-                                <button id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń</button>
+            {{-- <button id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń</button> --}}
 
                             </div>
 		<div class="messages">

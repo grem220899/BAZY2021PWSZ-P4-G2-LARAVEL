@@ -18,9 +18,10 @@
 			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
 			<input type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
 		</div>
+        {{-- Dlaczego jest niżej? --}}
         <div id="addfriend"style="display: none;">
-			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
             @csrf
+            <label for=""><i class="fa fa-plus" aria-hidden="true"></i></label>
 			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego" placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
 		</div>
         <div id="contacts">
@@ -96,13 +97,13 @@
             </ul>
         </div>
         <div id="bottom-bar">
-			<button id="friendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
+			<button id="friendlistBtn"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
 
 			<button id="sendlistBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
 
             <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
 
-            <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
+            <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-users fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
 
             <div class="modal fade" id="utworzGrupeBtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" >
                 <div class="modal-dialog" role="document">
@@ -150,7 +151,7 @@
               </div>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-logout fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>

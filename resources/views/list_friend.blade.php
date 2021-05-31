@@ -265,12 +265,12 @@
 
                 if(typCzat=='user'){
                     if(friendId<user_id){
-                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }}")
+                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
                     }else{
-                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+$("#nazwaOdbiorcy").html())
+                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
                     }
                 }else{
-                    hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+                    hashCzatu=hashCode($("#nazwaOdbiorcy").html()+friendId)
                 }
             },
             error: function (response) {

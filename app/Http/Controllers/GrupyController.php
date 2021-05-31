@@ -13,7 +13,7 @@ class GrupyController extends Controller
 {
     public function utworz_grupe(){
         DB::insert('INSERT INTO `group_name`(`id`, `name`, `owner_id`) VALUES (null,"'.$_POST['nazwa_grupy'].'",'.Auth::id().')');
-        $id_grupy=DB::select('SELECT id from group_name WHERE name="'.$_POST['nazwa_grupy'].'"');
+        $id_grupy=DB::select('SELECT id from group_name WHERE name="'.$_POST['nazwa_grupy'].'" ORDER BY name DESC');
         $_POST['czlonkowie']=explode(",",$_POST['czlonkowie']);
         foreach($_POST['czlonkowie'] as $czlonek){
             DB::insert('INSERT INTO `group`(`id`, `user_id`, `name_group_id`) VALUES (null,'.$czlonek.','.$id_grupy[0]->id.')');

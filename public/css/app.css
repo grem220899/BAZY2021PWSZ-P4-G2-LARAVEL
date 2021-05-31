@@ -1198,6 +1198,9 @@ pre code {
   .offset-md-4x {
     margin-left: 25%;
   }
+  .offset-md-4y {
+    margin-left: 40%;
+  }
   .offset-md-x {
     margin-left: 82%;
   }
@@ -2883,11 +2886,11 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #32465a;
+  color: #2f6397;
   text-decoration: none;
 }
 .btn-link:hover {
-  color: #32465a;
+  color: #2f6397;
   text-decoration: underline;
 }
 .btn-link:focus, .btn-link.focus {

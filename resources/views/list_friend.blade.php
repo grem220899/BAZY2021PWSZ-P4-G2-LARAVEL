@@ -21,7 +21,6 @@
         {{-- Dlaczego jest niżej? --}}
         <div id="addfriend"style="display: none;">
             @csrf
-            <label for=""><i class="fa fa-plus" aria-hidden="true"></i></label>
 			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego" placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
 		</div>
         <div id="contacts">
@@ -101,7 +100,7 @@
 
 			<button id="sendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
 
-            <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
+            <button id="waitingsBtn"><i class="fa fa-spinner fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
 
             <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-users fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
 
@@ -151,7 +150,7 @@
               </div>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-play fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-forward fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>
@@ -163,7 +162,32 @@
 
             <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
 
-                                <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: static;padding:10px;">
+                Zbanuj
+              </button>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Banowanie</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Jesteś pewny że chcesz zbanować użytkownika tego użytkownika?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" style="position: static;padding:10px;">Anuluj</button>
+                      <button type="buttpn" id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+            
+            {{-- <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button> --}}
                                 <button id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń</button>
 
                             </div>

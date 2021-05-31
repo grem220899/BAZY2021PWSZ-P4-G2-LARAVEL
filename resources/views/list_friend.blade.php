@@ -266,12 +266,12 @@
 
                 if(typCzat=='user'){
                     if(friendId<user_id){
-                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }}")
+                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
                     }else{
-                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+$("#nazwaOdbiorcy").html())
+                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
                     }
                 }else{
-                    hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+                    hashCzatu=hashCode($("#nazwaOdbiorcy").html()+friendId)
                 }
             },
             error: function (response) {
@@ -426,7 +426,7 @@ for (i = 0; i < response.messages.length; i++) {
         if (response.messages[i].plik_id != undefined)
             for (j = 0; j < response.messages[i].plik_id.length; j++)
                 if (response.pliki[response.messages[i].plik_id[j]] != "")
-                    wiadomosci+=appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa, response.friendInfo[0].avatar,0)
+                    wiadomosci+=appendFileToReceiver(response.pliki[response.messages[i].plik_id[j]].nazwa, response.avatars[response.messages[i].nadawca_id],0)
     }
     $("#messages").prepend(wiadomosci)
 }
@@ -474,7 +474,10 @@ for (i = 0; i < response.messages.length; i++) {
             hashCzatu=hashCode($("#nazwaOdbiorcy").html())
         }
         fd.append("hashCzatu", hashCzatu)
-        let zaszyfrowanaWiadomosc = CryptoJS.AES.encrypt(message, klucz).toString()
+            let zaszyfrowanaWiadomosc = ""
+        if(message!="")
+            zaszyfrowanaWiadomosc = CryptoJS.AES.encrypt(message, klucz).toString()
+
         fd.append("message", zaszyfrowanaWiadomosc)
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
@@ -539,7 +542,7 @@ border-radius: 0;"></p>
 
             <li class="sent">
                 <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                <p><a href="/uploads/pliki/` + message + `">` + message + `</a></p>
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
             </li>`;
         }
         if(opcja)
@@ -565,7 +568,7 @@ border-radius: 0;"></p>
 
             <li class="replies">
                 <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                <p><a href="/uploads/pliki/` + message + `">` + message + `</a></p>
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
             </li>`;
         }
         if(opcja)
@@ -573,7 +576,31 @@ border-radius: 0;"></p>
         else
             return wiadomosci
     }
+    function appendFile2(message, avatar,opcja=1,klasa) {
+        let plik = message.split('.')
+        let img = ['jpg', 'jpeg', 'png', 'gif']
+        var wiadomosci = ``
+        if (img.includes(plik[plik.length - 1])) {
+            wiadomosci = `
 
+        <li class="`+klasa+`">
+            <img src="/uploads/avatars/` + avatar + `" alt="" />
+            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+border-radius: 0;"></p>
+        </li>`;
+        } else {
+            wiadomosci = `
+
+            <li class="`+klasa+`">
+                <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
+            </li>`;
+        }
+        if(opcja)
+            $("#messages").append(wiadomosci)
+        else
+            return wiadomosci
+    }
     function appendMessageToReceiver(message) {
         var wiadomosci = `
 
@@ -609,7 +636,11 @@ border-radius: 0;"></p>
                     appendMessageNew(message);
                 for (i = 0; i < message.pliki.length; i++)
                     if (message.pliki[i] != "")
-                        appendFileToReceiver(message.pliki[i], message.avatar)
+                        if(message.data.nadawca_id==user_id)
+                            appendFile2(message.pliki[i], message.avatar,1,"sent")
+                        else
+                            appendFile2(message.pliki[i], message.avatar,1,"replies")
+
                 $(".messages").scrollTop(10000);
         }
     })

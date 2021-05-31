@@ -8,6 +8,7 @@ use App\Models\Message;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
@@ -134,7 +135,7 @@ class MessageController extends Controller
     }
     public function dodajPlik()
     {
-        $roz = explode('/', $_FILES["file"]['type']);
+        $roz = explode('/', $_FILES["file"]['name']);
         if ('image' == $roz[0]) {
             $check = getimagesize($_FILES["file"]["tmp_name"]);
             if (false !== $check) {
@@ -171,13 +172,14 @@ class MessageController extends Controller
             }
         } else {
             $nazwa = uniqid();
-            move_uploaded_file($_FILES['file']['tmp_name'],
-                __DIR__ . '/../../../public/uploads/pliki/' . $nazwa . '.' . $roz[1]);
+            Storage::putFileAs('public/',$_FILES['file']['tmp_name'],$nazwa. '.' . $roz[count($roz) - 1]);
+            // move_uploaded_file($_FILES['file']['tmp_name'],
+                // __DIR__ . '/../../../public/uploads/pliki/' . $nazwa . '.' . $roz[count($roz) - 1]);
             $roz = explode('.', $_FILES['file']['name']);
-            echo json_encode(['plik' => '<a href="/uploads/pliki/' . $nazwa . '.' . $roz[count($roz) - 1] . '" data-nazwa="' . $nazwa . '.' . $roz[count($roz) - 1] . '">' . $nazwa . '.' . $roz[count($roz) - 1] . '</a>']);
+            echo json_encode(['plik' => '<a href="'.asset('storage/'   .$nazwa . '.' .$_FILES["file"]['name']) . '" data-nazwa="' . $nazwa . '.' .$_FILES["file"]['name'] . '"  target="_blank" download>' . $nazwa . '.' .$_FILES["file"]['name'] . '</a>']);
             Files::create([
-                'nazwa' => $nazwa . '.' . $roz[1],
-                'rozszerzenie' => $roz[1],
+                'nazwa' => $nazwa . '.' .$_FILES["file"]['name'],
+                'rozszerzenie' => $roz[count($roz) - 1],
                 'przeznaczenie' => 'wiadomosc',
                 'uzytkownik_id' => Auth::id(),
             ]);

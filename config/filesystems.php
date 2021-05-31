@@ -67,6 +67,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('download') => storage_path('public/uploads/pliki'),
     ],
 
 ];

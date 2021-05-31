@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-8 offset-md-4">
                     <a href="{{ route('login') }}" onclick="event.preventDefault();
-                    document.getElementById('logout-form2').submit();"><button type="submit" class="btn btn-primary" ><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wróć na stronę główną</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+                    document.getElementById('logout-form2').submit();"><button type="submit" class="btn btn-primary" ><i class="fa fa-forward fa-fw" aria-hidden="true"></i> <span>Wróć na stronę główną</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf
                                             </form>
                 </div>

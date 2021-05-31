@@ -34,6 +34,7 @@ class FriendsController extends Controller
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();
         $data['waiting2'] = $this->lista_zaproszen();
+        $data['waiting3'] = $this->lista_zbanowanych();
         $data['grupy'] = $this->lista_grup();
         $data['wulgaryzmy'] = json_encode($this->wulgaryzmy());
         $data['zamienniki'] = json_encode($this->zamienniki());
@@ -76,6 +77,14 @@ class FriendsController extends Controller
         }
         echo json_encode($data);
     }
+    //Odbanowanie
+    public function odbanuj_znajomego()
+    {
+        $data = ['error' => ''];
+        DB::delete("DELETE FROM ban_list WHERE ( `user_id`=" . $_POST['user_id'] . " AND `user_ban_id`=" . Auth::id() .") OR (`user_id`=" . Auth::id() . " AND `user_ban_id`=" . $_POST['user_id'] . ")");
+        echo json_encode($data);
+
+    }
     //Wysyłanie zaproszenia do znajomych
     public function save()
     {
@@ -84,6 +93,9 @@ class FriendsController extends Controller
         if (!empty($u)) {
             $spr = DB::select("select * from friend_list where (friend_id=" . $u[0]->id . " AND `user_id`=" . Auth::id() . ") OR (friend_id=" . Auth::id() . " AND `user_id`=" . $u[0]->id . ")");
             if (empty($spr)) {
+                //Sprawdzenie czy jest użytkownik jest zbanowany
+                 $spr_ban = DB::select("select * from ban_list where (user_id =" . Auth::id() . " AND `user_ban_id`=" . $u[0]->id . ") OR (`user_id` =" . $u[0]->id . " AND `user_ban_id`=" . Auth::id() . ")");
+                     if (empty($spr_ban)) {
                 $data['user'] = $u[0];
                 FriendList::insert([
                     'user_id' => Auth::id(),
@@ -91,6 +103,9 @@ class FriendsController extends Controller
                     'accepted' => 0,
                     'date_add' => date("Y-m-d H:i:s"),
                 ]);
+                } else{
+                    $data['error'] = "Zostałeś zablokowany przez tego użytkownika";
+                }
             } else {
                 $data['error'] = "Już wysłałeś zaproszenie";
             }
@@ -98,7 +113,6 @@ class FriendsController extends Controller
             $data['error'] = "Nie ma takiego adresu email w bazie.";
         }
         echo json_encode($data);
-
     }
     public function lista_grup()
     {
@@ -128,6 +142,18 @@ class FriendsController extends Controller
             $waiting_arr2[] = $w[0];
         }
         return $waiting_arr2;
+    }
+   // Lista zbanowanych do dokończenia
+    public function lista_zbanowanych()
+    {
+        $waiting3 = DB::select("select * from ban_list where user_ban_id=" . Auth::id() . "");
+        $waiting_arr3 = [];
+        foreach ($waiting3 as $v) {
+            $w = DB::select("select * from users where id=" . $v->user_ban_id);
+            $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
+            $waiting_arr3[] = $w[0];      
+        }
+        return $waiting_arr3;
     }
     public function wyslane_zaproszenia()
     {

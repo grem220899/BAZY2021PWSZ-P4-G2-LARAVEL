@@ -710,4 +710,5 @@ body {
 }
 .waitingelement{display: none;}
 .sendelement{display: none;}
+.bannedelement{display: none;}
 #responsive-image {  width: 100%;  height: auto; }

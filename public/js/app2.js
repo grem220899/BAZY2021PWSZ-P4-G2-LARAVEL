@@ -20,6 +20,13 @@ $(document).ready(function () {
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
+    $("#bannedBtn").click(function () {
+        $(".friendelement").css("display", "none")
+        $(".waitingelement").css("display", "none")
+        $(".sendelement").css("display", "none")
+        $("#search").css("display", "none")
+        $("#addfriend").css("display", "none")
+    });
 
     $("#dodajZnajomegoBtn").click(function () {
         var fd = new FormData();
@@ -109,6 +116,30 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/banowanie-znajomych',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function (json) {
+                console.log(json)
+                location.reload()
+
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+
+            }
+        });
+    });
+    $(".odbanuj").click(function () {
+        var fd = new FormData();
+        fd.append("user_id", $(this).attr("data-id"))
+        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+        $.ajax({
+            url: '/odbanuj-znajomego',
             type: 'post',
             data: fd,
             contentType: false,

@@ -99,7 +99,7 @@
         <div id="bottom-bar">
 			<button id="friendlistBtn"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
 
-			<button id="sendlistBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
+			<button id="sendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
 
             <button id="waitingsBtn"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
 
@@ -151,7 +151,7 @@
               </div>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-logout fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-play fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>
@@ -177,8 +177,8 @@
 			<div class="wrap">
 			<input type="text" placeholder="Napisz wiadomość..." id="trescWiadomosci"/>
             <input type="file" name="file" id="plikWiadomosci" style="display: none">
-			<i class="fa fa-paperclip attachment" aria-hidden="true" id="dodajPlik">P</i>
-			<button class="submit" id="wyslijWiadomosc">Wyślij<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			<i class="fa fa-paperclip attachment" aria-hidden="true" id="dodajPlik"></i>
+			<button class="submit" id="wyslijWiadomosc"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>
 	</div>

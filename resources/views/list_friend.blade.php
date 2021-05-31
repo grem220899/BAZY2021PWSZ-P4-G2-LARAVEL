@@ -88,11 +88,7 @@
 							<p class="name">
                                 {{$item->name}} {{$item->surname}}
                                 <button  data-id="{{$item->id}}" class="dodawanie odbanuj" >Odbanuj</button>
-                                
-
                             </p>
-
-
 					</div>
 				</li>
                 @endforeach

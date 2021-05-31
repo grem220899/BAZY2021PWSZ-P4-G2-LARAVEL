@@ -34,7 +34,7 @@ class FriendsController extends Controller
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();
         $data['waiting2'] = $this->lista_zaproszen();
-         $data['waiting3'] = $this->lista_zbanowanych();
+        $data['waiting3'] = $this->lista_zbanowanych();
         $data['grupy'] = $this->lista_grup();
         $data['wulgaryzmy'] = json_encode($this->wulgaryzmy());
         $data['zamienniki'] = json_encode($this->zamienniki());

@@ -226,8 +226,8 @@
                   </div>
                 </div>
               </div>
-            
-            
+
+
             {{-- <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button> --}}
             {{-- <button id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń</button> --}}
 
@@ -714,7 +714,7 @@ border-radius: 0;"></p>
         $(".contact-status").removeClass("online")
         $(".contact-status").addClass("offline")
         users.forEach(function(e,i){
-            if(e!=0){
+            if(e!=0 && e!=null){
                 $("#contact-status"+i).removeClass("offline")
                 $("#contact-status"+i).addClass("online")
             }

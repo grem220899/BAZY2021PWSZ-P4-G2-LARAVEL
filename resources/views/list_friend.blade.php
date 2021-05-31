@@ -645,13 +645,19 @@ border-radius: 0;"></p>
         }
     })
     socket.on("updateUserStatus",function(users){
+        console.log(users)
         $(".contact-status").removeClass("online")
         $(".contact-status").addClass("offline")
-        for(i=0;i<users.length;i++){
-            $("#contact-status"+users[i]).removeClass("offline")
-            $("#contact-status"+users[i]).addClass("online")
-        }
-        console.log(users)
+        users.forEach(function(e,i){
+            if(e!=0){
+                $("#contact-status"+i).removeClass("offline")
+                $("#contact-status"+i).addClass("online")
+            }
+        })
+        // for(i=0;i<users.length;i++){
+        //     $("#contact-status"+users[i]).removeClass("offline")
+        //     $("#contact-status"+users[i]).addClass("online")
+        // }
     })
     socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message) {
         if (message.data.wiadomosc != null){

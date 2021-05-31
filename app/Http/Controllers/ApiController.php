@@ -430,7 +430,7 @@ class ApiController extends Controller
             'nadawca_id' => $sender_id,
             'odbiorca_id' => $receiver_id,
             'wiadomosc' => $_GET['message'],
-            'avatar' => $friendInfo[0]->avatar,
+            'avatar' => "http://projektkt.pl/uploads/avatars/" . $friendInfo[0]->avatar,
             'data' => date("Y-m-d H:i:s"),
         );
         // broadcast(new PrivateMessageEvent($data))->toOthers();
@@ -461,5 +461,5 @@ class ApiController extends Controller
         
         echo json_encode($data);
     }
-
+  
 }

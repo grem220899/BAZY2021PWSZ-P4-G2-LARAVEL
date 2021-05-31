@@ -6,6 +6,8 @@ use App\Models\BanList;
 use App\Models\Files;
 use App\Models\FriendList;
 use App\Models\Message;
+use App\Models\Wulgaryzmy;
+use App\Models\Zamienniki;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -457,9 +459,29 @@ class ApiController extends Controller
         $data["status"] = "failed";
         $data["message"] = "Nie podano nadawcy";
     }
-    
-        
+
+
         echo json_encode($data);
     }
   
+    public function wulgaryzmy()
+    {
+        header('Content-Type: application/json');
+        $wul = Wulgaryzmy::whereIn('aktywny', [1])->get();
+        $wul_arr = [];
+        foreach ($wul as $w) {
+            $wul_arr[] = $w['nazwa'];
+        }
+        echo json_encode($wul_arr);
+    }
+    public function zamienniki()
+    {
+        header('Content-Type: application/json');
+        $wul = Zamienniki::whereIn('aktywny', [1])->get();
+        $wul_arr = [];
+        foreach ($wul as $w) {
+            $wul_arr[] = $w['nazwa'];
+        }
+        echo json_encode($wul_arr);
+    }
 }

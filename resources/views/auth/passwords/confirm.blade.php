@@ -5,7 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Potwierdzenie Hasła') }}</div>
+                <div class="card-header">{{ __('Potwierdzenie Hasła') }}<a href="/" class="btn btn-primary " style="
+                    position: absolute;
+                    right: 10px;
+                    top: 5px;">Strona Główna</a>
+                    </div>
 
                 <div class="card-body">
                     {{ __('Proszę potwierdzić swoje hasło przed kontynuuowaniem.') }}
@@ -17,7 +21,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Hasło') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="podajDane @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">

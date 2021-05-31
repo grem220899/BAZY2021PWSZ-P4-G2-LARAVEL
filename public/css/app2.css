@@ -300,10 +300,38 @@ body {
   position: absolute;
   margin: 10px 0 0 20px;
 }
+.podajDane {
+  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: #32465a;
+  color: #f5f5f5;
+}
+.podajDane:focus {
+  outline: none;
+  background: #435f7a;
+}
+.podajDane::-webkit-input-placeholder {
+  color: #f5f5f5;
+}
+.podajDane::-moz-placeholder {
+  color: #f5f5f5;
+}
+.podajDane::-ms-input-placeholder {
+  color: #f5f5f5;
+}
+.podajDane::-moz-placeholder {
+  color: #f5f5f5;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+}
+
 .dodajZnajomego {
   font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
   padding: 10px 0 10px 46px;
-  width: calc(100% - 25px);
+  width: 100%;
   border: none;
   background: #32465a;
   color: #f5f5f5;
@@ -460,7 +488,7 @@ body {
 #frame #sidepanel #bottom-bar button {
   float: left;
   border: none;
-  width: 50%;
+  width: 33.3%;
   padding: 10px 0;
   background: #32465a;
   color: #f5f5f5;

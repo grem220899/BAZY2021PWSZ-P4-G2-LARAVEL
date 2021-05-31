@@ -18,7 +18,6 @@
 			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
 			<input type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
 		</div>
-        {{-- Dlaczego jest niżej? --}}
         <div id="addfriend"style="display: none;">
             @csrf
 			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego" placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
@@ -77,6 +76,26 @@
 					</div>
 				</li>
                 @endforeach
+                {{-- Lista zbanowanych --}}
+                @foreach ($waiting3 as $item)
+
+
+				<li class="contact bannedelement">
+					<div class="wrap">
+
+						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
+						<div class="meta">
+							<p class="name">
+                                {{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie odbanuj" >Odbanuj</button>
+                                
+
+                            </p>
+
+
+					</div>
+				</li>
+                @endforeach
                 @foreach ($grupy['nazwy'] as $item)
                 <li class="contact grupyelement" data-nazwa="{{$item['nazwa']}}" data-id="{{$item['id']}}" data-czlonkowie="@foreach ($grupy['czlonkowie'][$item['nazwa']] as $item2){{$item2->id}},@endforeach">
 					<div class="wrap">
@@ -101,6 +120,8 @@
 			<button id="sendlistBtn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Wysłane</span></button>
 
             <button id="waitingsBtn"><i class="fa fa-spinner fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
+
+            <button id="bannedBtn"><i class="fa fa-spinner fa-fw" aria-hidden="true"></i> <span>Zbanowani</span></button>
 
             <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-users fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
 
@@ -204,7 +225,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" data-dismiss="modal" style="position: static;padding:10px;">Nie</button>
-                      <button type="buttpn" id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Tak</button>
+                      <button type="button" id="usunBtn" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Tak</button>
                     </div>
                   </div>
                 </div>

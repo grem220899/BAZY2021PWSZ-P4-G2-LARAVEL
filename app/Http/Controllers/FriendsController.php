@@ -8,6 +8,7 @@ use App\Models\Wulgaryzmy;
 use App\Models\Zamienniki;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FriendsController extends Controller
 {
@@ -28,6 +29,7 @@ class FriendsController extends Controller
      */
     public function index()
     {
+        // var_dump('<a href="'.asset('storage/60b49b14ce7c9.txt').'" target="_blank" download>a</a>');
         $data = ['error' => ''];
         $data['friend_list'] = $this->friend_list();
         $data['waiting'] = $this->wyslane_zaproszenia();

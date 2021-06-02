@@ -20,9 +20,10 @@ http.listen(3000, function () {
 io.on('connection', function (socket) {
     console.log("connect")
     socket.on("user_connected", function (user_id) {
-        users[user_id] = user_id;
+        users[user_id] = socket.id;
         io.emit('updateUserStatus', users);
         console.log("user connected "+ user_id);
+        console.log(users)
     });
     socket.on("message",function(message){
         console.log("message")
@@ -31,7 +32,7 @@ io.on('connection', function (socket) {
     })
     socket.on('disconnect', function() {
         var i = users.indexOf(socket.id);
-        users.splice(i, 1, 0);
+        users[i]=0;
         io.emit('updateUserStatus', users);
         console.log(users);
     });

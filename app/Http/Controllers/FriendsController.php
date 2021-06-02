@@ -146,7 +146,7 @@ class FriendsController extends Controller
    // Lista zbanowanych do dokończenia
     public function lista_zbanowanych()
     {
-        $waiting3 = DB::select("select * from ban_list where user_ban_id=" . Auth::id() . "");
+        $waiting3 = DB::select("select * from ban_list where user_id=" . Auth::id() . "");
         $waiting_arr3 = [];
         foreach ($waiting3 as $v) {
             $w = DB::select("select * from users where id=" . $v->user_ban_id);

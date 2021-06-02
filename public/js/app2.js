@@ -3,6 +3,7 @@ $(document).ready(function () {
         $(".friendelement").css("display", "block")
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
+        $(".bannedelement").css("display", "none")
         $("#search").css("display", "block")
         $("#addfriend").css("display", "none")
     });
@@ -10,6 +11,7 @@ $(document).ready(function () {
         $(".friendelement").css("display", "none")
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "block")
+        $(".bannedelement").css("display", "none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "block")
     });
@@ -17,6 +19,7 @@ $(document).ready(function () {
         $(".friendelement").css("display", "none")
         $(".waitingelement").css("display", "block")
         $(".sendelement").css("display", "none")
+        $(".bannedelement").css("display", "none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
@@ -24,6 +27,7 @@ $(document).ready(function () {
         $(".friendelement").css("display", "none")
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
+        $(".bannedelement").css("display", "block")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });

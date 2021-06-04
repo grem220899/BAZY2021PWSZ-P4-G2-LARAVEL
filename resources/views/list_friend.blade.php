@@ -176,7 +176,7 @@
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
 			<p id="nazwaOdbiorcy" style="padding: 5px"></p>
-
+<div class="uzytkownicy">
             <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
 
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: static;padding:10px;">
@@ -197,7 +197,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" data-dismiss="modal" style="position: static;padding:10px;">Anuluj</button>
-                      <button type="buttpn" id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
+                      <button type="button" id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button>
                     </div>
                   </div>
                 </div>
@@ -225,6 +225,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+              <div class="grupowe">
+                <button type="button" id="usunGrp" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń członka grupy</button>
               </div>
 
 
@@ -350,6 +355,7 @@
         let url = "{{ route('message.reciveMessage') }}"
         friendId = parseInt($(this).attr("data-id"))
         typCzat="grupa"
+        $("#usunGrp").attr("data-id",friendId)
         let fd = new FormData();
         let grupa=$(this).attr("data-nazwa")
         let token = "{{ csrf_token() }}"

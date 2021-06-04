@@ -4,6 +4,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "none")
+        $(".grupyelement").css("display","block")
         $("#search").css("display", "block")
         $("#addfriend").css("display", "none")
     });
@@ -12,6 +13,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "block")
         $(".bannedelement").css("display", "none")
+        $(".grupyelement").css("display","none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "block")
     });
@@ -20,6 +22,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "block")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "none")
+        $(".grupyelement").css("display","none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
@@ -28,9 +31,19 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "block")
+        $(".grupyelement").css("display","none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
+    $(".grupyelement").click(function (){
+        $(".uzytkownicy").css("display","none")
+        $(".grupowe").css("display","block")
+    });
+    $(".friendelement").click(function (){
+        $(".uzytkownicy").css("display","block")
+        $(".grupowe").css("display","none")
+    });
+    
 
     $("#dodajZnajomegoBtn").click(function () {
         var fd = new FormData();
@@ -96,6 +109,30 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/usun-znajomego',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            success: function (json) {
+                console.log(json)
+                location.reload()
+
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+
+            }
+        });
+    });
+    $(".usunGrp").click(function () {
+        var fd = new FormData();
+        fd.append("id", $(this).attr("data-id"))
+        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+        $.ajax({
+            url: '/usun_grupe',
             type: 'post',
             data: fd,
             contentType: false,

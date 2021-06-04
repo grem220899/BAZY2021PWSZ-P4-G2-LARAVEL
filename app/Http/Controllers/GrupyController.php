@@ -11,6 +11,7 @@ use App\Models\Zamienniki;
 
 class GrupyController extends Controller
 {
+//Tworzenie grupy
     public function utworz_grupe(){
         DB::insert('INSERT INTO `group_name`(`id`, `name`, `owner_id`) VALUES (null,"'.$_POST['nazwa_grupy'].'",'.Auth::id().')');
         $id_grupy=DB::select('SELECT id from group_name WHERE name="'.$_POST['nazwa_grupy'].'" ORDER BY name DESC');
@@ -32,13 +33,13 @@ class GrupyController extends Controller
 
     // }
 //Usuwanie Grupy
-        // public function usun_grupe()
-    // {
-    //          DB::delete("DELETE FROM 'group_name' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
+         public function usun_grupe()
+    {
+             DB::delete("DELETE FROM 'group_name' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
 
-    //     echo json_encode($data);
+        echo json_encode($data);
 
-    // }
+    }
     // Dodawanie członków
     // public function save()
     // {

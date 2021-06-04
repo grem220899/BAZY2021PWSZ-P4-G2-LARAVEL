@@ -78,7 +78,7 @@ class FriendsController extends Controller
         echo json_encode($data);
     }
     //Odbanowanie
-    public function odbanuj_znajomego()
+    public function odbanowanie()
     {
         $data = ['error' => ''];
         DB::delete("DELETE FROM ban_list WHERE ( `user_id`=" . $_POST['user_id'] . " AND `user_ban_id`=" . Auth::id() .") OR (`user_id`=" . Auth::id() . " AND `user_ban_id`=" . $_POST['user_id'] . ")");
@@ -150,8 +150,7 @@ class FriendsController extends Controller
         $waiting_arr3 = [];
         foreach ($waiting3 as $v) {
             $w = DB::select("select * from users where id=" . $v->user_ban_id);
-            $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
-            $waiting_arr3[] = $w[0];      
+            $waiting_arr3[] = $w[0];
         }
         return $waiting_arr3;
     }

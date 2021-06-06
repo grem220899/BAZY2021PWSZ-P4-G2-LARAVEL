@@ -55,3 +55,5 @@ Route::post('/usun_grupe',[App\Http\Controllers\GrupyController::class, 'utworz_
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
 Route::get('/tabela-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'tabela_zamienniki'])->name('tabela-zamienniki');
 Route::post('/dodaj-zamiennik', [App\Http\Controllers\ZamiennikiController::class, 'dodaj_zamiennik'])->name('dodaj-zamiennik');
+Route::get('/tabela-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'tabela_wulgaryzmy'])->name('tabela-wulgaryzmy');
+Route::post('/dodaj-wulgaryzm', [App\Http\Controllers\WulgaryzmyController::class, 'dodaj_wulgaryzm'])->name('dodaj-wulgaryzm');

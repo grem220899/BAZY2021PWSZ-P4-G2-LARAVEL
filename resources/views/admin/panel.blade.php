@@ -36,6 +36,23 @@
 
         </div>
         <div>
+            <div class="tabelki" id="datatableWulgaryzmy_">
+                <table class=" table table-striped- table-bordered table-hover table-checkable responsive" id="datatableWulgaryzmy">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Słowo</th>
+                            <th>Aktywny</th>
+                            <th>Dodano</th>
+                            <th>Zmieniono</th>
+                        </tr>
+                    </thead>
+                </table>
+                <input type="text" class="dodajZnajomego" id="nowyWulgaryzm" style="width:200px;">
+                <button id="dodajWulgaryzmBtn" ><span>Dodaj</span></button>
+            </div>
+        </div>
+        <div>
             <div class="tabelki" id="datatableZamienniki_">
                 <table class=" table table-striped- table-bordered table-hover table-checkable responsive" id="datatableZamienniki">
                     <thead>
@@ -63,6 +80,7 @@
 <link rel="stylesheet" href="{{ asset('css/datatables.responsive.bootstrap4.min.css') }}">
 <script src="{{ asset('js/datatables.min.js') }}" defer></script>
     <script>
+        //Zamienniki
         $(function () {
             $("#dodajZamiennikBtn").click(function(){
                 let url = "/dodaj-zamiennik"
@@ -136,6 +154,89 @@
                     $("#nazwaListy").html("Lista Wulgaryzmow")
                     $(".tabelki").css("display","none")
                     $("#datatableWulgaryzmy_").css("display","block")
+                }else if($(this).attr("id")=="listaUsers"){
+                    $("#nazwaListy").html("Lista Użytkowników")
+                    $(".tabelki").css("display","none")
+                    $("#datatableUsers_").css("display","block")
+                }
+            })
+
+
+        })
+        //Wulgaryzmy
+        $(function () {
+            $("#dodajWulgaryzmBtn").click(function(){
+                let url = "/dodaj-wulgaryzm"
+                let fd = new FormData();
+                let token = "{{ csrf_token() }}"
+                fd.append("_token", token)
+                fd.append("nazwa",$("#nowyWulgaryzm").val())
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        console.log(response)
+                        $("#nowyWulgaryzm").val("")
+                    },
+                    error: function (response) {
+
+                        console.log(response)
+                    }
+                })
+            })
+            $(".tabelki").css("display","none")
+            $(".adminMenu").click(function(){
+                if($(this).attr("id")=="listaWulgaryzmow"){
+                    $(".tabelki").css("display","none")
+                    $("#datatableWulgaryzmy_").css("display","block")
+                    $("#nazwaListy").html("Lista Wulgaryzmow")
+                    var DTabela = $("#datatableWulgaryzmy").DataTable({
+                        "columnDefs": [
+                            {"className": "dt-center", "targets": "_all"}
+                        ],
+                        bLengthChange: !1,
+                        searching: false,
+                        destroy: !0,
+                        info: !1,
+                        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+                        pageLength: 10,
+                        processing: false,
+                        columns: [
+                            { data: 0 },
+                            { data: 1 },
+                            { data: 2 },
+                            { data: 3 },
+                            { data: 4 }
+
+                        ],
+                        serverSide: true,
+                        aaSorting: [
+                                        [1, "asc"]
+                                    ],
+                    "ajax": {
+                            "url": "/tabela-wulgaryzmy",
+                            "data": function ( d ) {
+                            }
+                        },
+                        language: {
+                            paginate: {
+                                previous: "<",
+                                next: ">"
+                            }
+                        },
+                        drawCallback: function() {
+                            $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"), $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"), $(".dataTables_wrapper .pagination").addClass("pagination-sm");
+                        }
+                    });
+
+                }else if($(this).attr("id")=="Lista Zamienników"){
+                    $("#nazwaListy").html("Lista Zamiennikow")
+                    $(".tabelki").css("display","none")
+                    $("#datatableZamienniki_").css("display","block")
                 }else if($(this).attr("id")=="listaUsers"){
                     $("#nazwaListy").html("Lista Użytkowników")
                     $(".tabelki").css("display","none")

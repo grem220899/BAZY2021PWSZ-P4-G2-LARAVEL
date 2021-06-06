@@ -744,4 +744,45 @@ class WulgaryzmyController extends Controller
             ]);
         }
     }
+    public function tabela_wulgaryzmy()
+    {
+        $Wulgaryzmy = Wulgaryzmy::get();
+        $this->sortIndex = 1;
+        $this->sortTypeTxt = "asc";
+
+        if (!empty($_REQUEST['order'])) {
+            $this->sortIndex = $_REQUEST['order'][0]["column"];
+            $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
+        }
+        $rec = array(
+            'iTotalRecords' => 0,
+            'iTotalDisplayRecords' => 0,
+            'aaData' => array(),
+        );
+        foreach ($Wulgaryzmy as $wul) {
+            $rec['aaData'][] = array(
+                (string) $wul->_id,
+                $wul->nazwa,
+                $wul->aktywny,
+                date("Y-m-d H:i:s", strtotime((string) $wul->created_at)),
+                date("Y-m-d H:i:s", strtotime((string) $wul->updated_at)),
+            );
+        }
+        // usort($rec['aaData'], function ($a, $b) {
+        //     if ("asc" == $this->sortTypeTxt) {
+        //         return $a[$this->sortIndex] > $b[$this->sortIndex];
+        //     } else {
+        //         return $a[$this->sortIndex] < $b[$this->sortIndex];
+        //     }
+        // });
+        echo json_encode($rec);
+    }
+    public function dodaj_wulgaryzm()
+    {
+        Wulgaryzmy::create([
+            'nazwa' => $_POST['nazwa'],
+            'aktywny' => 1,
+        ]);
+        echo json_encode(1);
+    }
 }

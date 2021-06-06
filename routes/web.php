@@ -57,3 +57,4 @@ Route::get('/tabela-zamienniki', [App\Http\Controllers\ZamiennikiController::cla
 Route::post('/dodaj-zamiennik', [App\Http\Controllers\ZamiennikiController::class, 'dodaj_zamiennik'])->name('dodaj-zamiennik');
 Route::get('/tabela-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'tabela_wulgaryzmy'])->name('tabela-wulgaryzmy');
 Route::post('/dodaj-wulgaryzm', [App\Http\Controllers\WulgaryzmyController::class, 'dodaj_wulgaryzm'])->name('dodaj-wulgaryzm');
+Route::get('/tabela-users', [App\Http\Controllers\UsersController::class, 'tabela_users'])->name('tabela-users');

@@ -21,29 +21,6 @@ class ZamiennikiController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $arr = [
-            'Psiakostka',
-            'Motyla noga',
-            'Kurza stopa',
-            'Piernik jasny',
-            'Kurczę blade',
-            'Kurtka na wacie',
-            'Do kroćset fur beczek',
-            'Na krowie kopytko',
-            'Kurcze pióro',
-            'Kurczę pieczone',
-            'Kuchnia felek',
-            'Kurza melodia',
-        ];
-        foreach ($arr as $a) {
-            Zamienniki::create([
-                'nazwa' => $a,
-                'aktywny' => 1,
-            ]);
-        }
-    }
     public function tabela_zamienniki()
     {
         $Zamienniki = Zamienniki::get();

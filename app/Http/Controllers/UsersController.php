@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Wulgaryzmy;
+use App\Models\User;
 
-class WulgaryzmyController extends Controller
+class UsersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -22,9 +21,9 @@ class WulgaryzmyController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function tabela_wulgaryzmy()
+    public function tabela_users()
     {
-        $Wulgaryzmy = Wulgaryzmy::get();
+        $Users = User::get();
         $this->sortIndex = 1;
         $this->sortTypeTxt = "asc";
 
@@ -37,13 +36,16 @@ class WulgaryzmyController extends Controller
             'iTotalDisplayRecords' => 0,
             'aaData' => array(),
         );
-        foreach ($Wulgaryzmy as $wul) {
+        foreach ($Users as $us) {
             $rec['aaData'][] = array(
-                (string) $wul->_id,
-                $wul->nazwa,
-                $wul->aktywny,
-                date("Y-m-d H:i:s", strtotime((string) $wul->created_at)),
-                date("Y-m-d H:i:s", strtotime((string) $wul->updated_at)),
+                (string) $us->id,
+                $us->name,
+                $us->surname,
+                $us->email,
+                $us->status,
+                date("Y-m-d H:i:s", strtotime((string) $us->email_verified_at)),
+                date("Y-m-d H:i:s", strtotime((string) $us->created_at)),
+                date("Y-m-d H:i:s", strtotime((string) $us->updated_at)),
             );
         }
         // usort($rec['aaData'], function ($a, $b) {
@@ -54,13 +56,5 @@ class WulgaryzmyController extends Controller
         //     }
         // });
         echo json_encode($rec);
-    }
-    public function dodaj_wulgaryzm()
-    {
-        Wulgaryzmy::create([
-            'nazwa' => $_POST['nazwa'],
-            'aktywny' => 1,
-        ]);
-        echo json_encode(1);
     }
 }

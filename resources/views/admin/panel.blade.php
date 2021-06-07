@@ -14,7 +14,7 @@
         </div>
         <div id="contacts">
 			<ul id="listaUzytkownikow" style="padding-left: 0px; list-style: none;">
-                <li id="listaUsers" class="adminMenu">Lista użytkowników</li>
+                <li id="listaUsers" class="adminMenu">Lista Użytkowników</li>
                 <li id="listaWulgaryzmow" class="adminMenu">Lista Wylgaryzmów</li>
                 <li id="listaZamiennikow" class="adminMenu">Lista Zamienników</li>
             </ul>
@@ -67,6 +67,24 @@
                 </table>
                 <input type="text" class="dodajZnajomego" id="nowyZamiennik" style="width:200px;">
                 <button id="dodajZamiennikBtn" ><span>Dodaj</span></button>
+            </div>
+        </div>
+        <div>
+            <div class="tabelki" id="datatableUsers_">
+                <table class=" table table-striped- table-bordered table-hover table-checkable responsive" id="datatableUsers">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>E-mail</th>
+                            <th>Status</th>
+                            <th>Weryfikacja</th>
+                            <th>Dodano</th>
+                            <th>Zmieniono</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
 	</div>
@@ -163,6 +181,69 @@
 
 
         })
+        //Users
+        $(function () {
+            $(".tabelki").css("display","none")
+            $(".adminMenu").click(function(){
+                if($(this).attr("id")=="listaUsers"){
+                    $(".tabelki").css("display","none")
+                    $("#datatableUsers_").css("display","block")
+                    $("#nazwaListy").html("Lista Użytkowników")
+                    var DTabela = $("#datatableUsers").DataTable({
+                        "columnDefs": [
+                            {"className": "dt-center", "targets": "_all"}
+                        ],
+                        bLengthChange: !1,
+                        searching: false,
+                        destroy: !0,
+                        info: !1,
+                        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+                        pageLength: 10,
+                        processing: false,
+                        columns: [
+                            { data: 0 },
+                            { data: 1 },
+                            { data: 2 },
+                            { data: 3 },
+                            { data: 4 },
+                            { data: 5 },
+                            { data: 6 },
+                            { data: 7 }
+
+                        ],
+                        serverSide: true,
+                        aaSorting: [
+                                        [1, "asc"]
+                                    ],
+                    "ajax": {
+                            "url": "/tabela-users",
+                            "data": function ( d ) {
+                            }
+                        },
+                        language: {
+                            paginate: {
+                                previous: "<",
+                                next: ">"
+                            }
+                        },
+                        drawCallback: function() {
+                            $($(".dataTables_wrapper .pagination li:first-of-type")).find("a").addClass("prev"), $($(".dataTables_wrapper .pagination li:last-of-type")).find("a").addClass("next"), $(".dataTables_wrapper .pagination").addClass("pagination-sm");
+                        }
+                    });
+
+                }else if($(this).attr("id")=="listaZamiennikow"){
+                    $("#nazwaListy").html("Lista Zamiennikow")
+                    $(".tabelki").css("display","none")
+                    $("#datatableZamienniki_").css("display","block")
+                }else if($(this).attr("id")=="listaWulgaryzmow"){
+                    $("#nazwaListy").html("Lista Wulgaryzmow")
+                    $(".tabelki").css("display","none")
+                    $("#datatableWulgaryzmy_").css("display","block")
+                }
+            })
+
+
+        })
         //Wulgaryzmy
         $(function () {
             $("#dodajWulgaryzmBtn").click(function(){
@@ -233,7 +314,7 @@
                         }
                     });
 
-                }else if($(this).attr("id")=="Lista Zamienników"){
+                }else if($(this).attr("id")=="listaZamiennikow"){
                     $("#nazwaListy").html("Lista Zamiennikow")
                     $(".tabelki").css("display","none")
                     $("#datatableZamienniki_").css("display","block")

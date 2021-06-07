@@ -23,7 +23,13 @@ class ZamiennikiController extends Controller
      */
     public function tabela_zamienniki()
     {
-        $Zamienniki = Zamienniki::get();
+        if (empty($_REQUEST['start'])) {
+            $_REQUEST['start'] = 0;
+        }
+        if (empty($_REQUEST['length'])) {
+            $_REQUEST['length'] = 20;
+        }
+        $Zamienniki = Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->get();
         $this->sortIndex = 1;
         $this->sortTypeTxt = "asc";
 
@@ -32,8 +38,8 @@ class ZamiennikiController extends Controller
             $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
         }
         $rec = array(
-            'iTotalRecords' => 0,
-            'iTotalDisplayRecords' => 0,
+            'iTotalRecords' =>Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
+            'iTotalDisplayRecords' => Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
             'aaData' => array(),
         );
         foreach ($Zamienniki as $zam) {

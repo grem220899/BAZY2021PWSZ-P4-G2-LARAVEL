@@ -117,7 +117,7 @@
 
             <button id="waitingsBtn"><i class="fa fa-spinner fa-fw" aria-hidden="true"></i> <span>Oczekujące</span></button>
 
-            <button id="bannedBtn"><i class="fa fa-spinner fa-fw" aria-hidden="true"></i> <span>Zbanowani</span></button>
+            <button id="bannedBtn"><i class="fa fa-ban fa-fw" aria-hidden="true"></i> <span>Zbanowani</span></button>
 
             <button data-toggle="modal" data-target="#utworzGrupeBtn" id=""><i class="fa fa-users fa-fw" aria-hidden="true"></i> <span>Utwórz grupę</span></button>
 
@@ -167,7 +167,7 @@
               </div>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-forward fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>

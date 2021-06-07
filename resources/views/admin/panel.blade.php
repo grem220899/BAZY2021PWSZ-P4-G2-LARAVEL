@@ -23,7 +23,7 @@
 
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-forward fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
+            document.getElementById('logout-form2').submit();"><button id="logoutBtn" ><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> <span>Wyloguj</span></button></a> <form id="logout-form2" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
 		</div>

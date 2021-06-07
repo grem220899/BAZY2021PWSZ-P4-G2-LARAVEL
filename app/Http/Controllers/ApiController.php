@@ -402,6 +402,7 @@ class ApiController extends Controller
         if (isset($_GET['nadawca_id'])) {
             if (isset($_GET['odbiorca_id'])) {
                 if (isset($_GET['message'])) {
+                    $_GET['message'] = urldecode($_GET['message']);
                     $sender_id = $_GET['nadawca_id'];
                     $receiver_id = $_GET['odbiorca_id'];
                     // $_GET['pliki'] = explode(",", $_GET['pliki']);

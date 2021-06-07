@@ -31,7 +31,7 @@ class GrupyController extends Controller
 
     //     echo json_encode($data);
 
-    }
+    // }
 //Usuwanie Grupy
     //      public function usun_grupe()
     // {

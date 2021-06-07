@@ -402,68 +402,64 @@ class ApiController extends Controller
         if (isset($_GET['nadawca_id'])) {
             if (isset($_GET['odbiorca_id'])) {
                 if (isset($_GET['message'])) {
-        $sender_id = $_GET['nadawca_id'];
-        $receiver_id = $_GET['odbiorca_id'];
-        // $_GET['pliki'] = explode(",", $_GET['pliki']);
-        // if (!empty($_GET['pliki'][0])) {
-        //     $plikiIdArr = [];
-        //     $pliki = Files::whereIn("nazwa", $_GET['pliki'])->get();
-        //     foreach ($pliki as $p) {
-        //         $plikiIdArr[] = $p['_id'];
-        //     }
-            // Message::create([
-            //     'wiadomosc' => $_GET['message'],
-            //     'odbiorca_id' => (int) $receiver_id,
-            //     'nadawca_id' => (int) $sender_id,
-            //     'typ_odbiorcy' => 'user',
-            //     'plik_id' => $plikiIdArr,
-            // ]);
-        // } else {
-            Message::create([
-                'wiadomosc' => $_GET['message'],
-                'odbiorca_id' => (int) $receiver_id,
-                'nadawca_id' => (int) $sender_id,
-                'typ_odbiorcy' => 'user',
-            ]);
-        // }
+                    $sender_id = $_GET['nadawca_id'];
+                    $receiver_id = $_GET['odbiorca_id'];
+                    // $_GET['pliki'] = explode(",", $_GET['pliki']);
+                    // if (!empty($_GET['pliki'][0])) {
+                    //     $plikiIdArr = [];
+                    //     $pliki = Files::whereIn("nazwa", $_GET['pliki'])->get();
+                    //     foreach ($pliki as $p) {
+                    //         $plikiIdArr[] = $p['_id'];
+                    //     }
+                    // Message::create([
+                    //     'wiadomosc' => $_GET['message'],
+                    //     'odbiorca_id' => (int) $receiver_id,
+                    //     'nadawca_id' => (int) $sender_id,
+                    //     'typ_odbiorcy' => 'user',
+                    //     'plik_id' => $plikiIdArr,
+                    // ]);
+                    // } else {
+                    Message::create([
+                        'wiadomosc' => $_GET['message'],
+                        'odbiorca_id' => (int) $receiver_id,
+                        'nadawca_id' => (int) $sender_id,
+                        'typ_odbiorcy' => 'user',
+                    ]);
+                    // }
 
-        $friendInfo = DB::select("select * from users where id=" . $sender_id);
-        $data2 = array(
-            'nadawca_id' => $sender_id,
-            'odbiorca_id' => $receiver_id,
-            'wiadomosc' => $_GET['message'],
-            'avatar' => "http://projektkt.pl/uploads/avatars/" . $friendInfo[0]->avatar,
-            'data' => date("Y-m-d H:i:s"),
-        );
-        // broadcast(new PrivateMessageEvent($data))->toOthers();
-        // return response()->json([
-        //     'data' => $data,
-        //     'success' => true,
-        //     'avatar' => $friendInfo[0]->avatar,
-            // 'pliki' => $_GET['pliki'],
-        // ]);
-        $data["status"] = "success";
-        $data["data"] = $data2;
-        }
-        else{
+                    $friendInfo = DB::select("select * from users where id=" . $sender_id);
+                    $data2 = array(
+                        'nadawca_id' => $sender_id,
+                        'odbiorca_id' => $receiver_id,
+                        'wiadomosc' => $_GET['message'],
+                        'avatar' => "http://projektkt.pl/uploads/avatars/" . $friendInfo[0]->avatar,
+                        'data' => date("Y-m-d H:i:s"),
+                    );
+                    // broadcast(new PrivateMessageEvent($data))->toOthers();
+                    // return response()->json([
+                    //     'data' => $data,
+                    //     'success' => true,
+                    //     'avatar' => $friendInfo[0]->avatar,
+                    // 'pliki' => $_GET['pliki'],
+                    // ]);
+                    $data["status"] = "success";
+                    $data["data"] = $data2;
+                } else {
+                    $data["status"] = "failed";
+                    $data["message"] = "Nie podano wiadomosci";
+                }
+            } else {
+                $data["status"] = "failed";
+                $data["message"] = "Nie podano odbiorcy";
+            }
+        } else {
             $data["status"] = "failed";
-            $data["message"] = "Nie podano wiadomosci";
+            $data["message"] = "Nie podano nadawcy";
         }
-    }
-        else{
-            $data["status"] = "failed";
-            $data["message"] = "Nie podano odbiorcy";
-        }
-    }
-    else{
-        $data["status"] = "failed";
-        $data["message"] = "Nie podano nadawcy";
-    }
-
 
         echo json_encode($data);
     }
-  
+
     public function wulgaryzmy()
     {
         header('Content-Type: application/json');
@@ -484,4 +480,42 @@ class ApiController extends Controller
         }
         echo json_encode($wul_arr);
     }
+
+    public function utworz_grupe()
+    {
+        header('Content-Type: application/json');
+        $data = ['message' => ''];
+        if (isset($_GET['nazwa_grupy'])) {
+            if (isset($_GET['id_wlasciciela'])) {
+                if (isset($_GET['czlonkowie'])) {
+                    DB::insert('INSERT INTO `group_name`(`id`, `name`, `owner_id`) VALUES (null,"' . $_GET['nazwa_grupy'] . '",' . $_GET['id_wlasciciela'] . ')');
+                    $id_grupy = DB::select('SELECT id from group_name WHERE name="' . $_GET['nazwa_grupy'] . '" ORDER BY name DESC');
+                    $_GET['czlonkowie'] = explode(",", $_GET['czlonkowie']);
+                    foreach ($_GET['czlonkowie'] as $czlonek) {
+                        DB::insert('INSERT INTO `group`(`id`, `user_id`, `name_group_id`) VALUES (null,' . $czlonek . ',' . $id_grupy[0]->id . ')');
+                    }
+                    $data2 = array(
+                        'nazwa_grupy' => $_GET['nazwa_grupy'],
+                        'id_wlasciciela' => $_GET['id_wlasciciela'],
+                        'id_czlonkow' => $_GET['czlonkowie'],
+                    );
+                    $data["status"] = "success";
+                    $data["data"] = $data2;
+                } else {
+                    $data["status"] = "failed";
+                    $data["message"] = "Nie podano nazwy grupy";
+                }
+            } else {
+                $data["status"] = "failed";
+                $data["message"] = "Nie podano wlasciciela";
+            }
+        } else {
+            $data["status"] = "failed";
+            $data["message"] = "Nie podano czlonkow grupy";
+        }
+
+        echo json_encode($data);
+    }
+
+    
 }

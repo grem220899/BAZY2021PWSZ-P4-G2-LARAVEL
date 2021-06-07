@@ -45,6 +45,7 @@ Route::get('/API/odbieranie-wiadomosci.php',[App\Http\Controllers\ApiController:
 Route::get('/API/wysylanie-wiadomosci.php',[App\Http\Controllers\ApiController::class, 'wysylanie_wiadomosci']);
 Route::get('/API/lista-wulgaryzmow.php',[App\Http\Controllers\ApiController::class, 'wulgaryzmy']);
 Route::get('/API/lista-zamiennikow.php',[App\Http\Controllers\ApiController::class, 'zamienniki']);
+Route::get('/API/utworz-grupe.php',[App\Http\Controllers\ApiController::class, 'utworz_grupe']);
 
 Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'index'])->name('dodaj-wulgaryzmy');
 Route::get('/dodaj-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'index'])->name('dodaj-zamienniki');

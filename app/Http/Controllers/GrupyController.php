@@ -33,13 +33,13 @@ class GrupyController extends Controller
 
     // }
 //Usuwanie Grupy
-         public function usun_grupe()
-    {
-             DB::delete("DELETE FROM 'group_name' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
+    //      public function usun_grupe()
+    // {
+    //         DB::delete("DELETE FROM 'group_name' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
 
-        echo json_encode($data);
+    //     echo json_encode($data);
 
-    }
+    // }
     // Dodawanie członków
     // public function save()
     // {

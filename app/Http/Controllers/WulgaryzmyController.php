@@ -24,7 +24,14 @@ class WulgaryzmyController extends Controller
      */
     public function tabela_wulgaryzmy()
     {
-        $Wulgaryzmy = Wulgaryzmy::get();
+
+        if (empty($_REQUEST['start'])) {
+            $_REQUEST['start'] = 0;
+        }
+        if (empty($_REQUEST['length'])) {
+            $_REQUEST['length'] = 20;
+        }
+        $Wulgaryzmy = Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->get();
         $this->sortIndex = 1;
         $this->sortTypeTxt = "asc";
 
@@ -33,8 +40,8 @@ class WulgaryzmyController extends Controller
             $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
         }
         $rec = array(
-            'iTotalRecords' => 0,
-            'iTotalDisplayRecords' => 0,
+            'iTotalRecords' => Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
+            'iTotalDisplayRecords' => Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
             'aaData' => array(),
         );
         foreach ($Wulgaryzmy as $wul) {

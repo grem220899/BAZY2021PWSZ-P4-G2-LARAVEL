@@ -32,7 +32,10 @@ class ApiController extends Controller
     {
         $data = array();
         header('Content-Type: application/json');
-        $password = urldecode($_GET["password"]);
+       // $password = urldecode($_GET["password"]);
+        $password = $_GET["password"];
+        $data["pass_1"] = $_GET["password"];
+        $data["pass_2"] = urldecode($_GET["password"]);
         $u = DB::select("select * from users where email='" . $_GET['email'] . "'");
         if (count($u) > 0) {
             if (password_verify($password, $u[0]->password)) {
@@ -402,7 +405,7 @@ class ApiController extends Controller
         if (isset($_GET['nadawca_id'])) {
             if (isset($_GET['odbiorca_id'])) {
                 if (isset($_GET['message'])) {
-                    $_GET['message'] = urldecode($_GET['message']);
+                    //$_GET['message'] = urldecode($_GET['message']);
                     $sender_id = $_GET['nadawca_id'];
                     $receiver_id = $_GET['odbiorca_id'];
                     // $_GET['pliki'] = explode(",", $_GET['pliki']);

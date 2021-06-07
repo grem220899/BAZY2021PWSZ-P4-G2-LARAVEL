@@ -228,9 +228,9 @@
               </div>
             </div>
 
-              <div class="grupowe">
+              {{-- <div class="grupowe">
                 <button type="button" id="usunGrp" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń członka grupy</button>
-              </div>
+              </div> --}}
 
 
             {{-- <button id="zbanujBtn" data-id="0" class="zbanuj btn btn-primary" style="position: static;padding:10px;">Zbanuj</button> --}}

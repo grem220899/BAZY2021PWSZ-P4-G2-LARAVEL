@@ -179,15 +179,15 @@
 <div class="uzytkownicy">
             <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: static;padding:10px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#banujModal" style="position: static;padding:10px;">
                 Zbanuj
               </button>
 
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="banujModal" tabindex="-1" role="dialog" aria-labelledby="banujModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Banowanie</h5>
+                      <h5 class="modal-title" id="banujModalLabel">Banowanie</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -203,15 +203,15 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: static;padding:10px;">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usuwanieModal" style="position: static;padding:10px;">
                 Usuń
               </button>
 
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="usuwanieModal" tabindex="-1" role="dialog" aria-labelledby="usuwanieModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Usuwanie</h5>
+                      <h5 class="modal-title" id="usuwanieModalLabel">Usuwanie</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>

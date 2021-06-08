@@ -21,47 +21,10 @@ class GrupyController extends Controller
         }
         echo json_encode(1);
     }
-//Usuwanie członka grupy
-    // public function usun_czlonka()
-    // {
-    //     $id_grupy=DB::select('SELECT id from group_name WHERE name="'.$_POST['nazwa_grupy'].'" ORDER BY name DESC');
-    //     $_POST['czlonkowie']=explode(",",$_POST['czlonkowie']);
-    //     foreach($_POST['czlonkowie'] as $czlonek){
-    //          DB::delete("DELETE FROM 'group' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
-
-    //     echo json_encode($data);
-
-    // }
 //Usuwanie Grupy
-    //      public function usun_grupe()
-    // {
-    //         DB::delete("DELETE FROM 'group_name' WHERE (user_id=" . $_POST['id'] . " AND friend_id=" . Auth::id() . ") OR (user_id=" . Auth::id() . " AND friend_id=" . $_POST['id'] . ")");
+//          public function usun_grupe()
+//     {
+//         DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_POST['id'] . ") OR (owner_id=" . Auth::id() . ")");
+//         echo json_encode(1);
 
-    //     echo json_encode($data);
-
-    // }
-    // Dodawanie członków
-    // public function save()
-    // {
-    //     $data = ['error' => ''];
-    //     $u = DB::select("select * from users where email='" . $_POST['email'] . "'");
-    //     if (!empty($u)) {
-    //         $spr = DB::select("select * from friend_list where (friend_id=" . $u[0]->id . " AND `user_id`=" . Auth::id() . ") OR (friend_id=" . Auth::id() . " AND `user_id`=" . $u[0]->id . ")");
-    //         if (empty($spr)) {
-    //             $data['user'] = $u[0];
-    //             FriendList::insert([
-    //                 'user_id' => Auth::id(),
-    //                 'friend_id' => $u[0]->id,
-    //                 'accepted' => 0,
-    //                 'date_add' => date("Y-m-d H:i:s"),
-    //             ]);
-    //         } else {
-    //             $data['error'] = "Już wysłałeś zaproszenie";
-    //         }
-    //     } else {
-    //         $data['error'] = "Nie ma takiego adresu email w bazie.";
-    //     }
-    //     echo json_encode($data);
-
-    // }
-}
+// }

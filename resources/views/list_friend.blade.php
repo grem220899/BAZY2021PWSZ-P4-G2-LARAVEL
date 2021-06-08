@@ -49,9 +49,11 @@
 
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-							<p class="name">{{$item->name}} {{$item->surname}}</p>
+							<p class="name">{{$item->name}} {{$item->surname}}
+                                <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
+                            </p>
 						</div>
-                        <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
+                        
 
 					</div>
 				</li>

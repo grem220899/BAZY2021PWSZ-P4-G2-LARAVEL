@@ -298,16 +298,16 @@
     let friendId = null
     let typCzat=null
     let hashCzatu=null
-    const hashCode = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
+    // const CryptoJS.MD5 = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
     $(".friendelement").click(function () {
         $("#messages").html("")
         let url = "{{ route('message.reciveMessage') }}"
         friendId = parseInt($(this).attr("data-id"))
         typCzat="user"
         // if(friendId<user_id)
-        //     hashCzatu=hashCode($("#nazwaOdbiorcy").html()+"{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}")
+        //     hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+"{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}")
         // else
-        //     hashCzatu=hashCode("{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}"+$("#nazwaOdbiorcy").html())
+        //     hashCzatu=CryptoJS.MD5("{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}"+$("#nazwaOdbiorcy").html())
         $("#zbanujBtn").attr("data-id",friendId)
         $("#usunBtn").attr("data-id",friendId)
         let fd = new FormData();
@@ -336,12 +336,12 @@
 
                 if(typCzat=='user'){
                     if(friendId<user_id){
-                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
+                        hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
                     }else{
-                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
+                        hashCzatu=CryptoJS.MD5("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
                     }
                 }else{
-                    hashCzatu=hashCode($("#nazwaOdbiorcy").html()+friendId)
+                    hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+friendId)
                 }
             },
             error: function (response) {
@@ -359,7 +359,7 @@
         let fd = new FormData();
         let grupa=$(this).attr("data-nazwa")
         let token = "{{ csrf_token() }}"
-        // hashCzatu=hashCode($("#nazwaOdbiorcy").html())
+        // hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html())
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
         fd.append("strona", 0)
@@ -386,12 +386,12 @@
 
                 if(typCzat=='user'){
                     if(friendId<user_id){
-                        hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
+                        hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
                     }else{
-                        hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
+                        hashCzatu=CryptoJS.MD5("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
                     }
                 }else{
-                    hashCzatu=hashCode($("#nazwaOdbiorcy").html()+friendId)
+                    hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+friendId)
                 }
             },
             error: function (response) {
@@ -406,6 +406,7 @@
         let token = "{{ csrf_token() }}"
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
+        fd.append("typCzat", typCzat)
         fd.append("strona", $(this).attr("data-strona"))
         $(this).attr("data-strona",parseInt($(this).attr("data-strona"))+1)
         $.ajax({
@@ -537,12 +538,12 @@ for (i = 0; i < response.messages.length; i++) {
         }
         if(typCzat=='user'){
             if(friendId<user_id){
-                hashCzatu=hashCode($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
+                hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+" "+friendId+" {{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id)
             }else{
-                hashCzatu=hashCode("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
+                hashCzatu=CryptoJS.MD5("{{ auth()->user()->name }} "+"{{ auth()->user()->surname }} "+user_id+" "+$("#nazwaOdbiorcy").html()+" "+friendId)
             }
         }else{
-            hashCzatu=hashCode($("#nazwaOdbiorcy").html()+friendId)
+            hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+friendId)
         }
         fd.append("hashCzatu", hashCzatu)
             let zaszyfrowanaWiadomosc = ""

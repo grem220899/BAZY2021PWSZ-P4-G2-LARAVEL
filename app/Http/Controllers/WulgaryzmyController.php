@@ -53,13 +53,13 @@ class WulgaryzmyController extends Controller
                 date("Y-m-d H:i:s", strtotime((string) $wul->updated_at)),
             );
         }
-        // usort($rec['aaData'], function ($a, $b) {
-        //     if ("asc" == $this->sortTypeTxt) {
-        //         return $a[$this->sortIndex] > $b[$this->sortIndex];
-        //     } else {
-        //         return $a[$this->sortIndex] < $b[$this->sortIndex];
-        //     }
-        // });
+        usort($rec['aaData'], function ($a, $b) {
+            if ("asc" == $this->sortTypeTxt) {
+                return $a[$this->sortIndex] > $b[$this->sortIndex];
+            } else {
+                return $a[$this->sortIndex] < $b[$this->sortIndex];
+            }
+        });
         echo json_encode($rec);
     }
     public function dodaj_wulgaryzm()

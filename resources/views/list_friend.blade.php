@@ -298,16 +298,11 @@
     let friendId = null
     let typCzat=null
     let hashCzatu=null
-    // const CryptoJS.MD5 = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
     $(".friendelement").click(function () {
         $("#messages").html("")
         let url = "{{ route('message.reciveMessage') }}"
         friendId = parseInt($(this).attr("data-id"))
         typCzat="user"
-        // if(friendId<user_id)
-        //     hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html()+"{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}")
-        // else
-        //     hashCzatu=CryptoJS.MD5("{{ auth()->user()->name }}"+"{{ auth()->user()->surname }}"+$("#nazwaOdbiorcy").html())
         $("#zbanujBtn").attr("data-id",friendId)
         $("#usunBtn").attr("data-id",friendId)
         let fd = new FormData();
@@ -316,7 +311,6 @@
         fd.append("receiver_id", friendId)
         fd.append("strona", 0)
         fd.append("typCzat", typCzat)
-        // fd.append("hashCzatu", hashCzatu)
         $("#pokazWiecej").attr("data-strona",1)
         $.ajax({
             url: url,
@@ -359,13 +353,11 @@
         let fd = new FormData();
         let grupa=$(this).attr("data-nazwa")
         let token = "{{ csrf_token() }}"
-        // hashCzatu=CryptoJS.MD5($("#nazwaOdbiorcy").html())
         fd.append("_token", token)
         fd.append("receiver_id", friendId)
         fd.append("strona", 0)
         fd.append("nazwa_grupy", grupa)
         fd.append("typCzat", typCzat)
-        // fd.append("hashCzatu", hashCzatu)
         fd.append("czlonkowie",$(this).attr("data-czlonkowie"))
         $("#pokazWiecej").attr("data-strona",1)
         $.ajax({
@@ -570,11 +562,6 @@ for (i = 0; i < response.messages.length; i++) {
                 console.log(response)
                 if (response.success) {
                     console.log(response)
-                    // if (response.data.wiadomosc != null)
-                    //     appendMessageToSender(response)
-                    // for (i = 0; i < response.pliki.length; i++)
-                    //     if (response.pliki[i] != "")
-                    //         appendFileToSender(response.pliki[i])
                     socket.emit('message', response);
                     $("#podglad").html("")
                     $(".messages").scrollTop(10000);
@@ -726,10 +713,6 @@ border-radius: 0;"></p>
                 $("#contact-status"+i).addClass("online")
             }
         })
-        // for(i=0;i<users.length;i++){
-        //     $("#contact-status"+users[i]).removeClass("offline")
-        //     $("#contact-status"+users[i]).addClass("online")
-        // }
     })
     socket.on("private-channel:App\\Events\\PrivateMessageEvent", function (message) {
         if (message.data.wiadomosc != null){

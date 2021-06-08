@@ -27,4 +27,4 @@ class GrupyController extends Controller
 //         DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_POST['id'] . ") OR (owner_id=" . Auth::id() . ")");
 //         echo json_encode(1);
 
-// }
+ }

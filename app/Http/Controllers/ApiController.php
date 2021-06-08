@@ -36,7 +36,7 @@ class ApiController extends Controller
         $password = $_GET["password"];
         $data["pass_1"] = $_GET["password"];
         $data["pass_2"] = urldecode($_GET["password"]);
-        $u = DB::select("select * from users where email='" . $_GET['email'] . "'");
+        $u = DB::select("select id,name,surname,nick,email,avatar,status from users where email='" . $_GET['email'] . "'");
         if (count($u) > 0) {
             if (password_verify($password, $u[0]->password)) {
                 $data["status"] = "success";
@@ -86,9 +86,9 @@ class ApiController extends Controller
             $friend_list_arr = [];
             foreach ($friend_list as $v) {
                 if ($_GET['id'] == $v->friend_id) {
-                    $w = DB::select("select id,name,surname,nick,email,avatar from users where id=" . $v->user_id);
+                    $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->user_id);
                 } else {
-                    $w = DB::select("select id,name,surname,nick,email,avatar from users where id=" . $v->friend_id);
+                    $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->friend_id);
                 }
                 $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
 
@@ -116,7 +116,7 @@ class ApiController extends Controller
         $data = ['message' => ''];
         if (isset($_GET['email'])) {
             if (isset($_GET['id'])) {
-                $u = DB::select("select * from users where email='" . $_GET['email'] . "'");
+                $u = DB::select("select id,name,surname,nick,email,avatar,status from users where email='" . $_GET['email'] . "'");
                 if (!empty($u)) {
                     $spr = DB::select("select * from friend_list where (friend_id=" . $u[0]->id . " AND `user_id`=" . $_GET['id'] . ") OR (friend_id=" . $_GET['id'] . " AND `user_id`=" . $u[0]->id . ")");
                     if (empty($spr)) {
@@ -200,7 +200,7 @@ class ApiController extends Controller
         $data = ['message' => ''];
         if (isset($_GET['user_ban_id'])) {
             if (isset($_GET['user_id'])) {
-                $u = DB::select("select * from users where id='" . $_GET['user_id'] . "'");
+                $u = DB::select("select id,name,surname,nick,email,avatar,status from users where id='" . $_GET['user_id'] . "'");
                 if (!empty($u)) {
                     $spr = DB::select("select * from ban_list where (user_ban_id=" . $_GET['user_ban_id'] . " AND
                     `user_id`=" . $_GET['user_id'] . ") OR (user_ban_id=" . $_GET['user_id'] . " AND `user_id`=" . $_GET['user_ban_id'] . ")");
@@ -244,7 +244,7 @@ class ApiController extends Controller
             if (!empty($u)) {
                 $waiting_arr = [];
                 foreach ($u as $v) {
-                    $w = DB::select("select * from users where id=" . $v->friend_id);
+                    $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->friend_id);
                     $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
                     $waiting_arr[] = $w[0];
                 }
@@ -273,7 +273,7 @@ class ApiController extends Controller
             if (!empty($u)) {
                 $waiting_arr = [];
                 foreach ($u as $v) {
-                    $w = DB::select("select * from users where id=" . $v->user_id);
+                    $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->user_id);
                     $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
                     $waiting_arr[] = $w[0];
                 }
@@ -303,7 +303,7 @@ class ApiController extends Controller
             if (!empty($u)) {
                 $waiting_arr = [];
                 foreach ($u as $v) {
-                    $w = DB::select("select * from users where id=" . $v->user_ban_id);
+                    $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->user_ban_id);
                     $w[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $w[0]->avatar;
                     $waiting_arr[] = $w[0];
                 }
@@ -350,42 +350,45 @@ class ApiController extends Controller
         if (isset($_GET['id'])) {
             if (isset($_GET['odbiorca_id'])) {
                 if (isset($_GET['strona'])) {
-                        if(isset($_GET['typ_odbiorcy'])) {
-                    $userId = (int) $_GET['odbiorca_id'];
-                    $friendInfo = DB::select("select * from users where id=" . $userId);
-                    $myInfo = DB::select("select * from users where id=" . $_GET['id']);
-                    $this->data['userId'] = $userId;
-                    $this->data['friendInfo'] = $friendInfo;
-                    $this->data['myInfo'] = $myInfo;
-                    $this->data['typOdbiorcy'] = $_GET['typ_odbiorcy'];
-                    $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->limit(20)->skip(20 * (int) $_GET['strona'])->get();
-                    $filesId = [];
-                    foreach ($this->data['messages'] as $mess) {
-                        if (!empty($mess['plik_id'])) {
-                            if (!is_array($mess['plik_id'])) {
-                                $filesId[] = $mess['plik_id'];
-                            } else {
-                                foreach ($mess['plik_id'] as $p) {
-                                    $filesId[] = $p;
+                    if (isset($_GET['typ_odbiorcy'])) {
+                        $userId = (int) $_GET['odbiorca_id'];
+                        $friendInfo = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $userId);
+                        $myInfo = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $_GET['id']);
+                        $this->data['userId'] = $userId;
+                        $this->data['friendInfo'] = $friendInfo;
+                        $this->data['myInfo'] = $myInfo;
+                        $this->data['typOdbiorcy'] = $_GET['typ_odbiorcy'];
+                        $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
+                        $filesId = [];
+                        foreach ($this->data['messages'] as $mess) {
+                            if (!empty($mess['plik_id'])) {
+                                if (!is_array($mess['plik_id'])) {
+                                    $filesId[] = $mess['plik_id'];
+                                } else {
+                                    foreach ($mess['plik_id'] as $p) {
+                                        $filesId[] = $p;
+                                    }
                                 }
                             }
+                            if($_GET['typ_odbiorcy']=="grupa") {
+                                $uzytkownik=DB::select("SELECT id,name,surname,nick,email,avatar,status FROM users WHERE id=".$mess['nadawca_id']);
+                                $uzytkownik[0]->avatar="http://projektkt.pl/uploads/avatars/" .$uzytkownik[0]->avatar;
+                                $mess['dane_uzytkownika']=$uzytkownik[0];
+                            }
+                        }
+                        $this->data['pliki'] = $files = Files::whereIn('_id', $filesId)->get();
+                        $files2 = [];
+                        foreach ($files as $f) {
+                            $files2[$f['_id']] = $f;
                         }
 
-                    }
-                    $this->data['pliki'] = $files = Files::whereIn('_id', $filesId)->get();
-                    $files2 = [];
-                    foreach ($files as $f) {
-                        $files2[$f['_id']] = $f;
-                    }
+                        $this->data['pliki'] = $files2;
+                        $data["status"] = "success";
+                        $data["data"] = $this->data;
 
-                    $this->data['pliki'] = $files2;
-                    $this->data['klucz'] = md5($friendInfo[0]->email . $myInfo[0]->email);
-                    $data["status"] = "success";
-                    $data["data"] = $this->data;
-                    
-                }else{
-                    $data["status"] = "failed";
-                    $data["message"] = "Nie podano typu odbiorcy";
+                    } else {
+                        $data["status"] = "failed";
+                        $data["message"] = "Nie podano typu odbiorcy";
                     }
                 } else {
                     $data["status"] = "failed";
@@ -400,7 +403,7 @@ class ApiController extends Controller
             $data["status"] = "failed";
             $data["message"] = "Nie podano id";
         }
-    
+
         echo json_encode($data);
     }
 
@@ -422,7 +425,7 @@ class ApiController extends Controller
                             'typ_odbiorcy' => $_GET['typ_odbiorcy'],
 
                         ]);
-                        $friendInfo = DB::select("select * from users where id=" . $sender_id);
+                        $friendInfo = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $sender_id);
                         $data2 = array(
                             'nadawca_id' => $sender_id,
                             'odbiorca_id' => $receiver_id,
@@ -513,25 +516,25 @@ class ApiController extends Controller
     {
         header('Content-Type: application/json');
         $data = ['message' => ''];
-            if (isset($_GET['owner_id'])) {
-                $grupy = DB::select('SELECT * FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE g.name_group_id IN (SELECT name_group_id FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE user_id=' . $_GET['owner_id'] . ' OR gn.owner_id=' . $_GET['owner_id'] . ')');
-                $grupy_arr = ['czlonkowie' => [], 'nazwy' => []];
-                $owner = 0;
-                $nazwa = "";
-                foreach ($grupy as $v) {
-                    $w = DB::select("select * from users where id=" . $v->user_id);
-                    if ($v->name != $nazwa) {
-                        $grupy_arr['nazwy'][] = ['nazwa' => $v->name, 'id' => $v->name_group_id];
-                        $ww = DB::select("select * from users where id=" . $v->owner_id);
-                        $grupy_arr['czlonkowie'][$v->name][] = $ww[0];
-                    }
-                    $nazwa = $v->name;
-                    $owner = $v->owner_id;
-                    $grupy_arr['czlonkowie'][$nazwa][] = $w[0];
+        if (isset($_GET['owner_id'])) {
+            $grupy = DB::select('SELECT * FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE g.name_group_id IN (SELECT name_group_id FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE user_id=' . $_GET['owner_id'] . ' OR gn.owner_id=' . $_GET['owner_id'] . ')');
+            $grupy_arr = ['czlonkowie' => [], 'nazwy' => []];
+            $owner = 0;
+            $nazwa = "";
+            foreach ($grupy as $v) {
+                $w = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->user_id);
+                if ($v->name != $nazwa) {
+                    $grupy_arr['nazwy'][] = ['nazwa' => $v->name, 'id' => $v->name_group_id];
+                    $ww = DB::select("select id,name,surname,nick,email,avatar,status from users where id=" . $v->owner_id);
+                    $grupy_arr['czlonkowie'][$v->name][] = $ww[0];
                 }
-                
-                $data["status"] = "success";
-                $data["data"] = $grupy_arr;
+                $nazwa = $v->name;
+                $owner = $v->owner_id;
+                $grupy_arr['czlonkowie'][$nazwa][] = $w[0];
+            }
+
+            $data["status"] = "success";
+            $data["data"] = $grupy_arr;
         } else {
             $data["status"] = "failed";
             $data["message"] = "Nie podano wlasciciela";

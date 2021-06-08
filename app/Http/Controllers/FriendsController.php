@@ -27,10 +27,17 @@ class FriendsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function ban(){
+        return view('ban');
+    }
     public function index()
     {
         if(Auth::user()->status=="admin"){
             header("Location: /admin");
+            exit();
+        }
+        if(Auth::user()->status=="zablokowany"){
+            header("Location: /Ban");
             exit();
         }
         $data = ['error' => ''];

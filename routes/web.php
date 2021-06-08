@@ -21,6 +21,7 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/home', [App\Http\Controllers\FriendsController::class, 'index'])->name('home');
+Route::get('/Ban', [App\Http\Controllers\FriendsController::class, 'ban'])->name('ban');
 Route::get('/znajomi', [App\Http\Controllers\FriendsController::class, 'index'])->name('znajomi');
 Route::post('/dodaj-znajomych', [App\Http\Controllers\FriendsController::class, 'save']);
 Route::post('/akceptuj-zaproszenie', [App\Http\Controllers\FriendsController::class, 'akceptuj']);
@@ -60,3 +61,6 @@ Route::post('/dodaj-zamiennik', [App\Http\Controllers\ZamiennikiController::clas
 Route::get('/tabela-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::class, 'tabela_wulgaryzmy'])->name('tabela-wulgaryzmy');
 Route::post('/dodaj-wulgaryzm', [App\Http\Controllers\WulgaryzmyController::class, 'dodaj_wulgaryzm'])->name('dodaj-wulgaryzm');
 Route::get('/tabela-users', [App\Http\Controllers\UsersController::class, 'tabela_users'])->name('tabela-users');
+Route::post('/zmiana-statusu-user', [App\Http\Controllers\UsersController::class, 'zmiana_statusu'])->name('zmiana_statusu');
+
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use DB;
 
 class UsersController extends Controller
 {
@@ -24,7 +25,7 @@ class UsersController extends Controller
     public function tabela_users()
     {
         $Users = User::get();
-        $this->sortIndex = 1;
+        $this->sortIndex = 0;
         $this->sortTypeTxt = "asc";
 
         if (!empty($_REQUEST['order'])) {
@@ -42,7 +43,7 @@ class UsersController extends Controller
                 $us->name,
                 $us->surname,
                 $us->email,
-                $us->status,
+                '<span class="zmianaStatusu" data-id="'.(string) $us->id.'">'.$us->status.'</span>',
                 date("Y-m-d H:i:s", strtotime((string) $us->email_verified_at)),
                 date("Y-m-d H:i:s", strtotime((string) $us->created_at)),
                 date("Y-m-d H:i:s", strtotime((string) $us->updated_at)),
@@ -56,5 +57,14 @@ class UsersController extends Controller
             }
         });
         echo json_encode($rec);
+    }
+    public function zmiana_statusu(){
+        if($_POST['status']=="aktywny"){
+            DB::update("UPDATE users SET status='zablokowany' WHERE id=".$_POST['id']);
+            echo json_encode(['status'=>"zablokowany"]);
+        }else if($_POST['status']=="zablokowany"){
+            DB::update("UPDATE users SET status='aktywny' WHERE id=".$_POST['id']);
+            echo json_encode(['status'=>"aktywny"]);
+        }
     }
 }

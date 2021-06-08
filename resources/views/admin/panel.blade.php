@@ -97,6 +97,11 @@
 
 <link rel="stylesheet" href="{{ asset('css/datatables.responsive.bootstrap4.min.css') }}">
 <script src="{{ asset('js/datatables.min.js') }}" defer></script>
+<style>
+    .zmianaStatusu{
+        cursor:pointer;
+    }
+    </style>
     <script>
         //Zamienniki
         $(function () {
@@ -213,7 +218,7 @@
                         ],
                         serverSide: true,
                         aaSorting: [
-                                        [1, "asc"]
+                                        [0, "asc"]
                                     ],
                     "ajax": {
                             "url": "/tabela-users",
@@ -324,7 +329,31 @@
                     $("#datatableUsers_").css("display","block")
                 }
             })
+            $(document).on("click",".zmianaStatusu",function(){
+                let url = "/zmiana-statusu-user"
+                let fd = new FormData();
+                let token = "{{ csrf_token() }}"
+                fd.append("_token", token)
+                fd.append("id",$(this).attr("data-id"))
+                fd.append("status",$(this).html())
+                var that=$(this)
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        console.log(response)
+                        that.html(response.status)
+                    },
+                    error: function (response) {
 
+                        console.log(response)
+                    }
+                })
+            })
 
         })
     </script>

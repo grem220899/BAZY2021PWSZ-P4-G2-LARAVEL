@@ -65,8 +65,8 @@ class MessageController extends Controller
                 $this->data['klucz'] = md5($friendInfo[0]->email . $myInfo[0]->email);
             }
         } else {
-            $owner = DB::select("select * from users u inner join group_name gn on u.id=gn.owner_id where gn.name='" . $_POST['nazwa_grupy'] . "'");
-            $this->data['klucz'] = md5($owner[0]->email);
+            $owner = DB::select("select * from group_name  where name='" . $_POST['nazwa_grupy'] . "'");
+            $this->data['klucz'] = md5($owner[0]->id.$owner[0]->name);
         }
 
         echo json_encode($this->data);

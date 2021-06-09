@@ -358,7 +358,11 @@ class ApiController extends Controller
                         $this->data['friendInfo'] = $friendInfo;
                         $this->data['myInfo'] = $myInfo;
                         $this->data['typOdbiorcy'] = $_GET['typ_odbiorcy'];
-                        $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
+                        if($_GET['typ_odbiorcy']=="grupa") {
+                            $this->data['messages'] = Message::whereIn('odbiorca_id', [(int) $_GET['odbiorca_id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
+                        }else{
+                            $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
+                        }
                         $filesId = [];
                         foreach ($this->data['messages'] as $mess) {
                             if (!empty($mess['plik_id'])) {

@@ -549,18 +549,36 @@ class ApiController extends Controller
     {
         header('Content-Type: application/json');
         $data = ['message' => ''];
-        if (isset($_GET['owner_id'])) {
+        //if (isset($_GET['owner_id'])) {
             if (isset($_GET['id_grupy'])) {
-                DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_GET['owner_id'] . " AND id=" . $_GET['id_grupy'] . ") OR (owner_id=" . $_GET['id_grupy'] . " AND id=" . $_GET['owner_id'] . " )");
-                $data["status"] = "success";
+                if (isset($_GET['id_osoby'])) {
+                    $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " )");
+                    $ifExist = DB::select("SELECT id FROM group_name WHERE (id=" . $_GET['id_grupy'] . " )");
+                    if ($ifExist != null) {
+                        if ($owner != null) {
+                            DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " AND id=" . $_GET['id_grupy'] . ") ");
+                            $data["status"] = "success";
+                        } else {
+                            $data["status"] = "failed";
+                            $data["message"] = "Ten uzytkownik nie jest wlascicielem grupy ";
+                        }
+                    } else {
+                        $data["status"] = "failed";
+                        $data["message"] = "Grupa o podanym id nie istnieje";
+                    }
+                } else {
+                    $data["status"] = "failed";
+                    $data["message"] = "Nie podano id osoby ";
+
+                }
             } else {
                 $data["status"] = "failed";
                 $data["message"] = "Nie podano id grupy ";
             }
-        } else {
-            $data["status"] = "failed";
-            $data["message"] = "Nie podano id wlasciciela ";
-        }
+        // } else {
+        //     $data["status"] = "failed";
+        //     $data["message"] = "Nie podano id wlasciciela ";
+        // }
         echo json_encode($data);
     }
 }

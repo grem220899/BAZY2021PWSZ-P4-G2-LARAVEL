@@ -358,9 +358,9 @@ class ApiController extends Controller
                         $this->data['friendInfo'] = $friendInfo;
                         $this->data['myInfo'] = $myInfo;
                         $this->data['typOdbiorcy'] = $_GET['typ_odbiorcy'];
-                        if($_GET['typ_odbiorcy']=="grupa") {
+                        if ($_GET['typ_odbiorcy'] == "grupa") {
                             $this->data['messages'] = Message::whereIn('odbiorca_id', [(int) $_GET['odbiorca_id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
-                        }else{
+                        } else {
                             $this->data['messages'] = Message::whereIn('nadawca_id', [(int) $userId, (int) $_GET['id']])->whereIn('odbiorca_id', [(int) $userId, (int) $_GET['id']])->orderBy('created_at', 'desc')->where("typ_odbiorcy", $_GET['typ_odbiorcy'])->limit(20)->skip(20 * (int) $_GET['strona'])->get();
                         }
                         $filesId = [];
@@ -374,10 +374,10 @@ class ApiController extends Controller
                                     }
                                 }
                             }
-                            if($_GET['typ_odbiorcy']=="grupa") {
-                                $uzytkownik=DB::select("SELECT id,name,surname,nick,email,avatar,status FROM users WHERE id=".$mess['nadawca_id']);
-                                $uzytkownik[0]->avatar="http://projektkt.pl/uploads/avatars/" .$uzytkownik[0]->avatar;
-                                $mess['dane_uzytkownika']=$uzytkownik[0];
+                            if ($_GET['typ_odbiorcy'] == "grupa") {
+                                $uzytkownik = DB::select("SELECT id,name,surname,nick,email,avatar,status FROM users WHERE id=" . $mess['nadawca_id']);
+                                $uzytkownik[0]->avatar = "http://projektkt.pl/uploads/avatars/" . $uzytkownik[0]->avatar;
+                                $mess['dane_uzytkownika'] = $uzytkownik[0];
                             }
                         }
                         $this->data['pliki'] = $files = Files::whereIn('_id', $filesId)->get();
@@ -545,5 +545,22 @@ class ApiController extends Controller
         }
         echo json_encode($data);
     }
-
+    public function usun_grupe()
+    {
+        header('Content-Type: application/json');
+        $data = ['message' => ''];
+        if (isset($_GET['owner_id'])) {
+            if (isset($_GET['id_grupy'])) {
+                DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_GET['owner_id'] . " AND id=" . $_GET['id_grupy'] . ") OR (owner_id=" . $_GET['id_grupy'] . " AND id=" . $_GET['owner_id'] . " )");
+                $data["status"] = "success";
+            } else {
+                $data["status"] = "failed";
+                $data["message"] = "Nie podano id grupy ";
+            }
+        } else {
+            $data["status"] = "failed";
+            $data["message"] = "Nie podano id wlasciciela ";
+        }
+        echo json_encode($data);
+    }
 }

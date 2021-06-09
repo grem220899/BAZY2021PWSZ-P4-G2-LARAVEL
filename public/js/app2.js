@@ -126,13 +126,13 @@ $(document).ready(function () {
             }
         });
     });
-    $(".usunGrp").click(function () {
+    $("#usunGrp").click(function () {
         var fd = new FormData();
         fd.append("id", $(this).attr("data-id"))
         fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
 
         $.ajax({
-            url: '/usun_grupe',
+            url: '/usun-grupe',
             type: 'post',
             data: fd,
             contentType: false,

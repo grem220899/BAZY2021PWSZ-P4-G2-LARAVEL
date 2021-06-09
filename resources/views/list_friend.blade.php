@@ -231,7 +231,7 @@
             </div>
 
               <div class="grupowe">
-                <button type="button" id="usunGrp" data-id="0" class="usun btn btn-primary" style="position: static;padding:10px;">Usuń członka grupy</button>
+                <button type="button" id="usunGrp" data-id="0" class="btn btn-primary" style="position: static;padding:10px;">Usuń grupę</button>
               </div>
 
 

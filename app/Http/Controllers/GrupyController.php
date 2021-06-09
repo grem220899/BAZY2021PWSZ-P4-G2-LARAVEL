@@ -22,9 +22,16 @@ class GrupyController extends Controller
         echo json_encode(1);
     }
 //Usuwanie Grupy
-//          public function usun_grupe()
-//     {
-//         DB::delete("DELETE FROM group_name WHERE (owner_id=" . $_POST['id'] . ") OR (owner_id=" . Auth::id() . ")");
-//         echo json_encode(1);
+public function usun_grupe()
+{
+    $data = ['error' => ''];
+                $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " )");
+                    if ($owner != null) {
+                        DB::delete("DELETE FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ") ");
+                    } else {
+                        $data["error"] = "Ten użytkownik nie jest właścicielem grupy.";   
+                } 
+    echo json_encode($data);
+    }
 
  }

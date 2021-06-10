@@ -36,7 +36,7 @@ class ApiController extends Controller
         $password = $_GET["password"];
         $data["pass_1"] = $_GET["password"];
         $data["pass_2"] = urldecode($_GET["password"]);
-        $u = DB::select("select id,name,surname,nick,email,avatar,status from users where email='" . $_GET['email'] . "'");
+        $u = DB::select("select * from users where email='" . $_GET['email'] . "'");
         if (count($u) > 0) {
             if (password_verify($password, $u[0]->password)) {
                 $data["status"] = "success";
@@ -552,7 +552,7 @@ class ApiController extends Controller
         //if (isset($_GET['owner_id'])) {
             if (isset($_GET['id_grupy'])) {
                 if (isset($_GET['id_osoby'])) {
-                    $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " )");
+                    $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " AND id=" . $_GET['id_grupy'] . ")");
                     $ifExist = DB::select("SELECT id FROM group_name WHERE (id=" . $_GET['id_grupy'] . " )");
                     if ($ifExist != null) {
                         if ($owner != null) {

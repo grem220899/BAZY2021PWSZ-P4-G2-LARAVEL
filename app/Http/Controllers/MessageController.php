@@ -135,47 +135,10 @@ class MessageController extends Controller
     }
     public function dodajPlik()
     {
-        $roz = explode('/', $_FILES["file"]['name']);
-        if ('image' == $roz[0]) {
-            $check = getimagesize($_FILES["file"]["tmp_name"]);
-            if (false !== $check) {
-                $maxDim = 1280;
-                $file_name = $_FILES['file']['tmp_name'];
-                $target_filename = $file_name;
-                list($width, $height, $type, $attr) = getimagesize($file_name);
-                if ($width > $maxDim || $height > $maxDim) {
-                    $ratio = $width / $height;
-                    if ($ratio > 1) {
-                        $new_width = $maxDim;
-                        $new_height = $maxDim / $ratio;
-                    } else {
-                        $new_width = $maxDim * $ratio;
-                        $new_height = $maxDim;
-                    }
-                    $src = imagecreatefromstring(file_get_contents($file_name));
-                    $dst = imagecreatetruecolor($new_width, $new_height);
-                    imagecopyresampled($dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-                    imagedestroy($src);
-                    imagepng($dst, $target_filename); // adjust format as needed
-                    imagedestroy($dst);
-                }
-                $nazwa = uniqid();
-                move_uploaded_file($target_filename,
-                    __DIR__ . '/../../../public/uploads/pliki/' . $nazwa . '.' . $roz[1]);
-                echo json_encode(['plik' => '<img style="width:50px;height:50px;" src="/uploads/pliki/' . $nazwa . '.' . $roz[1] . '" data-nazwa="' . $nazwa . '.' . $roz[count($roz) - 1] . '">']);
-                Files::create([
-                    'nazwa' => $nazwa . '.' . $roz[1],
-                    'rozszerzenie' => $roz[1],
-                    'przeznaczenie' => 'wiadomosc',
-                    'uzytkownik_id' => Auth::id(),
-                ]);
-            }
-        } else {
+        $roz = explode('.', $_FILES['file']['name']);
             $nazwa = uniqid();
-            Storage::putFileAs('public/',$_FILES['file']['tmp_name'],$nazwa. '.' . $roz[count($roz) - 1]);
-            // move_uploaded_file($_FILES['file']['tmp_name'],
-                // __DIR__ . '/../../../public/uploads/pliki/' . $nazwa . '.' . $roz[count($roz) - 1]);
-            $roz = explode('.', $_FILES['file']['name']);
+            Storage::putFileAs('public/',$_FILES['file']['tmp_name'],$nazwa . '.' . $_FILES["file"]['name']);
+
             echo json_encode(['plik' => '<a href="'.asset('storage/'   .$nazwa . '.' .$_FILES["file"]['name']) . '" data-nazwa="' . $nazwa . '.' .$_FILES["file"]['name'] . '"  target="_blank" download>' . $nazwa . '.' .$_FILES["file"]['name'] . '</a>']);
             Files::create([
                 'nazwa' => $nazwa . '.' .$_FILES["file"]['name'],
@@ -183,6 +146,6 @@ class MessageController extends Controller
                 'przeznaczenie' => 'wiadomosc',
                 'uzytkownik_id' => Auth::id(),
             ]);
-        }
+
     }
 }

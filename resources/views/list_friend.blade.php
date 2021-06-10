@@ -53,7 +53,7 @@
                                 <button  data-id="{{$item->id}}" class="dodawanie usun" >Usuń</button>
                             </p>
 						</div>
-                        
+
 
 					</div>
 				</li>
@@ -595,7 +595,7 @@ for (i = 0; i < response.messages.length; i++) {
 
         <li class="sent">
             <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt=""  />
-            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+            <p><img src="{{asset('storage/` + message + `')}}" style="width: 100%;height: auto;
 border-radius: 0;"></p>
         </li>`;
         } else {
@@ -621,7 +621,7 @@ border-radius: 0;"></p>
 
         <li class="replies">
             <img src="/uploads/avatars/` + avatar + `" alt="" />
-            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+            <p><img src="{{asset('storage/` + message + `')}}" style="width: 100%;height: auto;
 border-radius: 0;"></p>
         </li>`;
         } else {
@@ -646,7 +646,7 @@ border-radius: 0;"></p>
 
         <li class="`+klasa+`">
             <img src="/uploads/avatars/` + avatar + `" alt="" />
-            <p><img src="/uploads/pliki/` + message + `" style="width: 100%;height: auto;
+            <p><img src="{{asset('storage/` + message + `')}}" style="width: 100%;height: auto;
 border-radius: 0;"></p>
         </li>`;
         } else {

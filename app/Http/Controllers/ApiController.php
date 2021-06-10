@@ -552,7 +552,7 @@ class ApiController extends Controller
         //if (isset($_GET['owner_id'])) {
             if (isset($_GET['id_grupy'])) {
                 if (isset($_GET['id_osoby'])) {
-                    $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " )");
+                    $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . $_GET['id_osoby'] . " AND id=" . $_GET['id_grupy'] . ")");
                     $ifExist = DB::select("SELECT id FROM group_name WHERE (id=" . $_GET['id_grupy'] . " )");
                     if ($ifExist != null) {
                         if ($owner != null) {

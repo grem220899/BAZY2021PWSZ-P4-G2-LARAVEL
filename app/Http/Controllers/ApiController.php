@@ -36,7 +36,7 @@ class ApiController extends Controller
         $password = $_GET["password"];
         $data["pass_1"] = $_GET["password"];
         $data["pass_2"] = urldecode($_GET["password"]);
-        $u = DB::select("select id,name,surname,nick,email,avatar,status from users where email='" . $_GET['email'] . "'");
+        $u = DB::select("select * from users where email='" . $_GET['email'] . "'");
         if (count($u) > 0) {
             if (password_verify($password, $u[0]->password)) {
                 $data["status"] = "success";

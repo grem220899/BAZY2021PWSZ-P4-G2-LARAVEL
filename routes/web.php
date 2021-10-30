@@ -64,4 +64,5 @@ Route::post('/dodaj-wulgaryzm', [App\Http\Controllers\WulgaryzmyController::clas
 Route::get('/tabela-users', [App\Http\Controllers\UsersController::class, 'tabela_users'])->name('tabela-users');
 Route::post('/zmiana-statusu-user', [App\Http\Controllers\UsersController::class, 'zmiana_statusu'])->name('zmiana_statusu');
 
+Route::get('/user', [App\Http\Controllers\UsersController::class, 'profil_admin'])->name('profil_admin');
 

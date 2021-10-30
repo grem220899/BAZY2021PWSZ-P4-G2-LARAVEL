@@ -178,12 +178,20 @@
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
 			<p id="nazwaOdbiorcy" style="padding: 5px"></p>
-<div class="uzytkownicy">
-            <button id="pokazWiecej" class="btn btn-primary"data-strona="1" style="position: static;padding:10px;">Pokaż więcej</button>
+<div class="uzytkownicy text-right">
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-cog"></i>
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu" style="line-height: 27px;cursor:pointer">
+                <li class="text-center" id="pokazWiecej" data-strona="1" style="cursor:pointer">Pokaż więcej</li>
+                <li class="text-center" data-toggle="modal" data-target="#banujModal" style="cursor:pointer">Zbanuj</li>
+                <li class="text-center" data-toggle="modal" data-target="#usuwanieModal" style="cursor:pointer">Usuń</li>
+            </ul>
+        </div>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#banujModal" style="position: static;padding:10px;">
-                Zbanuj
-              </button>
+
 
               <div class="modal fade" id="banujModal" tabindex="-1" role="dialog" aria-labelledby="banujModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -205,9 +213,7 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usuwanieModal" style="position: static;padding:10px;">
-                Usuń
-              </button>
+
 
               <div class="modal fade" id="usuwanieModal" tabindex="-1" role="dialog" aria-labelledby="usuwanieModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -230,8 +236,18 @@
               </div>
             </div>
 
-              <div class="grupowe">
-                <button type="button" id="usunGrp" data-id="0" class="btn btn-primary" style="position: static;padding:10px;">Usuń grupę</button>
+              <div class="grupowe text-right">
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-cog"></i>
+                    <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu" style="line-height: 27px;cursor:pointer">
+                        <li class="text-center" id="pokazWiecej" data-strona="1" style="cursor:pointer">Pokaż więcej</li>
+                        <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń grupę</li>
+                    </ul>
+                </div>
+
               </div>
 
 
@@ -249,7 +265,7 @@
 			<div class="wrap">
 			<input type="text" placeholder="Napisz wiadomość..." id="trescWiadomosci"/>
             <input type="file" name="file" id="plikWiadomosci" style="display: none">
-			<i class="fa fa-paperclip attachment" aria-hidden="true" id="dodajPlik"></i>
+			<button class="submit" id="dodajPlik"><i class="fa fa-paperclip " aria-hidden="true"></i></button>
 			<button class="submit" id="wyslijWiadomosc"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>

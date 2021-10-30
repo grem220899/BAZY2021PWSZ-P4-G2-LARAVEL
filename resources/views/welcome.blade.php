@@ -16,7 +16,7 @@
 
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue">
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class=" navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
             </li>
@@ -34,7 +34,7 @@
     <main role="main">
 
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        
+
       </div>
 
 

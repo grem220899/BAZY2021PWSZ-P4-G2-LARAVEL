@@ -1,0 +1,16 @@
+/* nazwa projektu zamiast nazwy użytkownika*/
+.wrap{ 
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+  }
+  #wyszukajZnajomego{
+    display: flex;
+    border-radius: 45px;
+    border: 5px;
+  }
+  #search{
+    padding: 0.5vw;
+  }
+  
+  

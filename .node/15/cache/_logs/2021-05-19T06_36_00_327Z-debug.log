@@ -1,0 +1,48 @@
+0 verbose cli [
+0 verbose cli   '/usr/share/nodejs15/bin/node',
+0 verbose cli   '/usr/share/nodejs15/bin/npm',
+0 verbose cli   'run',
+0 verbose cli   'development'
+0 verbose cli ]
+1 info using npm@7.0.13
+2 info using node@v15.2.1
+3 timing config:load:defaults Completed in 1ms
+4 timing config:load:file:/usr/share/nodejs15/lib/node_modules/npm/npmrc Completed in 0ms
+5 timing config:load:builtin Completed in 1ms
+6 timing config:load:cli Completed in 0ms
+7 timing config:load:env Completed in 1ms
+8 timing config:load:file:/home/server318292/ftp/public_html/.npmrc Completed in 0ms
+9 timing config:load:project Completed in 0ms
+10 timing config:load:file:/home/server318292/ftp/.node/npmrc15 Completed in 1ms
+11 timing config:load:user Completed in 1ms
+12 timing config:load:file:/home/server318292/ftp/.node/15/etc/npmrc Completed in 0ms
+13 timing config:load:global Completed in 0ms
+14 timing config:load:cafile Completed in 0ms
+15 timing config:load:validate Completed in 1ms
+16 timing config:load:setUserAgent Completed in 0ms
+17 timing config:load:setEnvs Completed in 0ms
+18 timing config:load Completed in 5ms
+19 verbose npm-session 550e46316bd52c63
+20 timing npm:load Completed in 12ms
+21 http fetch GET 304 https://registry.npmjs.org/npm 92ms (from cache)
+22 timing command:run-script Completed in 6ms
+23 notice [40m[37m[39m[49m
+23 notice [40m[37mNew [33mminor[39m[37m version of npm available! [31m7.0.13[39m[37m -> [32m7.13.0[39m[37m[39m[49m
+23 notice [40m[37mChangelog: [36mhttps://github.com/npm/cli/releases/tag/v7.13.0[39m[37m[39m[49m
+23 notice [40m[37mRun [32mnpm install -g npm@7.13.0[39m[37m to update![39m[49m
+23 notice [40m[37m[39m[49m
+24 verbose stack Error: command failed
+24 verbose stack     at ChildProcess.<anonymous> (/usr/share/nodejs15/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/index.js:64:27)
+24 verbose stack     at ChildProcess.emit (node:events:329:20)
+24 verbose stack     at maybeClose (node:internal/child_process:1055:16)
+24 verbose stack     at Process.ChildProcess._handle.onexit (node:internal/child_process:288:5)
+25 verbose cwd /home/server318292/ftp/public_html
+26 verbose Linux 4.15.0-133-generic
+27 verbose argv "/usr/share/nodejs15/bin/node" "/usr/share/nodejs15/bin/npm" "run" "development"
+28 verbose node v15.2.1
+29 verbose npm  v7.0.13
+30 error code 126
+31 error path /home/server318292/ftp/public_html
+32 error command failed
+33 error command sh -c mix
+34 verbose exit 126

@@ -287,8 +287,8 @@ body {
   background: #435f7a;
 }
 #frame #sidepanel #search {
-  border-top: 1px solid #32465a;
-  border-bottom: 1px solid #32465a;
+  /* border-top: 1px solid #32465a;
+  border-bottom: 1px solid #32465a; */
   font-weight: 300;
 }
 @media screen and (max-width: 735px) {
@@ -362,13 +362,13 @@ body {
   color: #32465a;
 }
 #frame #sidepanel #contacts {
-  height: calc(100% - 177px);
+  height: calc(100% - 229px);
   overflow-y: scroll;
   overflow-x: hidden;
 }
 @media screen and (max-width: 735px) {
   #frame #sidepanel #contacts {
-    height: calc(100% - 149px);
+    height: calc(100% - 360px); 
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -443,6 +443,7 @@ body {
   float: left;
   margin-right: 10px;
 }
+
 @media screen and (max-width: 735px) {
   #frame #sidepanel #contacts ul li.contact .wrap img {
     margin-right: 0px;
@@ -723,3 +724,4 @@ body {
 .adminMenu:hover{
     background-color: #435f7a;
 }
+

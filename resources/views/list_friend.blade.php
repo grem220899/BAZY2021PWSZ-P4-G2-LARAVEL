@@ -8,20 +8,24 @@
                 <input type="file" name="avatar_file" id="avatar_file" style="display: none" accept="image/*">
 				<img id="profile-img" src="/uploads/avatars/{{auth()->user()->avatar}}" class="online" alt="" />
 
-            <p style="margin-bottom: 0px"> {{auth()->user()->email}} </p>
+            <!-- <p style="margin-bottom: 0px"> {{auth()->user()->email}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->name}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->surname}} </p>
-            <p style="margin-bottom: 0px"> {{auth()->user()->nick}} </p>
+            <p style="margin-bottom: 0px"> {{auth()->user()->nick}} </p> -->
+            <article class="wrap__article">Komunikator Tekstowy</article>
             </div>
         </div>
 		<div id="search">
 			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-			<input type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
+			<input id="wyszukajZnajomego"type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
 		</div>
         <div id="addfriend"style="display: none;">
             @csrf
-			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego" placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
+			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego"  placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
 		</div>
+
+     
+
         <div id="contacts">
 			<ul id="listaUzytkownikow" style="padding-left: 0px; list-style: none;">
                 @foreach ($friend_list as $item)
@@ -112,6 +116,8 @@
                 @endforeach
             </ul>
         </div>
+       
+
         <div id="bottom-bar">
 			<button id="friendlistBtn"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
 
@@ -275,6 +281,10 @@
 @endsection
 @push('scripts')
     <script>
+
+
+
+
         $(function () {
             $("#utworz_grupe").click(function () {
                 let url = "{{ route('utworz-grupe') }}"
@@ -753,6 +763,18 @@ border-radius: 0;"></p>
 
     })
 })
+
+// let friendlist = document.querySelectorAll(".name");
+//             let contacts = document.querySelector("#contacts").innerHTML;
+//             friendlist.forEach(function(userItem) {
+//             // console.log(userItem);
+//             let max =0;
+//             max += 1;
+//             if(max===7){
+//                 userItem.style.visibility='hidden';
+//             }
+
+//             });
 
     </script>
 @endpush

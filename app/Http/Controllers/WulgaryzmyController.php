@@ -31,14 +31,15 @@ class WulgaryzmyController extends Controller
         if (empty($_REQUEST['length'])) {
             $_REQUEST['length'] = 20;
         }
-        $Wulgaryzmy = Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->get();
+
         $this->sortIndex = 1;
         $this->sortTypeTxt = "asc";
-
         if (!empty($_REQUEST['order'])) {
             $this->sortIndex = $_REQUEST['order'][0]["column"];
             $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
         }
+        $KOLUMNY=['_id','nazwa','aktywny','created_at','updated_at'];
+        $Wulgaryzmy = Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->orderBy($KOLUMNY[$this->sortIndex],$this->sortTypeTxt)->get();
         $rec = array(
             'iTotalRecords' => Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
             'iTotalDisplayRecords' => Wulgaryzmy::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),

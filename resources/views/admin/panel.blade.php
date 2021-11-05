@@ -218,7 +218,7 @@
                         ],
                         serverSide: true,
                         aaSorting: [
-                                        [0, "asc"]
+                                        [0, "desc"]
                                     ],
                     "ajax": {
                             "url": "/tabela-users",

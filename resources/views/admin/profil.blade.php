@@ -16,23 +16,7 @@
                 <ul id="listaUzytkownikow" style="padding-left: 0px; list-style: none;">
 
                 </ul>
-                {{-- @foreach ($grupy['nazwy'] as $item)
-                        <li class="contact grupyelement" data-nazwa="{{ $item['nazwa'] }}" data-id="{{ $item['id'] }}"
-                            data-czlonkowie="@foreach ($grupy['czlonkowie'][$item['nazwa']] as $item2){{ $item2->id }},@endforeach">
-                            <div class="wrap">
 
-                                <img src="/uploads/avatars/grupyavatar.png" alt="" />
-                                <div class="meta">
-                                    <p class="name">
-                                        {{ $item['nazwa'] }}
-
-
-                                    </p>
-
-
-                                </div>
-                        </li>
-                    @endforeach --}}
 
                 <div id="bottom-bar">
                     <a href="/admin"><button><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>
@@ -54,6 +38,16 @@
                     <p id="nazwaListy" style="padding: 5px"></p>
 
 
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <img  src="/uploads/avatars/{{$user[0]->avatar}}" style="width:100%;">
+                    </div>
+                    <div class="col-sm-11">
+                        @foreach ($user[0] as $key=>$item)
+                            <strong>{{$key}}:</strong>{{$item}}<br>
+                        @endforeach
+                    </div>
                 </div>
                 <div>
                     <table class=" table table-striped- table-bordered table-hover table-checkable responsive"

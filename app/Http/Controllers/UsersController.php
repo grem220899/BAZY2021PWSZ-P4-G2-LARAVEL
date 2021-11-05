@@ -24,17 +24,25 @@ class UsersController extends Controller
      */
     public function tabela_users()
     {
-        $Users = User::get();
         $this->sortIndex = 0;
-        $this->sortTypeTxt = "asc";
+        $this->sortTypeTxt = "desc";
 
         if (!empty($_REQUEST['order'])) {
             $this->sortIndex = $_REQUEST['order'][0]["column"];
             $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
         }
+        $start=0;
+        if(!empty($_REQUEST['start'])){
+            $start=(int)$_REQUEST['start'];
+        }
+        $KOLUMNY=['id','name','surname','email','status','email_verified_at','created_at','updated_at'];
+        $Users = DB::select("SELECT * FROM users ORDER BY ".$KOLUMNY[$this->sortIndex]." ".$this->sortTypeTxt." LIMIT 10 OFFSET ".$start);
+        $UsersCount = DB::select("SELECT COUNT(*) as ilosc FROM users");
+
+        // $Users = User::get();
         $rec = array(
-            'iTotalRecords' => 0,
-            'iTotalDisplayRecords' => 0,
+            'iTotalRecords' => $UsersCount[0]->ilosc,
+            'iTotalDisplayRecords' => $UsersCount[0]->ilosc,
             'aaData' => array(),
         );
         foreach ($Users as $us) {
@@ -68,6 +76,7 @@ class UsersController extends Controller
         }
     }
     public function profil_admin(){
+        $dane_user=DB::select('SELECT * FROM users WHERE id='.$_GET['id']);
         $grupy = DB::select('SELECT g.id as gid,gn.name,gn.owner_id,g.date_add as date_add_user,gn.date_add as date_create,user_id,name_group_id FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE g.name_group_id IN (SELECT name_group_id FROM `group` g INNER JOIN `group_name` gn ON gn.id=g.name_group_id WHERE user_id='.$_GET['id'].' OR gn.owner_id='.$_GET['id'].')');
         $grupy_arr = ['czlonkowie' => [], 'nazwy' => []];
         $owner = 0;
@@ -84,8 +93,8 @@ class UsersController extends Controller
             $w[0]->od=$v->date_add_user;
             $grupy_arr['czlonkowie'][$nazwa][] = $w[0];
         }
-        $data=array('grupy'=>$grupy_arr);
-        // var_dump($grupy_arr);
+        $data=array('grupy'=>$grupy_arr,'user'=>$dane_user);
+        // var_dump($dane_user);
         return view('admin.profil', $data);
     }
 }

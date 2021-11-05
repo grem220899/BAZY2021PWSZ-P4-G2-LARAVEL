@@ -29,7 +29,6 @@ class ZamiennikiController extends Controller
         if (empty($_REQUEST['length'])) {
             $_REQUEST['length'] = 20;
         }
-        $Zamienniki = Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->get();
         $this->sortIndex = 1;
         $this->sortTypeTxt = "asc";
 
@@ -37,6 +36,8 @@ class ZamiennikiController extends Controller
             $this->sortIndex = $_REQUEST['order'][0]["column"];
             $this->sortTypeTxt = $_REQUEST['order'][0]["dir"];
         }
+        $KOLUMNY=['_id','nazwa','aktywny','created_at','updated_at'];
+        $Zamienniki = Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->orderBy($KOLUMNY[$this->sortIndex],$this->sortTypeTxt)->get();
         $rec = array(
             'iTotalRecords' =>Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),
             'iTotalDisplayRecords' => Zamienniki::skip((int)$_REQUEST['start'])->take((int)$_REQUEST['length'])->count(),

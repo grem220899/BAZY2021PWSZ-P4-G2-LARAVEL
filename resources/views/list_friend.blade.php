@@ -4,23 +4,24 @@
 <div id="frame">
 	<div id="sidepanel">
 		<div id="profile">
-            <div class="wrap">
+            <div class="wrap" id="wrapI">
                 <input type="file" name="avatar_file" id="avatar_file" style="display: none" accept="image/*">
 				<img id="profile-img" src="/uploads/avatars/{{auth()->user()->avatar}}" class="online" alt="" />
 
-            <!-- <p style="margin-bottom: 0px"> {{auth()->user()->email}} </p>
-            <p style="margin-bottom: 0px"> {{auth()->user()->name}} </p>
+             <!-- <p style="margin-bottom: 0px"> {{auth()->user()->email}} </p> -->
+             <p style="margin-bottom: 0px"> {{auth()->user()->name}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->surname}} </p>
-            <p style="margin-bottom: 0px"> {{auth()->user()->nick}} </p> -->
-            <article class="wrap__article">Komunikator Tekstowy</article>
+            <!-- <p style="margin-bottom: 0px"> {{auth()->user()->nick}} </p>  -->
+           
             </div>
         </div>
 		<div id="search">
 			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-			<input id="wyszukajZnajomego"type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
+			<input id="wyszukajZnajomego" type="text" class="dodajZnajomego" placeholder="Szukaj znajomego..." />
 		</div>
         <div id="addfriend"style="display: none;">
             @csrf
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
 			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego"  placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
 		</div>
 
@@ -31,12 +32,12 @@
                 @foreach ($friend_list as $item)
 
 
-				<li class="contact friendelement" data-id="{{$item->id}}">
+				<li class="contact friendelement contact2 contact3" data-id="{{$item->id}}">
 					<div class="wrap">
                         <span class="contact-status offline" id="contact-status{{$item->id}}"></span>
 						<img src="/uploads/avatars/{{$item->avatar}}" alt="" />
 						<div class="meta">
-                            <p class="name">
+                            <p class="name name2">
                                 {{$item->name}} {{$item->surname}}
                                 </p>
 						</div>
@@ -73,8 +74,8 @@
 						<div class="meta">
 							<p class="name">
                                 {{$item->name}} {{$item->surname}}
-                                <button  data-id="{{$item->id}}" class="dodawanie akceptuj" style="position: static;padding:5px;background:green;">✓</button>
-                                <button  data-id="{{$item->id}}" class="dodawanie usun" style="position: static;padding:5px;background:red;">X</button>
+                                <button  id="akceptuj" data-id="{{$item->id}}" class="dodawanie akceptuj">✓</button> 
+                                <button id="usun" data-id="{{$item->id}}" class="dodawanie usun">X</button>
 
                             </p>
 
@@ -99,12 +100,12 @@
 				</li>
                 @endforeach
                 @foreach ($grupy['nazwy'] as $item)
-                <li class="contact grupyelement" data-nazwa="{{$item['nazwa']}}" data-id="{{$item['id']}}" data-czlonkowie="@foreach ($grupy['czlonkowie'][$item['nazwa']] as $item2){{$item2->id}},@endforeach">
+                <li class="contact grupyelement contact2 contact3" data-nazwa="{{$item['nazwa']}}" data-id="{{$item['id']}}" data-czlonkowie="@foreach ($grupy['czlonkowie'][$item['nazwa']] as $item2){{$item2->id}},@endforeach">
 					<div class="wrap">
 
 						<img src="/uploads/avatars/grupyavatar.png" alt="" />
 						<div class="meta">
-							<p class="name">
+							<p class="name name2">
                                 {{$item['nazwa']}}
 
 
@@ -282,7 +283,7 @@
 @push('scripts')
     <script>
 
-
+       
 
 
         $(function () {
@@ -764,17 +765,10 @@ border-radius: 0;"></p>
     })
 })
 
-// let friendlist = document.querySelectorAll(".name");
-//             let contacts = document.querySelector("#contacts").innerHTML;
-//             friendlist.forEach(function(userItem) {
-//             // console.log(userItem);
-//             let max =0;
-//             max += 1;
-//             if(max===7){
-//                 userItem.style.visibility='hidden';
-//             }
-
-//             });
+       
+            
+        
+        
 
     </script>
 @endpush

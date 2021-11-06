@@ -13,6 +13,8 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/app2.js') }}" defer></script>
     <script src="{{ asset('js/crypto-js/crypto-js.js') }}" defer></script>
+    <script src="{{ asset('js/app3.js') }}" defer></script>
+    <script src="{{ asset('js/notify.js') }}" defer></script>
     <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Fonts -->
@@ -23,6 +25,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/cssfix.css') }}" rel="stylesheet">
 </head>
 <body style="background-color: #2c3e50">
     <div id="app" style= "width: 100%;">

@@ -70,14 +70,17 @@ $(document).ready(function () {
            </li>`;
                 var html2 = $("#listaUzytkownikow").html();
                 $("#listaUzytkownikow").html(html2 + html);
-                $("#dodajZnajomegoInput").val("")
+                $("#dodajZnajomegoInput").val("");
             },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
+            error: 
+            function (json) {
+                $.notify("Podany adres e-mail jest błędny bądź użytkownik jest w znajomych", "warn");
+                console.log("error");
+                console.log(json);
+             }
 
-            }
         });
+
     });
     $(".akceptuj").click(function () {
         var fd = new FormData();

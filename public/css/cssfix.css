@@ -1,0 +1,172 @@
+
+#wrapI {
+    display: flex;
+    align-items: center;
+}
+#wrapI p{
+   margin-left: 0.5vw !important;
+}
+#profile-img{
+    /* środek Imię 
+    margin-right: 25% !important; */
+    margin-right: 3% !important
+}
+#wyszukajZnajomego {
+    display: flex;
+    border-radius: 45px;
+}
+
+#search {
+    padding: 2.5% 0.5vw 0 0.5vw;
+    border-top: 1px solid #ffffff !important; 
+}
+
+#dodajZnajomegoInput {
+    border-radius: 45px;
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    padding: 10px 0vw 10px 46px ;
+    width: 75% !important;
+    border: none;
+    background: #32465a;
+    color: #f5f5f5;
+}
+
+.dodajZnajomegoInput {
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    padding: 10px 0 10px 46px;
+    width: 100%;
+    border: none;
+    background: #32465a;
+    color: #f5f5f5;
+}
+
+.dodajZnajomegoInput:focus {
+    outline: none;
+    background: #435f7a;
+}
+#dodajZnajomegoBtn{
+    padding: 10px;
+    margin-left: 2%;
+}
+
+.dodajZnajomegoInput::-webkit-input-placeholder {
+    color: #f5f5f5;
+}
+
+.dodajZnajomegoInput::-moz-placeholder {
+    color: #f5f5f5;
+}
+
+.dodajZnajomegoInput:-ms-input-placeholder {
+    color: #f5f5f5;
+}
+
+.dodajZnajomegoInput:-moz-placeholder {
+    color: #f5f5f5;
+}
+
+#addfirend label {
+    padding: 0.5vw;
+    position: absolute;
+    margin: 10px 0 0 20px;
+    font-weight: 300;
+    float: left;
+    clear: both;
+    margin: 0 8px 5px 0;
+    padding: 5px 0;
+}
+
+#frame #sidepanel #addfirend {
+    /* border-top: 1px solid #32465a;
+    border-bottom: 1px solid #32465a; */
+    font-weight: 300;
+}
+
+@media screen and (max-width: 735px) {
+    #addfriend button{
+        display: none;
+    }
+}
+
+#addfriend i{
+    position: absolute;
+    margin: 15px 0 0 20px;
+}
+
+#frame #sidepanel #profile .wrap label {
+    float: left;
+    clear: both;
+    margin: 0 8px 5px 0;
+    padding: 5px 0;
+}
+
+@media screen and (max-width: 790px) {
+    #bottom-bar span{
+        display: none;
+    }
+}
+.dodawanie{
+    border-radius: 20%;
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    background-color: #32465a;
+    border: 1px solid #ffffff; 
+    color: white;
+    margin-top: -1%;
+}
+.dodawanie:hover{
+    background-color: #677380;
+}
+#contacts{
+    padding: 0 0 -15px 0 !important;
+    margin-top: 2%;
+    border-top: 1px solid #ffffff !important; 
+}
+#addfriend{
+    padding: 2.5% 0 0 2% !important;
+    border-top: 1px solid #ffffff;
+}
+.bannedelement p {
+    padding-top: 5% !important;
+}
+.bannedelement img {
+    margin-top: 5% !important;
+}
+
+.odbanuj{
+    margin-top: -3% !important;
+}
+
+.waitingelement button {
+    display: inline-flex;
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    padding: 3% 6%;
+    margin-left: 3%;
+  }
+.usun{
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+}
+#usun{
+    margin-left: 10px !important;
+}
+#akceptuj{
+    margin-left: 15px !important;
+}
+.odbanuj{
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    padding: 10px;
+    margin: 3%;
+    position: left;
+    position: absolute;
+    right: 10px;
+}
+
+.waitingelement p {
+    padding-top: 5% !important;
+}
+.waitingelement img {
+    margin-top: 6% !important;
+}
+

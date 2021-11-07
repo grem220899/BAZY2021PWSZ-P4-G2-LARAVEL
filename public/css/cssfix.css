@@ -152,7 +152,13 @@
     margin-left: 10px !important;
 }
 #akceptuj{
-    margin-left: 15px !important;
+    margin-left: 25px !important;
+}
+#akceptuj:hover{
+    background-color: green;
+}
+#usun:hover{
+    background-color: red;
 }
 .odbanuj{
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;

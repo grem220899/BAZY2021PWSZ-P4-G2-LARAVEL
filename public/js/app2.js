@@ -74,12 +74,12 @@ $(document).ready(function () {
             },
             error: 
             function (json) {
-                $.notify("Podany adres e-mail jest błędny bądź użytkownik jest w znajomych", "warn");
+                
                 console.log("error");
                 console.log(json);
              }
-
         });
+        $.notify("Podany adres e-mail jest błędny bądź użytkownik jest już w znajomych", "warn");
 
     });
     $(".akceptuj").click(function () {

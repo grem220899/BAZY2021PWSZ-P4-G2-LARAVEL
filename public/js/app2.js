@@ -4,7 +4,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "none")
-        $(".grupyelement").css("display","block")
+        $(".grupyelement").css("display", "block")
         $("#search").css("display", "block")
         $("#addfriend").css("display", "none")
     });
@@ -13,7 +13,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "block")
         $(".bannedelement").css("display", "none")
-        $(".grupyelement").css("display","none")
+        $(".grupyelement").css("display", "none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "block")
     });
@@ -22,7 +22,7 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "block")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "none")
-        $(".grupyelement").css("display","none")
+        $(".grupyelement").css("display", "none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
@@ -31,19 +31,19 @@ $(document).ready(function () {
         $(".waitingelement").css("display", "none")
         $(".sendelement").css("display", "none")
         $(".bannedelement").css("display", "block")
-        $(".grupyelement").css("display","none")
+        $(".grupyelement").css("display", "none")
         $("#search").css("display", "none")
         $("#addfriend").css("display", "none")
     });
-    $(".grupyelement").click(function (){
-        $(".uzytkownicy").css("display","none")
-        $(".grupowe").css("display","block")
+    $(".grupyelement").click(function () {
+        $(".uzytkownicy").css("display", "none")
+        $(".grupowe").css("display", "block")
     });
-    $(".friendelement").click(function (){
-        $(".uzytkownicy").css("display","block")
-        $(".grupowe").css("display","none")
+    $(".friendelement").click(function () {
+        $(".uzytkownicy").css("display", "block")
+        $(".grupowe").css("display", "none")
     });
-    
+
 
     $("#dodajZnajomegoBtn").click(function () {
         var fd = new FormData();
@@ -59,7 +59,10 @@ $(document).ready(function () {
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
-                var html = `<li class="contact sendelement" style="display:block">
+                if (json.error)
+                    $.notify(json.error, "warning");
+                else {
+                    var html = `<li class="contact sendelement" style="display:block">
              <div class="wrap">
                <span class="contact-status online"></span>
                <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
@@ -68,9 +71,10 @@ $(document).ready(function () {
                </div>
              </div>
            </li>`;
-                var html2 = $("#listaUzytkownikow").html();
-                $("#listaUzytkownikow").html(html2 + html);
-                $("#dodajZnajomegoInput").val("");
+                    var html2 = $("#listaUzytkownikow").html();
+                    $("#listaUzytkownikow").html(html2 + html);
+                    $("#dodajZnajomegoInput").val("");
+                }
             },
             error: 
             function (json) {
@@ -201,10 +205,10 @@ $(document).ready(function () {
             }
         });
     });
-    $("#profile-img").click(function(){
+    $("#profile-img").click(function () {
         $("#avatar_file").click();
     })
-    $("#avatar_file").change(function(){
+    $("#avatar_file").change(function () {
         console.log($(this)[0].files[0])
         var fd = new FormData();
         fd.append("file", $(this)[0].files[0])
@@ -219,7 +223,7 @@ $(document).ready(function () {
             dataType: "JSON",
             success: function (json) {
                 console.log(json)
-                $("#profile-img").attr("src","/uploads/avatars/"+json)
+                $("#profile-img").attr("src", "/uploads/avatars/" + json)
             },
             error: function (json) {
                 console.log("error")
@@ -228,10 +232,10 @@ $(document).ready(function () {
             }
         });
     });
-    $("#dodajPlik").click(function(){
+    $("#dodajPlik").click(function () {
         $("#plikWiadomosci").click();
     })
-    $("#plikWiadomosci").change(function(){
+    $("#plikWiadomosci").change(function () {
         console.log($(this)[0].files[0])
         var fd = new FormData();
         fd.append("file", $(this)[0].files[0])

@@ -524,7 +524,8 @@ for (i = 0; i < response.messages.length; i++) {
     $("#messages").prepend(wiadomosci)
 }
 }
-    let ip_address = 'http://grzesiekkomp.asuscomm.com';
+    let ip_address = 'http://server436253.nazwa.pl';
+    // let ip_address = 'http://grzesiekkomp.asuscomm.com';
     // let ip_address = 'http://localhost';
     // let ip_address = 'http://projektkt.pl';
     let socket_port = '3000';

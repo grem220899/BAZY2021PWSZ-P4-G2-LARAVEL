@@ -1,4 +1,5 @@
 $(function () {
+
     let releaseButton = document.querySelector('#wyszukajZnajomego');
     releaseButton.addEventListener('keyup', function search() {
         let friendlist = document.querySelectorAll(".name2");
@@ -32,5 +33,22 @@ $(function () {
             }
 
         });
+    });
+});
+
+
+
+$(function () {
+
+    let utworzGrupeBtn = document.querySelector("#utworz_grupe");
+    utworzGrupeBtn.addEventListener('click', function () {
+        let groupNewName = document.querySelector('#nazwa_nowej_grupy').value;
+        let grupy = document.querySelectorAll('.grupyelement');
+        grupy.forEach(function (groupName) {
+            if (groupNewName == groupName.outerText) {
+                $.notify("Podana grupa istnieje", "warning");
+            }
+        });
+
     });
 });

@@ -62,6 +62,7 @@ $(document).ready(function () {
                 if (json.error)
                     $.notify(json.error, "warning");
                 else {
+                    $.notify("Udało Ci się zaprośić znajomego.", "success");
                     var html = `<li class="contact sendelement" style="display:block">
              <div class="wrap">
                <span class="contact-status online"></span>
@@ -76,14 +77,14 @@ $(document).ready(function () {
                     $("#dodajZnajomegoInput").val("");
                 }
             },
-            error: 
-            function (json) {
-                
-                console.log("error");
-                console.log(json);
-             }
+            error:
+                function (json) {
+
+                    console.log("error");
+                    console.log(json);
+                }
         });
-        $.notify("Podany adres e-mail jest błędny bądź użytkownik jest już w znajomych", "warn");
+
 
     });
     $(".akceptuj").click(function () {
@@ -99,164 +100,194 @@ $(document).ready(function () {
             processData: false,
             dataType: "JSON",
             success: function (json) {
+                if (json.error)
+                    $.notify(json.error, "warning");
+                else {
+                    $.notify("Udało Ci się zaakceptować znajomego.", "success");
+                    console.log(json)
+                    location.reload()
+                }
+            },
+            error: function (json) {
+                console.log("error")
+                console.log(json)
+            }
+        });
+});
+$(".usun").click(function () {
+    var fd = new FormData();
+    fd.append("id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/usun-znajomego',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się usunąć zaproszenie do znajomych.", "success");
                 console.log(json)
                 location.reload()
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
             }
-        });
-    });
-    $(".usun").click(function () {
-        var fd = new FormData();
-        fd.append("id", $(this).attr("data-id"))
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
 
-        $.ajax({
-            url: '/usun-znajomego',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
+        }
+    });
+});
+$("#usunGrp").click(function () {
+    var fd = new FormData();
+    fd.append("id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/usun-grupe',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się usunąć grupę.", "success");
                 console.log(json)
                 location.reload()
-
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
             }
-        });
-    });
-    $("#usunGrp").click(function () {
-        var fd = new FormData();
-        fd.append("id", $(this).attr("data-id"))
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
 
-        $.ajax({
-            url: '/usun-grupe',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
+        }
+    });
+});
+$(".zbanuj").click(function () {
+    var fd = new FormData();
+    fd.append("user_id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/banowanie-znajomych',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się zbanować znajomego.", "success");
                 console.log(json)
                 location.reload()
-
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
             }
-        });
-    });
-    $(".zbanuj").click(function () {
-        var fd = new FormData();
-        fd.append("user_id", $(this).attr("data-id"))
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
 
-        $.ajax({
-            url: '/banowanie-znajomych',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
+        }
+    });
+});
+$(".odbanuj").click(function () {
+    var fd = new FormData();
+    fd.append("user_id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/odbanuj-znajomego',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się odbanować znajomego.", "success");
                 console.log(json)
                 location.reload()
-
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
             }
-        });
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
+
+        }
     });
-    $(".odbanuj").click(function () {
-        var fd = new FormData();
-        fd.append("user_id", $(this).attr("data-id"))
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+});
+$("#profile-img").click(function () {
+    $("#avatar_file").click();
+})
+$("#avatar_file").change(function () {
+    console.log($(this)[0].files[0])
+    var fd = new FormData();
+    fd.append("file", $(this)[0].files[0])
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
 
-        $.ajax({
-            url: '/odbanuj-znajomego',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
-                console.log(json)
-                location.reload()
-
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
+    $.ajax({
+        url: '/zmien-avatar',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+            $.notify(json.error, "warning");
+        else {
+            $.notify("Udało Ci się zmienić awatara.", "success");
+            console.log(json)
+            $("#profile-img").attr("src", "/uploads/avatars/" + json)
             }
-        });
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
+
+        }
     });
-    $("#profile-img").click(function () {
-        $("#avatar_file").click();
-    })
-    $("#avatar_file").change(function () {
-        console.log($(this)[0].files[0])
-        var fd = new FormData();
-        fd.append("file", $(this)[0].files[0])
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+});
+$("#dodajPlik").click(function () {
+    $("#plikWiadomosci").click();
+})
+$("#plikWiadomosci").change(function () {
+    console.log($(this)[0].files[0])
+    var fd = new FormData();
+    fd.append("file", $(this)[0].files[0])
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
 
-        $.ajax({
-            url: '/zmien-avatar',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
-                console.log(json)
-                $("#profile-img").attr("src", "/uploads/avatars/" + json)
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
+    $.ajax({
+        url: '/dodaj-plik',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+            $.notify(json.error, "warning");
+            else {
+            $.notify("Udało Ci się dodać plik", "success");
+            console.log(json)
+            $("#podglad").append(json.plik)
             }
-        });
-    });
-    $("#dodajPlik").click(function () {
-        $("#plikWiadomosci").click();
-    })
-    $("#plikWiadomosci").change(function () {
-        console.log($(this)[0].files[0])
-        var fd = new FormData();
-        fd.append("file", $(this)[0].files[0])
-        fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
 
-        $.ajax({
-            url: '/dodaj-plik',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            dataType: "JSON",
-            success: function (json) {
-                console.log(json)
-                $("#podglad").append(json.plik)
-            },
-            error: function (json) {
-                console.log("error")
-                console.log(json)
-
-            }
-        });
+        }
     });
+});
 });

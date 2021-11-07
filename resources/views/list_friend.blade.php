@@ -287,13 +287,48 @@
 
 
         $(function () {
+            
+            
             $("#utworz_grupe").click(function () {
+
+        //         let utworzGrupeBtn = document.querySelector("#utworz_grupe");
+        // let groupNewName = document.querySelector('#nazwa_nowej_grupy').value;
+        // let grupy = document.querySelectorAll('.grupyelement');
+        // let trueExist=false;
+
+        //         // tu zmiana gdy pusta grupa
+        //         grupy.forEach(function (groupName) {
+        //         if(groupNewName == groupName.outerText){
+        //              trueExit=true;
+        //              return trueExit;
+        //           }
+        //        });
+             
+        //         if($("#nazwa_nowej_grupy").val()==""){
+        //             $.notify("Podaj nazwę grupy", "warning");
+        //         }
+
+           
+
+        //     else if(trueExist===true) {
+        //         $.notify("Podana grupa istnieje", "warning");
+        //         }
+        //         else{
+
+                if($("#nazwa_nowej_grupy").val()==""){
+                    $.notify("Podaj nazwę grupy", "warning");
+                }
+               
+
                 let url = "{{ route('utworz-grupe') }}"
                 let fd = new FormData();
                 let token = "{{ csrf_token() }}"
                 fd.append("_token", token)
                 fd.append("nazwa_grupy", $("#nazwa_nowej_grupy").val())
                 var czlonkowie=[]
+                if($(".czlonkowie:checked").length==0){
+                    $.notify("Zaznacz członków grupy", "warning");
+                }
                 for(i=0;i<$(".czlonkowie:checked").length;i++){
                     czlonkowie.push($(".czlonkowie:checked").eq(i).val())
                 }
@@ -306,15 +341,20 @@
                     processData: false,
                     contentType: false,
                     dataType: 'JSON',
-                    success: function (response) {
+                    success: function (response) { 
+
                         console.log(response)
                         location.reload()
+
                     },
                     error: function (response) {
 
                         console.log(response)
                     }
+                
+            
                 })
+            
             })
     let klucz = null;
     let wulgaryzmy = "{{ $wulgaryzmy }}";
@@ -524,8 +564,7 @@ for (i = 0; i < response.messages.length; i++) {
     $("#messages").prepend(wiadomosci)
 }
 }
-    let ip_address = 'http://server436253.nazwa.pl';
-    // let ip_address = 'http://grzesiekkomp.asuscomm.com';
+    let ip_address = 'http://grzesiekkomp.asuscomm.com';
     // let ip_address = 'http://localhost';
     // let ip_address = 'http://projektkt.pl';
     let socket_port = '3000';

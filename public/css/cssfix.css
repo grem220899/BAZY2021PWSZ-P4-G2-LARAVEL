@@ -30,7 +30,9 @@
     background: #32465a;
     color: #f5f5f5;
 }
-
+#dodajznajomegoInput:hover{
+    background-color: #435f7a;
+}
 .dodajZnajomegoInput {
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     padding: 10px 0 10px 46px;
@@ -145,14 +147,23 @@
 .usun{
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     padding: 10px;
-    position: absolute;
-    right: 10px;
+    position: flex;
 }
 #usun{
-    margin-left: 10px !important;
+    margin-left: 0px !important;
+    position: flex !important;
+}
+@media screen and (max-width: 804px) {
+    #usun{
+        padding: 0 3%;
+    }
+    #akceptuj{
+        padding: 0 3%;
+    }
 }
 #akceptuj{
-    margin-left: 25px !important;
+    margin-left: 0px !important;
+    position: flex !important; 
 }
 #akceptuj:hover{
     background-color: green;
@@ -176,3 +187,46 @@
     margin-top: 6% !important;
 }
 
+.modal-body li{
+	padding: 5%;
+    border-radius: 0.25rem;
+}
+.modal-body li:hover{
+	background-color: #435f7a !important;
+}
+
+.modal-body input[type=checkbox]{
+    width: 16px !important;
+    height: 16px !important;
+    
+}
+#nazwa_nowej_grupy{
+    border-radius: 0.25rem;
+}
+.fa-pencil{
+    position: absolute;
+    margin: 25vh 30vw ;
+    font-size: 40vh;
+    color: white;
+}
+#frame{
+    background: linear-gradient(45deg,rgb(218, 218, 218),#f5f5f5);
+}
+@media screen and (max-width: 1635px) {
+    #pencil{
+        font-size: 35vh;
+
+    }
+}
+@media screen and (max-width: 1500px) {
+    #pencil{
+        font-size: 25vh;
+
+    }
+}
+@media screen and (max-width: 1336px) {
+    #pencil{
+         display: none;
+
+    }
+}

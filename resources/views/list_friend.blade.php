@@ -2,6 +2,9 @@
 
 @section('content')
 <div id="frame">
+
+
+
 	<div id="sidepanel">
 		<div id="profile">
             <div class="wrap" id="wrapI">
@@ -181,6 +184,7 @@
                                     </form>
 		</div>
     </div>
+    <i class="fa fa-pencil" id="pencil"></i>
     <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
@@ -307,9 +311,6 @@
         //         if($("#nazwa_nowej_grupy").val()==""){
         //             $.notify("Podaj nazwę grupy", "warning");
         //         }
-
-           
-
         //     else if(trueExist===true) {
         //         $.notify("Podana grupa istnieje", "warning");
         //         }
@@ -319,7 +320,7 @@
                     $.notify("Podaj nazwę grupy", "warning");
                 }
                
-
+                else{
                 let url = "{{ route('utworz-grupe') }}"
                 let fd = new FormData();
                 let token = "{{ csrf_token() }}"
@@ -334,6 +335,7 @@
                 }
                 console.log(czlonkowie)
                 fd.append("czlonkowie", czlonkowie)
+                $.notify("Udało Ci się stworzyć grupę", "success");
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -342,7 +344,7 @@
                     contentType: false,
                     dataType: 'JSON',
                     success: function (response) { 
-
+                        
                         console.log(response)
                         location.reload()
 
@@ -354,7 +356,7 @@
                 
             
                 })
-            
+                }
             })
     let klucz = null;
     let wulgaryzmy = "{{ $wulgaryzmy }}";

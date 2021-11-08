@@ -13,7 +13,39 @@ use Illuminate\Support\Facades\Storage;
 class MessageController extends Controller
 {
     public function reciveMessage()
-    {
+    {   
+        // echo json_encode(
+        //     ["friendInfo"=>[
+        // "avatar"=>"templateavatar.jpg",
+        // "created_at"=>"2021-05-13 10:21:42",
+        // "email"=>"rafau@a.pl",
+        // "email_verified_at"=>"2021-05-13 10:13:56",
+        // "id"=>3,
+        // "name"=>"Rafał",
+        // "nick"=>"RZ",
+        // "password"=>'$2y$10$oRNtj5nKC.f4a8a8IK2nzed6h9AOfs4ZOv.UNHM2m98w2.6h4C0JG',
+        // "remember_token"=>null,
+        // "status"=>"zablokowany",
+        // "surname"=>"Żywczak",
+        // "updated_at"=>"2021-05-13 10:21:42"],
+        // "klucz"=>"acb50476e8d48feb6695c8e7a6b3fe46",
+        // "messages"=>[],
+        // "myInfo"=>[
+        // "avatar"=>"60a51ac938e56.jpeg",
+        // "created_at"=>"2021-05-13 10:08:35",
+        // "email"=>"Grzesiek22081999w@gmail.com",
+        // "email_verified_at"=>"2021-05-13 10:13:36",
+        // "id"=>1,
+        // "name"=>"Grzegorz",
+        // "nick"=>"grem",
+        // "password"=>'$2y$10$o8b5lYcqdO0z5TTJbKVOX.4ErmrFcMyQL23mmMguZaTAKim/lzPN2',
+        // "remember_token"=>"FcaSzMhDCyrLF67okPAMIysguBnFQeKejQLyxu3hjXQSIHI2r2SchymsPQPi",
+        // "status"=>"aktywny",
+        // "surname"=>"Wilczyński",
+        // "updated_at"=>"2021-05-13 10:13:36"],
+        // "pliki"=>[],
+        // "userId"=>3]);
+        // die();
         $userId = (int) $_POST['receiver_id'];
         if ('user' == $_POST['typCzat']) {
             $friendInfo = DB::select("select * from users where id=" . $userId);

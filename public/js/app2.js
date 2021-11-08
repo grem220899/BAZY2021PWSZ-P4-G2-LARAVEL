@@ -170,6 +170,63 @@ $("#usunGrp").click(function () {
         }
     });
 });
+$("#usunCzl").click(function () {
+    var fd = new FormData();
+    // fd.append("user_id", $(this).attr("data-id"))
+    fd.append("name_group_id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/usun-czlonka',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się usunąć członka grupy.", "success");
+                console.log(json)
+                location.reload()
+            }
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
+
+        }
+    });
+});
+$("#opuscGrp").click(function () {
+    var fd = new FormData();
+    fd.append("id", $(this).attr("data-id"))
+    fd.append("_token", $('meta[name="csrf-token"]').attr('content'))
+
+    $.ajax({
+        url: '/opusc-grupe',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function (json) {
+            if (json.error)
+                $.notify(json.error, "warning");
+            else {
+                $.notify("Udało Ci się usunąć członka grupy.", "success");
+                console.log(json)
+                location.reload()
+            }
+        },
+        error: function (json) {
+            console.log("error")
+            console.log(json)
+
+        }
+    });
+});
 $(".zbanuj").click(function () {
     var fd = new FormData();
     fd.append("user_id", $(this).attr("data-id"))

@@ -54,6 +54,8 @@ Route::get('/dodaj-wulgaryzmy', [App\Http\Controllers\WulgaryzmyController::clas
 Route::get('/dodaj-zamienniki', [App\Http\Controllers\ZamiennikiController::class, 'index'])->name('dodaj-zamienniki');
 Route::post('/utworz-grupe',[App\Http\Controllers\GrupyController::class, 'utworz_grupe'])->name('utworz-grupe');
 Route::post('/usun-grupe',[App\Http\Controllers\GrupyController::class, 'usun_grupe'])->name('usun-grupe');
+Route::post('/usun-czlonka',[App\Http\Controllers\GrupyController::class, 'usun_czlonka'])->name('usun-czlonka');
+Route::post('/opusc-grupe',[App\Http\Controllers\GrupyController::class, 'opusc_grupe'])->name('opusc-grupe');
 
 //admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');

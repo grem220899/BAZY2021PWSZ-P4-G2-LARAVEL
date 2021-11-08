@@ -255,8 +255,48 @@
                     </a>
                     <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu" style="line-height: 27px;cursor:pointer">
                         <li class="text-center" id="pokazWiecej" data-strona="1" style="cursor:pointer">Pokaż więcej</li>
-                        <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń grupę1</li>
-                        <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń członka</li>
+                        <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń grupę</li>
+                        <li class="text-center" data-target="#usunCzl" id="" data-id="0" style="cursor:pointer">Usuń członka</li>
+                        {{-- Modal --}}
+                        {{-- <div class="modal fade" id="usunCzl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" >
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header" style="
+                        background: #2c3e50;">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Utwórz grupę</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+
+                                        <div class="form-group row">
+                                            <div class="col-md-6 offset-md-4x">
+                                                <ul style="padding-left:0px;">
+                                                @foreach ($friend_list as $item)
+                                                    <li
+                                                    style="background: #2c3e50;margin-bottom:2px;">
+                                                        <input type="checkbox" class="czlonkowie" name="czlonkowie[]" value="{{$item->id}}"> {{$item->name}} {{$item->surname}} ({{$item->nick}})
+                                                    </li>
+                                                @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+            
+            
+            
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-8 offset-md-4">
+                                                <button type="submit" class="btn btn-primary" id="utworz_grupe">
+                                                    {{ __('Utwórz grupę') }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div> --}}
+                        <li class="text-center" id="opuscGrp" data-id="0" style="cursor:pointer">Opuść grupę</li>
                     </ul>
                 </div>
 

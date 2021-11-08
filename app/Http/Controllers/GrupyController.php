@@ -33,5 +33,29 @@ public function usun_grupe()
                 } 
     echo json_encode($data);
     }
+//Usuwanie z Grupy WiP
+public function usun_czlonka()
+{
+    $data = ['error' => ''];
+                $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " )");
+                    if ($owner != null) {
+                        DB::delete("DELETE FROM `group` WHERE (name_group_id=" . $_POST['name_group_id'] . " AND user_id=" . $_POST['user_id'] . ")");   
+                    } else {
+                       $data["error"] = "Ten użytkownik nie jest właścicielem grupy.";
+                } 
+    echo json_encode($data);
+    }
+//Opuszczanie Grupy
+public function opusc_grupe()
+{
+    $data = ['error' => ''];
+                $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " )");
+                    if ($owner != null) {
+                        DB::delete("DELETE FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ") ");
+                    } else {
+                        DB::delete("DELETE FROM `group` WHERE (name_group_id=" . $_POST['id'] . " AND user_id=" . Auth::id() . ")");
+                } 
+    echo json_encode($data);
+    }
 
  }

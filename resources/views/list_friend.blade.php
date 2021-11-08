@@ -256,6 +256,7 @@
                     <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu" style="line-height: 27px;cursor:pointer">
                         <li class="text-center" id="pokazWiecej" data-strona="1" style="cursor:pointer">Pokaż więcej</li>
                         <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń grupę</li>
+                        <li class="text-center" id="usunGrp" data-id="0" style="cursor:pointer">Usuń członka</li>
                     </ul>
                 </div>
 

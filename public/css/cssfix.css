@@ -230,3 +230,26 @@
 
     }
 }
+.messageLinks{
+    position: block;
+    text-decoration: none;
+    color: #aac8e2;
+    position: relative;
+    word-wrap: break-word;
+  }
+.messageLinks::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: #cadcec;
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .messageLinks:hover{
+    color:  #cadcec;
+  }
+  .notify{
+    position:"left" 
+  }

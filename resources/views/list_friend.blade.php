@@ -376,7 +376,7 @@
                 }
                 console.log(czlonkowie)
                 fd.append("czlonkowie", czlonkowie)
-                $.notify("Udało Ci się stworzyć grupę", "success");
+                
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -385,13 +385,13 @@
                     contentType: false,
                     dataType: 'JSON',
                     success: function (response) {
-
+                        $.notify("Udało Ci się stworzyć grupę", "success");
                         console.log(response)
                         location.reload()
 
                     },
                     error: function (response) {
-
+                        $.notify("Nie udał się utworzyć grupy", "warning");
                         console.log(response)
                     }
 
@@ -714,7 +714,7 @@ border-radius: 0;"></p>
 
             <li class="sent">
                 <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download class="messageLinks">` + message+` `+`<i class="fa fa-download" aria-hidden="true"></i>`+ `</a></p>
             </li>`;
         }
         if(opcja)
@@ -740,7 +740,7 @@ border-radius: 0;"></p>
 
             <li class="replies">
                 <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download class="messageLinks">` + message+` `+`<i class="fa fa-download" aria-hidden="true"></i>` + `</a></p>
             </li>`;
         }
         if(opcja)
@@ -765,7 +765,7 @@ border-radius: 0;"></p>
 
             <li class="`+klasa+`">
                 <img src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
-                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download>` + message + `</a></p>
+                <p><a href="{{asset('storage/` + message + `')}}" target="_blank" download class="messageLinks">` + message+` `+`<i class="fa fa-download" aria-hidden="true"></i>` + `</a></p>
             </li>`;
         }
         if(opcja)

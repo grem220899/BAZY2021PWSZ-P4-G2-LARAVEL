@@ -46,9 +46,28 @@ $(function () {
         let grupy = document.querySelectorAll('.grupyelement');
         grupy.forEach(function (groupName) {
             if (groupNewName == groupName.outerText) {
-                $.notify("Podana grupa istnieje", "warning");
+                $.notify("Grupa o ponanej nazwie istnieje", "warning");
             }
         });
 
     });
 });
+
+
+// $(function () {
+
+//     let przycisk = document.querySelector("#contacts");
+ 
+//     przycisk.addEventListener('click', function () {
+//         let nazwaPliku = document.querySelectorAll(".messageLinks");
+//         // console.log(nazwaPliku);
+//         // nazwaPliku[0].outerText = "ELO"
+//         nazwaPliku.forEach(function (plikName) {
+             
+//             plikName.href = "plikBozy";
+
+//         });
+//     });
+
+// });
+

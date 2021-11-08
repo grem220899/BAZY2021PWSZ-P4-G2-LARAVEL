@@ -15,7 +15,7 @@
              <p style="margin-bottom: 0px"> {{auth()->user()->name}} </p>
             <p style="margin-bottom: 0px"> {{auth()->user()->surname}} </p>
             <!-- <p style="margin-bottom: 0px"> {{auth()->user()->nick}} </p>  -->
-           
+
             </div>
         </div>
 		<div id="search">
@@ -28,7 +28,7 @@
 			<input id="dodajZnajomegoInput" type="text" class="dodajZnajomego"  placeholder="Dodaj znajomego..." /><button id ="dodajZnajomegoBtn" class="dodawanie">Dodaj</button>
 		</div>
 
-     
+
 
         <div id="contacts">
 			<ul id="listaUzytkownikow" style="padding-left: 0px; list-style: none;">
@@ -77,7 +77,7 @@
 						<div class="meta">
 							<p class="name">
                                 {{$item->name}} {{$item->surname}}
-                                <button  id="akceptuj" data-id="{{$item->id}}" class="dodawanie akceptuj">✓</button> 
+                                <button  id="akceptuj" data-id="{{$item->id}}" class="dodawanie akceptuj">✓</button>
                                 <button id="usun" data-id="{{$item->id}}" class="dodawanie usun">X</button>
 
                             </p>
@@ -120,7 +120,7 @@
                 @endforeach
             </ul>
         </div>
-       
+
 
         <div id="bottom-bar">
 			<button id="friendlistBtn"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <span>Znajomi</span></button>
@@ -287,12 +287,12 @@
 @push('scripts')
     <script>
 
-       
+
 
 
         $(function () {
-            
-            
+
+
             $("#utworz_grupe").click(function () {
 
         //         let utworzGrupeBtn = document.querySelector("#utworz_grupe");
@@ -307,7 +307,7 @@
         //              return trueExit;
         //           }
         //        });
-             
+
         //         if($("#nazwa_nowej_grupy").val()==""){
         //             $.notify("Podaj nazwę grupy", "warning");
         //         }
@@ -319,7 +319,7 @@
                 if($("#nazwa_nowej_grupy").val()==""){
                     $.notify("Podaj nazwę grupy", "warning");
                 }
-               
+
                 else{
                 let url = "{{ route('utworz-grupe') }}"
                 let fd = new FormData();
@@ -343,8 +343,8 @@
                     processData: false,
                     contentType: false,
                     dataType: 'JSON',
-                    success: function (response) { 
-                        
+                    success: function (response) {
+
                         console.log(response)
                         location.reload()
 
@@ -353,8 +353,8 @@
 
                         console.log(response)
                     }
-                
-            
+
+
                 })
                 }
             })
@@ -566,7 +566,8 @@ for (i = 0; i < response.messages.length; i++) {
     $("#messages").prepend(wiadomosci)
 }
 }
-    let ip_address = 'http://grzesiekkomp.asuscomm.com';
+    let ip_address = 'http://server436253.nazwa.pl';
+    // let ip_address = 'http://grzesiekkomp.asuscomm.com';
     // let ip_address = 'http://localhost';
     // let ip_address = 'http://projektkt.pl';
     let socket_port = '3000';
@@ -807,10 +808,10 @@ border-radius: 0;"></p>
     })
 })
 
-       
-            
-        
-        
+
+
+
+
 
     </script>
 @endpush

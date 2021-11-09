@@ -283,9 +283,9 @@
                                                 </ul>
                                             </div>
                                         </div>
-            
-            
-            
+
+
+
                                         <div class="form-group row mb-0">
                                             <div class="col-md-8 offset-md-4">
                                                 <button type="submit" class="btn btn-primary" id="utworz_grupe">
@@ -377,7 +377,7 @@
                 }
                 console.log(czlonkowie)
                 fd.append("czlonkowie", czlonkowie)
-                
+
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -463,6 +463,7 @@
         friendId = parseInt($(this).attr("data-id"))
         typCzat="grupa"
         $("#usunGrp").attr("data-id",friendId)
+        $("#opuscGrp").attr("data-id",friendId)
         let fd = new FormData();
         let grupa=$(this).attr("data-nazwa")
         let token = "{{ csrf_token() }}"

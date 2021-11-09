@@ -46,7 +46,7 @@ class GrupyController extends Controller
     public function opusc_grupe()
     {
         $data = ['error' => ''];
-        $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " )");
+        $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ")");
         $data['owner']=$owner;
         if (null != $owner) {
             DB::delete("DELETE FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ") ");

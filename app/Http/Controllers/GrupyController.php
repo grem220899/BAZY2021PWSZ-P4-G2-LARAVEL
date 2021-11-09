@@ -47,17 +47,11 @@ class GrupyController extends Controller
     {
         $data = ['error' => ''];
         $owner = DB::select("SELECT owner_id FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ")");
-        $data['owner']=$owner;
         if (null != $owner) {
             DB::delete("DELETE FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ") ");
-            $data[]="DELETE FROM group_name WHERE (owner_id=" . Auth::id() . " AND id=" . $_POST['id'] . ") ";
-            $data['test']="if 1";
         } else {
             DB::delete("DELETE FROM `group` WHERE (name_group_id=" . $_POST['id'] . " AND user_id=" . Auth::id() . ")");
-            $data[]="DELETE FROM `group` WHERE (name_group_id=" . $_POST['id'] . " AND user_id=" . Auth::id() . ")";
-            $data['test']="if 2";
         }
-        $data[]=$_POST;
         echo json_encode($data);
     }
 

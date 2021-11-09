@@ -184,8 +184,9 @@
                                     </form>
 		</div>
     </div>
+    
+    <div class="content" id="messageContent" style="display:none; position: relative;">
     <i class="fa fa-pencil" id="pencil"></i>
-    <div class="content" id="messageContent" style="display:none;">
 		<div class="contact-profile">
 			<img id="avatarOdbiorcy" src="/uploads/avatars/{{auth()->user()->avatar}}" alt="" />
 			<p id="nazwaOdbiorcy" style="padding: 5px"></p>

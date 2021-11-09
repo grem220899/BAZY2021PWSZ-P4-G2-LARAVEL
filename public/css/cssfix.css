@@ -4,12 +4,10 @@
     align-items: center;
 }
 #wrapI p{
-   margin-left: 0.5vw !important;
+   margin-left: 5px !important;
 }
 #profile-img{
-    /* środek Imię 
-    margin-right: 25% !important; */
-    margin-right: 3% !important
+    margin-right: 3px !important
 }
 #wyszukajZnajomego {
     display: flex;
@@ -17,7 +15,7 @@
 }
 
 #search {
-    padding: 2.5% 0.5vw 0 0.5vw;
+    padding: 6.7px 6.7px 0 6.7px;
     border-top: 1px solid #ffffff !important; 
 }
 
@@ -48,7 +46,7 @@
 }
 #dodajZnajomegoBtn{
     padding: 10px;
-    margin-left: 2%;
+    margin-left: 5px;
 }
 
 .dodajZnajomegoInput::-webkit-input-placeholder {
@@ -66,17 +64,18 @@
 .dodajZnajomegoInput:-moz-placeholder {
     color: #f5f5f5;
 }
-
+/* 
 #addfirend label {
-    padding: 0.5vw;
     position: absolute;
     margin: 10px 0 0 20px;
+    top: 100px;
+    left: 200px;
     font-weight: 300;
     float: left;
     clear: both;
     margin: 0 8px 5px 0;
     padding: 5px 0;
-}
+} */
 
 #frame #sidepanel #addfirend {
     /* border-top: 1px solid #32465a;
@@ -95,71 +94,55 @@
     margin: 15px 0 0 20px;
 }
 
-#frame #sidepanel #profile .wrap label {
-    float: left;
-    clear: both;
-    margin: 0 8px 5px 0;
-    padding: 5px 0;
-}
-
 @media screen and (max-width: 790px) {
     #bottom-bar span{
         display: none;
     }
 }
 .dodawanie{
-    border-radius: 20%;
+    border-radius: 0.50rem;
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     background-color: #32465a;
     border: 1px solid #ffffff; 
     color: white;
-    margin-top: -1%;
+    margin-top: -8px;
 }
 .dodawanie:hover{
     background-color: #677380;
 }
 #contacts{
     padding: 0 0 -15px 0 !important;
-    margin-top: 2%;
+    margin-top: 6px;
     border-top: 1px solid #ffffff !important; 
 }
 #addfriend{
-    padding: 2.5% 0 0 2% !important;
+    padding: 6px 0 0 2px !important;
     border-top: 1px solid #ffffff;
 }
 .bannedelement p {
-    padding-top: 5% !important;
+    padding-top: 1px !important;
 }
 .bannedelement img {
-    margin-top: 5% !important;
+    margin-top: 1px !important;
 }
 
 .odbanuj{
-    margin-top: -3% !important;
+    margin-top: -5px !important;
 }
-
-.waitingelement button {
+/* .waitingelement button {
     display: inline-flex;
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
-    padding: 3% 6%;
-    margin-left: 3%;
-  }
+    margin-left: 1px !important;
+  } */
 .usun{
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     padding: 10px;
     position: flex;
 }
 #usun{
+    padding: 1px 6px;
     margin-left: 0px !important;
     position: flex !important;
-}
-@media screen and (max-width: 804px) {
-    #usun{
-        padding: 0 3%;
-    }
-    #akceptuj{
-        padding: 0 3%;
-    }
 }
 #akceptuj{
     margin-left: 0px !important;
@@ -174,21 +157,20 @@
 .odbanuj{
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     padding: 10px;
-    margin: 3%;
     position: left;
     position: absolute;
     right: 10px;
 }
 
 .waitingelement p {
-    padding-top: 5% !important;
+    padding-top: 5px !important;
 }
 .waitingelement img {
-    margin-top: 6% !important;
+    margin-top: 6px !important;
 }
 
 .modal-body li{
-	padding: 5%;
+	padding: 10px;
     border-radius: 0.25rem;
 }
 .modal-body li:hover{
@@ -203,16 +185,18 @@
 #nazwa_nowej_grupy{
     border-radius: 0.25rem;
 }
-.fa-pencil{
+#pencil{
     position: absolute;
-    margin: 25vh 30vw ;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 40vh;
     color: white;
 }
 #frame{
     background: linear-gradient(45deg,rgb(218, 218, 218),#f5f5f5);
 }
-@media screen and (max-width: 1635px) {
+/* @media screen and (max-width: 1635px) {
     #pencil{
         font-size: 35vh;
 
@@ -223,8 +207,8 @@
         font-size: 25vh;
 
     }
-}
-@media screen and (max-width: 1336px) {
+} */
+@media screen and (max-width: 1530px) {
     #pencil{
          display: none;
 
@@ -252,4 +236,7 @@
   }
   .notify{
     position:"left" 
+  }
+  .wrap{
+      margin-top: 5px !important;
   }

@@ -217,7 +217,7 @@ $("#opuscGrp").click(function () {
             else {
                 $.notify("Udało Ci się usunąć członka grupy.", "success");
                 console.log(json)
-                location.reload()
+                // location.reload()
             }
         },
         error: function (json) {

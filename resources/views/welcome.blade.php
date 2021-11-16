@@ -95,11 +95,17 @@
 
         <div class="row featurette">
           <div class="col-md-7">
-            <h2 class="featurette-heading">WiP</h2>
-            <p class="lead">WiP</p>
+            <h2 class="featurette-heading">Pomoc</h2>
+            <p class="lead">Dodawanie znajomych</p>
+            <ul>
+                <li>Po zalogowaniu wyświetli się panel główny</li>
+                <li>Klikamy zakładkę Wysłane</li>
+                <li>Aby dodać znajomego musimy znać jego email</li>
+                <li>Po wysłaniu zaproszenia należy zaczekać na akceptacje</li>
+            </ul>
           </div>
           <div class="col-md-5">
-            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="WiP">
+            <img class="featurette-image img-fluid mx-auto" data-src="/uploads/img/pomoc.png" src="/uploads/img/pomoc.png" alt="pomoc">
           </div>
         </div>
 
